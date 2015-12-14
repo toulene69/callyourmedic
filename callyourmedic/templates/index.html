@@ -1,0 +1,417 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Call your Medic - Medical help a call away!</title>
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon">
+    <link href="{% static "css/bootstrap.min.css"%}" rel="stylesheet">
+    <link href="{% static "css/one-page-wonder.css" %}" rel="stylesheet">
+<!-- Header sytling   -->
+<!--    <link rel="stylesheet" type="text/css" href="css/normalize.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="css/demo.css" />-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/component.css"%}" />
+    <link href='http://fonts.googleapis.com/css?family=Raleway:200,400,800|Clicker+Script' rel='stylesheet' type='text/css'> 
+  
+<!-- Tile Styling-->
+<!--    <link rel="stylesheet" type="text/css" href="css/tile/css/normalize.css" />-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/tile/css/demo.css" %} " />
+    <link rel="stylesheet" type="text/css" href="{% static "css/tile/css/component.css" %} " />
+    <script src="{% static "js/tile/js/snap.svg-min.js"%} "></script>
+    
+<!-- Category Styling   -->
+    <link rel="stylesheet" type="text/css" href="{% static "css/category/common.css"%}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/category/style2.css"%}" />
+<!--    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css' />-->
+    <script type="text/javascript" src="{% static "js/category/modernizr.custom.79639.js"%}"></script>
+    <!-- Thumbnail scripts -->
+    <link rel="stylesheet" type="text/css" href="{% static "css/thumbnail/css/component.css"%}" />
+    <script src="{% static "js/thumbnail/js/modernizr.custom.js"%}"></script>
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="opacity: 0.8;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand" href="#" style="font-size:28px;font-weight:bold;">
+                    <!-- <img src="{% static "assets/img/logo.png"%}" style="width:50px;height=50px;" /> -->
+                    CallYourMedic
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="float:right;" >
+                <ul class="nav navbar-nav" style="font-size:16px;font-weight:bold; ">
+                    <li>
+                        <a href="#services" >Services</a>
+                    </li>
+                    <li>
+                        <a href="#features" >The App</a>
+                    </li>
+                    <li>
+                        <a href="#categories" >Categories</a>
+                    </li>
+                    <li>
+                        <a href="#downloads" >Downloads</a>
+                    </li>
+                    <li>
+                        <a href="#about" >About Us</a>
+                    </li>
+                    <li>
+                        <a href="#contact" >Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Full Width Image Header -->
+    
+    <div class=" demo-2 header-image">
+        <div class="content ">
+            <div id="large-header" class="large-header">
+                <!-- <a href="https://play.google.com/store/apps/details?id=com.karson.moojicapp" target="_blank"><img  src="{% static "assets/img/icons/google-play.png"%}"/></a> -->
+                <canvas id="demo-canvas"></canvas>
+                <h1 class="main-title">Call your Medic</span></h1>
+            </div>
+            <div class="codrops-top clearfix">
+                <a class="codrops-icon codrops-icon-prev" href="http://tympanus.net/Development/OffCanvasMenuEffects/"><span>Previous Demo</span></a>
+                <a class="codrops-icon codrops-icon-drop" href="http://tympanus.net/codrops/?p=20153"><span>Back to the Codrops Article</span></a>
+            </div>
+            <div class="codrops-header">
+                <h1>Medical help a call away<span>Speaking to a doctor was never this easy!!!</span></h1>
+                <nav class="codrops-demos">
+                    <a href="javaScript:void(0);" >Demo 1</a>
+                    <a href="#">Demo 2</a>
+                    <a href="#">Demo 3</a>
+                    <a href="#">Demo 4</a>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Page Content -->
+    <div class="container">
+        <hr class="feature-divider">
+
+        <!-- Services  -->
+        <div class="feature" id="services">
+            <img class="feature-image img-circle img-responsive pull-right" src=" "> 
+            <div class="codrops-header">
+                <h1>Services <span>We have offerings for everyone!!!</span></h1>
+            </div>
+            <!-- <div class="main"> -->
+            <section class="main">
+                <ul id="og-grid" class="og-grid">
+                    <li>
+                        <a href="" hrefDesc="Join" data-largesrc="{% static "img/thumbnail/img/1.jpg"%}" data-title="For Doctors" data-description="Any doctor willing to join Call Your Medic network for tele-medicine experience can onboards us with an simple and easy process. We have built the technology, you serve the patients. Your data confidentiality is our top priority.">
+                            <img src="{% static "img/thumbnail/img/thumbs/1.jpg"%}" alt="img01"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#downloads" hrefDesc="Download App" data-largesrc="{% static "img/thumbnail/img/2.jpg"%}" data-title="For Patients" data-description="Doctor consultation was never this easy. Download the Call Your Medic app and talk to a doctor suited for your need with just click of a button. Hurry doctors are waiting for your call.">
+                            <img src="{% static "img/thumbnail/img/thumbs/2.jpg"%}" alt="img02"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" hrefDesc="Contact Us" data-largesrc="{% static "img/thumbnail/img/3.jpg"%}" data-title="For Hospitals" data-description="We offer a SaaS solution for hospitals who wish to have their own tele-medicine solution. Contact us to schedule a demo and know the details of the easy onboarding process. You take care of the patients while we worry about the technical aspects.">
+                            <img src="{% static "img/thumbnail/img/thumbs/3.jpg"%}" alt="img03"/>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <hr class="feature-divider">
+
+        <!-- App Feature-->
+        <div class="feature" id="features">
+            <div class="codrops-header">
+                <h1>Features<span>Call your Medic App</span></h1>
+            </div>
+            <div class="container">
+                <section id="grid" class="grid clearfix">
+                    <a href="javaScript:void(0);" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/2.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none">
+                                <path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/>
+                            </svg>
+                            <figcaption>
+                                <h2>Crystalline</h2>
+                                <p>Soko radicchio bunya nuts gram dulse.</p>
+                                <!-- <button >View</button> -->
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <a href="javaScript:void(0);" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/4.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Cacophony</h2>
+                                <p>Two greens tigernut soybean radish artichoke.</p>
+    <!--                            <button>View</button>-->
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <a href="javaScript:void(0);" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/6.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Languid</h2>
+                                <p>Beetroot water spinach okra water chestnut.</p>
+    <!--                            <button>View</button>-->
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <a href="javaScript:void(0);" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/8.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Serene</h2>
+                                <p>Water spinach arugula pea tatsoi.</p>
+    <!--                            <button>View</button>-->
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <a href="javaScript:void(0);" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/1.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Nebulous</h2>
+                                <p>Pea horseradish azuki bean lettuce.</p>
+    <!--                            <button>View</button>-->
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <a href="javaScript:void(0);" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/3.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Iridescent</h2>
+                                <p>A grape silver beet watercress potato.</p>
+    <!--                            <button>View</button>-->
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <!-- <a href="#" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/5.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Resonant</h2>
+                                <p>Chickweed okra pea winter purslane.</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                    <a href="#" data-path-hover="m 0,0 0,47.7775 c 24.580441,3.12569 55.897012,-8.199417 90,-8.199417 34.10299,0 65.41956,11.325107 90,8.199417 L 180,0 z">
+                        <figure>
+                            <img src="{% static "img/tile/img/7.png"%}" />
+                            <svg viewBox="0 0 180 320" preserveAspectRatio="none"><path d="m 0,0 0,171.14385 c 24.580441,15.47138 55.897012,24.75772 90,24.75772 34.10299,0 65.41956,-9.28634 90,-24.75772 L 180,0 0,0 z"/></svg>
+                            <figcaption>
+                                <h2>Zenith</h2>
+                                <p>Salsify taro catsear garlic gram.</p>
+                            </figcaption>
+                        </figure>
+                    </a> -->
+                </section>
+            </div>
+        </div>
+        <hr class="feature-divider">
+
+        <!-- Categories of doctors -->
+        <div class="feature" id="categories">
+            <div class="codrops-header">
+                <h1>Categories <span>Get a doctor which suits your need!!!</span></h1>
+            </div>
+            <div class="container">
+                <section class="main">
+
+                    <ul class="ch-grid">
+                        <li>
+                            <div class="ch-item ch-img-1">
+                                <div class="ch-info">
+                                    <h3>Physician</h3>
+<!--                                    <p>by Daniel Nyari <a href="http://drbl.in/eODP">View on Dribbble</a></p>-->
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ch-item ch-img-2">
+                                <div class="ch-info" >
+                                    <h3>Gynacologist</h3>
+<!--                                    <p>by Daniel Nyari <a href="http://drbl.in/eNXW">View on Dribbble</a></p>-->
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ch-item ch-img-3">
+                                <div class="ch-info">
+                                    <h3>Dietician</h3>
+<!--                                    <p>by Daniel Nyari <a href="http://drbl.in/eNXY">View on Dribbble</a></p>-->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="ch-grid">
+                        <li>
+                            <div class="ch-item ch-img-4">
+                                <div class="ch-info">
+                                    <h3>Ayurveda</h3>
+<!--                                    <p>by Daniel Nyari <a href="http://drbl.in/eODP">View on Dribbble</a></p>-->
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ch-item ch-img-5">
+                                <div class="ch-info">
+                                    <h3>Paeditrician</h3>
+<!--                                    <p>by Daniel Nyari <a href="http://drbl.in/eNXW">View on Dribbble</a></p>-->
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ch-item ch-img-6">
+                                <div class="ch-info">
+                                    <h3>Homeopathy</h3>
+<!--                                    <p>by Daniel Nyari <a href="http://drbl.in/eNXY">View on Dribbble</a></p>-->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </section>
+            </div>
+        </div>
+        <hr class="feature-divider">
+        
+        <!--  Downloads  -->
+        <div class="feature" id="downloads">
+<!--            <img class="feature-image img-circle img-responsive pull-right" src="img/icons/download.png">-->
+            <div class="codrops-header">
+                <h1>Downloads <span>Download the app and get started</span></h1>
+            </div>
+            <div class="container">
+                <section class="main">
+                    <ul class="ch-grid">
+                        <li>
+                            <a href="#" target="_blank"><img  src="{% static "img/icons/google-play.png"%}"/></a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"><img  src="{% static "img/icons/app-store.png"%}"/></a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <hr class="feature-divider">
+
+        <!-- About US -->
+        <div class="feature" id="about">
+            <img class="feature-image img-circle img-responsive pull-right" src=" "> <!--Yahan Image Daal Sakte hain-->
+            <div class="codrops-header">
+                <h1>About Us <span>Who we are!!!</span></h1>
+            </div>
+        </div>
+        <hr class="feature-divider">
+        
+        <!-- Contact US -->
+        <div class="feature" id="contact">
+            <div class="codrops-header">
+                <h1>Contact Us <span>We are listening</span></h1>
+                <div class="foot">
+                    <div >
+                        <form id="contact-us">
+                            <input id="email" name="email" type="email" text="email"/>
+                            <input id="ph" name="ph" type="tel"/>
+                            <input name="query" />
+
+                        </form>
+                    </div>
+                    <div>
+                        
+                    </div>
+                    <div class="">
+                        <a href="#" target="_blank"><img style="width:40px;height=40px;"  src="{% static "img/icons/twitter.png"%}"/></a>
+                        <a href="#" target="_blank"><img style="width:40px;height=40px;" src="{% static "img/icons/facebook.png"%}"/></a>
+                        <a href="#" target="_blank"><img style="width:40px;height=40px;" src="{% static "img/icons/linkedin.png"%}"/></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="feature-divider">
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="foot">
+                    <div>
+                        <p>Copyright &copy; 2015 CallYourMedic </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static "js/thumbnail/js/grid.js"%}"></script>
+    <script>
+        $(function() {
+            Grid.init();
+        });
+    </script>
+    <!--For header background  -->
+    <script src="{% static "js/header-background.js"%}"></script>
+    
+    <script src="{% static "js/jquery.js"%}"></script>
+    <script src="{% static "js/bootstrap.min.js"%}"></script>
+    <script>
+            (function() {
+    
+                function init() {
+                    var speed = 330,
+                        easing = mina.backout;
+
+                    [].slice.call ( document.querySelectorAll( '#grid > a' ) ).forEach( function( el ) {
+                        var s = Snap( el.querySelector( 'svg' ) ), path = s.select( 'path' ),
+                            pathConfig = {
+                                from : path.attr( 'd' ),
+                                to : el.getAttribute( 'data-path-hover' )
+                            };
+
+                        el.addEventListener( 'mouseenter', function() {
+                            path.animate( { 'path' : pathConfig.to }, speed, easing );
+                        } );
+
+                        el.addEventListener( 'mouseleave', function() {
+                            path.animate( { 'path' : pathConfig.from }, speed, easing );
+                        } );
+                    } );
+                }
+
+                init();
+
+            })();
+        </script>
+
+</body>
+
+</html>

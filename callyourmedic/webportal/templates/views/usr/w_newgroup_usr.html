@@ -1,0 +1,65 @@
+{% load widget_tweaks %}
+<form id="newGroupForm" action="/web/{{request.session.org_id}}/usrgroupnew/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body" id="modal-body-createGroup">
+        <div class="form-group">
+            <label >Group Name</label>
+            {% render_field groupCreationForm.grp_name class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_name.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Organisation Level</label>
+            {% render_field groupCreationForm.grp_org class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_org.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Hospital Level</label>
+            {% render_field groupCreationForm.grp_hospital class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_hospital.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Doctor level</label>
+            {% render_field groupCreationForm.grp_doctor class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_doctor.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Patients Level</label>
+            {% render_field groupCreationForm.grp_patients class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_patients.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Call Level</label>
+            {% render_field groupCreationForm.grp_call class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_call.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Transaction Level</label>
+            {% render_field groupCreationForm.grp_transaction class+="form-control" required="true"%}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_transaction.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >User Level</label>
+            {% render_field groupCreationForm.grp_user class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_user.errors.as_text }}</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newGroup">Save</button>
+    </div>
+</form>

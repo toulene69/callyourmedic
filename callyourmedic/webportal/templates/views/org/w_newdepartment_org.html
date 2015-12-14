@@ -1,0 +1,30 @@
+{% load widget_tweaks %}
+<form id="newDepartmentForm" action="/web/{{request.session.org_id}}/departmentnew/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body" id="modal-body-createGroup">
+        <div class="form-group">
+            <label >Department Name</label>
+            {% render_field deptCreationForm.department_name class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ deptCreationForm.department_name.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Department Description</label>
+            {% render_field deptCreationForm.department_description class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ deptCreationForm.department_description.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Department Code</label>
+            {% render_field deptCreationForm.department_code class+="form-control" required="true"%}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ deptCreationForm.department_code.errors.as_text }}</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newDepartment">Save</button>
+    </div>
+</form>

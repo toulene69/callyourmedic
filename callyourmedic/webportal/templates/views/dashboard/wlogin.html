@@ -1,0 +1,68 @@
+{% extends 'portalbase.html' %}
+{% load widget_tweaks %}
+
+{% block title %} Login {% endblock %}
+
+
+{% block navigation %}
+    {% include 'wnavbarbase.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Sign In</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" action="/portal/" method="post">
+                        {% csrf_token %}
+                        <fieldset>
+                            {% if sessionError %}
+                            <div class="alert alert-danger">
+                               Your session has expired! Please login again.
+                            </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <!--<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>-->
+                                {% render_field formLogin.org_identifier class+="form-control" placeholder+="Org Identifier" %}
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formLogin.org_identifier.errors.as_text }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!--<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>-->
+                                {% render_field formLogin.user_name class+="form-control" placeholder+="E-mail" %}
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formLogin.user_name.errors.as_text }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!--<input class="form-control" placeholder="Password" name="password" type="password" value="">-->
+                                {% render_field formLogin.password class+="form-control" placeholder+="Password" %}
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formLogin.password.errors.as_text }}</label>
+                                </div>
+                            </div>
+                            {% if error %}
+                            <div class="form-group has-error">
+                                <label class="control-label" >{{ error }}</label>
+                            </div>
+                            {% endif %}
+                            <div class="checkbox">
+                                <label>
+                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                </label>
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

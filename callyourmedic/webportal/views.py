@@ -11,7 +11,7 @@ from hospitals.models import Hospital, Department
 from doctors.models import DoctorDetails, DoctorRegistration
 
 # form imports
-from forms import PortalUserLoginForm, PortalHospitalCreationForm, PortalHospitalSelectionForm, PortalDoctorDetailsForm, PortalDoctorRegistrationForm
+from forms import PortalUserLoginForm, PortalHospitalCreationForm, PortalHospitalSelectionForm, PortalDoctorDetailsForm, PortalDoctorRegistrationForm, PortalDoctorSelectionForm
 from addresses.forms import AddressForm
 
 from utils.web_portal_session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired, isUserRequestValid
@@ -189,6 +189,7 @@ def doctor_dashboard(request):
     else:
         return userSessionExpired()
 
+
 def doctor_new(request, org_id=0):
     error = None
     args = {}
@@ -259,8 +260,35 @@ def doctor_new(request, org_id=0):
     else:
         return userSessionExpired()
 
-""" End of doctor views """
 
+def doctor_details(request,org_id=0,doctor_id=0):
+    error = None
+    args = {}
+    if isUserLogged(request):
+        if isUserRequestValid(request,org_id):
+            if org_id!=0:
+                organisation = Organisation.objects.get(org_id__exact = org_id)
+                args['org'] = organisation
+                if doctor_id !=0 :
+                    docReg = DoctorRegistration.objects.get(doctor_org = org_id, doctor_id = doctor_id)
+                    docDetails = DoctorDetails.objects.get(doctor_id = doctor_id)
+                    doctor = {}
+                    doctor['docReg'] = docReg
+                    doctor['docDetails'] = docDetails
+                    args['doctor'] = doctor
+            else:
+                error = 'Invalid request'
+            formDoctorChoice = PortalDoctorSelectionForm(org_id)
+            args['formDoctorChoice'] = formDoctorChoice
+            return render(request,'w_details_doctor.html',args)
+        else:
+            error = 'Invalid Request'
+        args['error'] = error
+        return render(request,'w_details_doctor.html',args)
+    else:
+        return userSessionExpired()
+
+""" End of doctor views """
 
 
 """ User and User Groups """

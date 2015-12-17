@@ -19,6 +19,8 @@ urlpatterns = [
     # webportal doctors
     url(r'^doctors/', 'webportal.views.doctor_dashboard'),
     url(r'^(?P<org_id>\d+)/doctornew/$', 'webportal.views.doctor_new'),
+    url(r'^(?P<org_id>\d+)/doctordetails/(?P<doctor_id>\d+)/$', 'webportal.views.doctor_details'),
+    url(r'^(?P<org_id>\d+)/doctordetails/$', 'webportal.views.doctor_details'),
 
     # webportal users
 

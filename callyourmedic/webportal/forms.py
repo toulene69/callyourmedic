@@ -42,23 +42,6 @@ class PortalHospitalSelectionForm(forms.Form):
         self.fields['choices'].choices = [('', 'Select a Hospital|Branch Code')] + list(hospitalChoices(org_id))
 
 
-def hospitalChoices(org_id):
-    choices = []
-    hospitals = Hospital.objects.filter(hospital_org__exact = org_id)
-    for hospital in hospitals:
-        choice = (hospital.hospital_id , hospital.hospital_name + '|' + hospital.hospital_branch_code)
-        choices.append(choice)
-    return choices
-
-def departmentChoices(org_id):
-    choices = []
-    departments = Department.objects.filter(department_org__exact = org_id)
-    for department in departments:
-        choice = department.department_id, department.department_name + '|' + department.department_code
-        choices.append(choice)
-    return choices
-
-
 class PortalDepartmentCreationForm(forms.ModelForm):
 
     def __init__(self,*args,**kwargs):
@@ -97,3 +80,41 @@ class PortalDoctorDetailsForm(forms.ModelForm):
     class Meta:
         model = DoctorDetails
         exclude = ('doctor_id','doctor_address','doctor_date_joined','doctor_date_left',)
+
+class PortalDoctorSelectionForm(forms.Form):
+    # choices = orgs = forms.ModelChoiceField(queryset=Hospital.objects.all(),empty_label="Select Hospital")
+    DOC_CHOICES = []
+    choices = forms.ChoiceField(choices=DOC_CHOICES)
+
+    def __init__(self,org_id, *args, **kwargs):
+        super(PortalDoctorSelectionForm, self).__init__(*args, **kwargs)
+        self.QS_CHOICES = hospitalChoices(org_id)
+        self.fields['choices'].choices = [('', 'Select a Doctor|Doctor Code')] + list(doctorChoices(org_id))
+
+
+
+def hospitalChoices(org_id):
+    choices = []
+    hospitals = Hospital.objects.filter(hospital_org__exact = org_id)
+    for hospital in hospitals:
+        choice = (hospital.hospital_id , hospital.hospital_name + '|' + hospital.hospital_branch_code)
+        choices.append(choice)
+    return choices
+
+def departmentChoices(org_id):
+    choices = []
+    departments = Department.objects.filter(department_org__exact = org_id)
+    for department in departments:
+        choice = (department.department_id, department.department_name + '|' + department.department_code)
+        choices.append(choice)
+    return choices
+
+
+def doctorChoices(org_id):
+    choices = []
+    docReg = DoctorRegistration.objects.filter(doctor_org = org_id)
+    for doctor in docReg:
+        details = DoctorDetails.objects.get(doctor_id = doctor.doctor_id)
+        choice = (doctor.doctor_id,details.doctor_first_name+' '+details.doctor_last_name + '|' + doctor.doctor_code)
+        choices.append(choice)
+    return choices

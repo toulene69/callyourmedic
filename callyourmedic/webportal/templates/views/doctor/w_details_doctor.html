@@ -1,0 +1,295 @@
+{% extends 'w_base_doctor.html' %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Doctor Details</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {% if doctor %}
+                    <h4>{{doctor.docReg.doctor_code}} : {{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}</h4>
+                    {% else %}
+                    <h4>Select a Doctor to view</h4>
+                    {% endif %}
+                    <div class="form-group" style="float:right;margin-top:-35px;">
+                        <form id="view-hospital" method="get">
+                            {% render_field formDoctorChoice.choices class+="form-control" %}
+                        </form>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                {% if doctor %}
+                <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#home" data-toggle="tab">Info</a>
+                        </li>
+                        <li>
+                            <a href="#schedules" data-toggle="tab">Schedules</a>
+                        </li>
+                        <li>
+                            <a href="#settings" data-toggle="tab">Settings</a>
+                        </li>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="home">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Basic Info
+                                        </div>
+                                        <div class="panel-body" >
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Name</td>
+                                                        <td>{{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Code</td>
+                                                        <td>{{doctor.docReg.doctor_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Department</td>
+                                                        <td>{{doctor.docReg.doctor_department.department_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Branch Code</td>
+                                                        <td>{{doctor.docReg.doctor_hospital.hospital_branch_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Status</td>
+                                                        <td>{% if doctor.docReg.doctor_status %}Active{% else %}Inactive{% endif %}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#basicInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Contact Info
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Email ID</td>
+                                                        <td>{{doctor.docReg.doctor_email}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone Number</td>
+                                                        <td>{{doctor.docDetails.doctor_phone1}},{{doctor.docDetails.doctor_phone2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Join Date</td>
+                                                        <td>{{doctor.docDetails.doctor_date_joined}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Leaving Date</td>
+                                                        <td>{% if doctor.docDetails.doctor_date_left %}{{doctor.docDetails.doctor_date_left}}{% else %}-NA-{% endif %}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Professional Info
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Experience</td>
+                                                        <td>{{doctor.docDetails.doctor_experience}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Qualifications</td>
+                                                        <td>{{doctor.docDetails.doctor_qualification}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="schedules">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            All Doctors
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+                                            <div class="dataTable_wrapper">
+                                                <table class="table table-striped table-bordered table-hover" id="dataTables-Schedules">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Phone Number(s)</th>
+                                                        <th>Department</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="settings">
+                            <h4>Settings</h4>
+                            <p>Needs to be decided</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        {% if org %}
+        <div class="modal fade" id="basicInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="basicInfoLabel">Basic Info</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="contactInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="contactInfoLabel">Contact Info</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="addressInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="addressInfoInfoLabel">Address Info</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript_tags %}
+    <!--<script src="{% static "sbadmin/bower_components/morrisjs/morris.min.js" %}"></script>-->
+    <!--<script src="{% static "sbadmin/js/morris-data.js" %}"></script>-->
+    <!-- DataTables JavaScript -->
+    <!-- DataTables CSS -->
+    <link href="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" %}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{% static "sbadmin/bower_components/datatables-responsive/css/responsive.dataTables.scss" %}" rel="stylesheet">
+
+    <script src="{% static "sbadmin/bower_components/datatables/media/js/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" %}"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#tab-doctors').click(function(){
+                console.log('click');
+            });
+            $('#tab-requests').click(function(){
+                console.log('click');
+            });
+            $('#dataTables-requests').DataTable({
+                    responsive: true
+            });
+            $('#id_choices').on('change', function() {
+                url = "/web/{{request.session.org_id}}/doctordetails/"+ $("#id_choices").val() + "/";
+                console.log(url);
+                <!--$('#view-org').attr('action', url);-->
+                window.location.href = url;
+            });
+        });
+
+    </script>
+{% endblock %}

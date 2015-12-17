@@ -330,7 +330,7 @@ def doctor_getdoctors(request, org_id=0):
 				doc.append(doctor.doctor_email)
 				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
 				doc.append(details.doctor_date_joined)
-				doc.append('<a href="#">View</a>')
+				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
 			traceback.print_exc()
@@ -363,7 +363,7 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 				doc.append(doctor.doctor_email)
 				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
 				doc.append(details.doctor_date_joined)
-				doc.append('<a href="#">View</a>')
+				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
 			traceback.print_exc()

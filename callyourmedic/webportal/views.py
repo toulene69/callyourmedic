@@ -240,15 +240,16 @@ def doctor_new(request, org_id=0):
                         error = "Doctor Email Id is already registered! Please try a unique email id."
                 else:
                     traceback.print_exc()
-                    print formDocRegistration.errors
-                    print formDocDetails.errors
-                    print formAddress.errors
                     error = "Invalid form!"
+            else:
+                formAddress = AddressForm()
+                formDocDetails = PortalDoctorDetailsForm()
+                formDocRegistration = PortalDoctorRegistrationForm(org_id)
         else:
             error = "Invalid Request!"
-        formAddress = AddressForm()
-        formDocDetails = PortalDoctorDetailsForm()
-        formDocRegistration = PortalDoctorRegistrationForm(org_id)
+            formAddress = AddressForm()
+            formDocDetails = PortalDoctorDetailsForm()
+            formDocRegistration = PortalDoctorRegistrationForm(org_id)
         args.update(csrf(request))
         args['error'] = error
         args['formAddress'] = formAddress

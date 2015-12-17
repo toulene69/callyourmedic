@@ -58,3 +58,8 @@ def generateRandomPassword():
         password += CHAR_LIST[index]
     print 'Password created: '+password
     return password
+
+def generateDoctorCode(org_id,hospital_code,doc_id):
+    docCode = str(org_id)+'#'+hospital_code+'#'+str(doc_id)
+    docCode = docCode.replace(" ", "")
+    return docCode

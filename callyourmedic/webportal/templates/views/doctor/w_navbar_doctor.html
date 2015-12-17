@@ -197,7 +197,7 @@
             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> {{user.first_name}}</a>
+            <li><a href="#"><i class="fa fa-user fa-fw"></i> {% if first_name %} {{first_name}} {% else %} {{usr_details.first_name}} {% endif %}</a>
             </li>
             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
@@ -231,81 +231,13 @@
                 <a href="/web/dashboard/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
-                <a href="/web/org/"><i class="fa fa-globe fa-fw"></i> Organisation Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/web/org/"><i class="fa fa-globe fa-fw"></i> Org Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="/web/departments/"><i class="fa fa-th-list fa-fw"></i> Departments/Categories</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
+                <a href="/web/doctors/"><i class="fa fa-hospital-o fa-fw"></i> Doctors Dashboard</a>
             </li>
             <li>
-                <a href="/web/hospital/"><i class="fa fa-hospital-o fa-fw"></i> Hospitals Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/web/hospital/"><i class="fa fa-hospital-o fa-fw"></i> Hospitals Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="/web/{{request.session.org_id}}/hospitaldetails/"><i class="fa fa-search fa-fw"></i> View Hospital</a>
-                    </li>
-                    <li>
-                        <a href="/web/{{request.session.org_id}}/hospitalnew/"><i class="fa fa-plus fa-fw"></i> Add Hospital</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
+                <a href="#"><i class="fa fa-search fa-fw"></i> View/Search Doctor</a>
             </li>
             <li>
-                <a href="/web/doctors/"><i class="fa fa-user-md fa-fw"></i> Doctors Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/web/doctors/"><i class="fa fa-user-md fa-fw"></i> Doctors Dashboard</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-users fa-fw"></i> User Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                    <a href="/web/usr/"><i class="fa fa-user fa-fw"></i> User Dashboard</a></li>
-                    <li>
-                        <a href="/web/usrgroup/"><i class="fa fa-group fa-fw"></i> User Groups</a>
-                    </li>
-                    <li>
-                        <a href="/web/users/"><i class="fa fa-plus fa-fw"></i> Users</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-phone fa-fw"></i> Call Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Panels and Wells</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Transactions <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Panels and Wells</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-support fa-fw"></i> Issue Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Panels and Wells</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
+                <a href="/web/{{request.session.org_id}}/doctornew/"><i class="fa fa-plus fa-fw"></i> Add Doctor</a>
             </li>
         </ul>
     </div>

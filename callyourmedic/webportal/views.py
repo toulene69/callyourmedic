@@ -8,12 +8,14 @@ import traceback
 from models import WebUser , WebGroup
 from organisations.models import Organisation
 from hospitals.models import Hospital, Department
+from doctors.models import DoctorDetails, DoctorRegistration
 
 # form imports
-from forms import PortalUserLoginForm, PortalHospitalCreationForm, PortalHospitalSelectionForm
+from forms import PortalUserLoginForm, PortalHospitalCreationForm, PortalHospitalSelectionForm, PortalDoctorDetailsForm, PortalDoctorRegistrationForm
 from addresses.forms import AddressForm
 
 from utils.web_portal_session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired, isUserRequestValid
+from utils.app_utils import generateRandomPassword, generateDoctorCode
 
 import logging
 
@@ -178,6 +180,87 @@ def hospital_new(request,org_id=0):
         return userSessionExpired()
 
 """ End Hospital views """
+
+""" Doctor views for webportal """
+
+def doctor_dashboard(request):
+    if isUserLogged(request):
+        return render(request,'w_dashboard_doctor.html')
+    else:
+        return userSessionExpired()
+
+def doctor_new(request, org_id=0):
+    error = None
+    args = {}
+    if isUserLogged(request):
+        if isUserRequestValid(request,org_id):
+            if request.POST:
+                formAddress = AddressForm(request.POST)
+                formDocDetails = PortalDoctorDetailsForm(request.POST)
+                formDocRegistration = PortalDoctorRegistrationForm(org_id,request.POST)
+                print "POST Request"
+                if (formDocRegistration.is_valid() & formDocDetails.is_valid() & formAddress.is_valid()):
+                    print "Form Valid"
+                    email = formDocRegistration.cleaned_data['doctor_email']
+                    hospitalID = formDocRegistration.cleaned_data['hospital_choice']
+                    deptID = formDocRegistration.cleaned_data['dept_choice']
+                    registeredDoc = DoctorRegistration.objects.filter(doctor_org = org_id, doctor_email__iexact = email)
+                    if len(registeredDoc)==0 :
+                        try:
+                            with transaction.atomic():
+                                organisation = Organisation.objects.get(org_id = org_id)
+                                hospital = Hospital.objects.get(hospital_org = org_id, hospital_id = hospitalID)
+                                department = Department.objects.get(department_org = org_id, department_id = deptID)
+
+                                docReg = formDocRegistration.save(commit=False)
+                                docDet = formDocDetails.save(commit=False)
+                                docAddress = formAddress.save()
+
+                                docReg.doctor_org = organisation
+                                docReg.doctor_department = department
+                                docReg.doctor_hospital = hospital
+                                docReg.doctor_status = True
+                                docReg.doctor_password = generateRandomPassword()
+                                docReg.save()
+                                docReg.doctor_code = generateDoctorCode(org_id,hospital.hospital_branch_code,docReg.doctor_id)
+                                docReg.save()
+
+                                docDet.doctor_address = docAddress
+                                docDet.doctor_id = docReg
+                                docDet.save()
+
+                            args['new_doctor_added'] = docDet.doctor_first_name+' '+docDet.doctor_last_name
+                            args['new_doctor_id'] = docReg.doctor_id
+                            return render(request,'w_dashboard_doctor.html',args)
+                        except:
+                            traceback.print_exc()
+                            error = "Error while adding doctor"
+                    else:
+                        print registeredDoc
+                        error = "Doctor Email Id is already registered! Please try a unique email id."
+                else:
+                    traceback.print_exc()
+                    print formDocRegistration.errors
+                    print formDocDetails.errors
+                    print formAddress.errors
+                    error = "Invalid form!"
+        else:
+            error = "Invalid Request!"
+        formAddress = AddressForm()
+        formDocDetails = PortalDoctorDetailsForm()
+        formDocRegistration = PortalDoctorRegistrationForm(org_id)
+        args.update(csrf(request))
+        args['error'] = error
+        args['formAddress'] = formAddress
+        args['formDocDetails'] = formDocDetails
+        args['formDocRegistration'] = formDocRegistration
+        return render(request,'w_new_doctor.html',args)
+    else:
+        return userSessionExpired()
+
+""" End of doctor views """
+
+
 
 """ User and User Groups """
 

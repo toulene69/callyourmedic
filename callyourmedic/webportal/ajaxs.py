@@ -8,12 +8,13 @@ import traceback
 from organisations.models import Organisation
 from models import WebUser, WebGroup
 from hospitals.models import Hospital, Department
+from doctors.models import DoctorRegistration, DoctorDetails
 # utils imports
 from utils.session_utils import isUserLogged , userSessionExpired
 from utils.app_utils import get_permission , get_active_status, generateRandomPassword
 
 # form imports
-from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartemntCreationForm
+from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm
 
 
 """ For webportal org"""
@@ -54,7 +55,7 @@ def org_departmentnew(request,org_id=0):
 	args = {}
 	if isUserLogged(request):
 		if request.POST:
-			deptCreationForm = PortalDepartemntCreationForm(request.POST)
+			deptCreationForm = PortalDepartmentCreationForm(request.POST)
 			if deptCreationForm.is_valid():
 				deptcode = deptCreationForm.cleaned_data['department_code']
 				departments = list(Department.objects.filter(department_org__exact = org_id, department_code__iexact = deptcode))
@@ -86,7 +87,7 @@ def org_departmentnew(request,org_id=0):
 				args['formError'] = formError
 				return render(request,'w_department_org.html',args)
 		else:
-			deptCreationForm = PortalDepartemntCreationForm()
+			deptCreationForm = PortalDepartmentCreationForm()
 		args.update(csrf(request))
 		args['error'] = error
 		args['deptCreationForm'] = deptCreationForm
@@ -302,3 +303,42 @@ def hospital_gethospitals(request,org_id=0):
 		raise Http404("Groups fetch request not proper")
 
 """ Ends WebPortal Hospital"""
+
+
+""" Webportal Doctors"""
+def doctor_getdoctors(request, org_id=0):
+	res = {
+		"draw": 1,
+    	"recordsTotal": 0,
+    	"recordsFiltered": 0,
+		"data" : []
+		}
+	if request.is_ajax() | True:
+		x = []
+		try:
+			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id).order_by('doctor_id'))
+			i=0
+			for doctor in doctors:
+				doc = []
+				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
+				doc.append(details.doctor_first_name+' '+details.doctor_last_name)
+				doc.append(doctor.doctor_hospital.hospital_branch_code)
+				doc.append(doctor.doctor_department.department_name)
+				doc.append(doctor.doctor_code)
+				doc.append(details.doctor_qualification)
+				doc.append(details.doctor_experience)
+				doc.append(doctor.doctor_email)
+				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
+				doc.append(details.doctor_date_joined)
+				doc.append('<a href="#">View</a>')
+				res['data'].append(doc)
+		except:
+			traceback.print_exc()
+		res['recordsTotal'] = len(res['data'])
+		res['recordsFiltered'] = len(res['data'])
+		return JsonResponse(res , safe = False)
+	else:
+		raise Http404("Groups fetch request not proper")
+
+
+""" Ends Webportal doctors"""

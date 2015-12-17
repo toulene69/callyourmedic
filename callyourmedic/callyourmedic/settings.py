@@ -82,6 +82,7 @@ TEMPLATES = [
                     BASE_DIR + '/webportal/templates/views/org',
                     BASE_DIR + '/webportal/templates/views/usr',
                     BASE_DIR + '/webportal/templates/views/hospital',
+                    BASE_DIR + '/webportal/templates/views/doctor',
                 ],
         'APP_DIRS': True,
         'OPTIONS': {

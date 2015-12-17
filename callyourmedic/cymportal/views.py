@@ -134,7 +134,8 @@ def org_new(request):
 						organisation.org_address = address
 						organisation.save()
 						organisation.org_billing_id = organisation.org_id
-						organisation.org_identifier = str(organisation.org_id) + '_' + organisation.org_brand
+						identifier = str(organisation.org_id) + '_' + organisation.org_brand
+						organisation.org_identifier = identifier.replace(" ", "")
 						organisation.save()
 						success = createSuperUserAndGroup(organisation.org_emailid,organisation.org_phone,organisation,'Super Admin')
 						if success:

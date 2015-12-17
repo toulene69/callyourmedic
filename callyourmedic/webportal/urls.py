@@ -16,6 +16,10 @@ urlpatterns = [
     url(r'^(?P<org_id>\d+)/hospitaldetails/$', 'webportal.views.hospital_details'),
     url(r'^(?P<org_id>\d+)/hospitalnew/$', 'webportal.views.hospital_new'),
 
+    # webportal doctors
+    url(r'^doctors/', 'webportal.views.doctor_dashboard'),
+    url(r'^(?P<org_id>\d+)/doctornew/$', 'webportal.views.doctor_new'),
+
     # webportal users
 
     url(r'^usr/', 'webportal.views.usr_dashboard'),
@@ -32,4 +36,5 @@ urlpatterns = [
     url(r'^(?P<org_id>\d+)/gethospitals/', 'webportal.ajaxs.hospital_gethospitals',name = 'get-hospitals'),
     url(r'^(?P<org_id>\d+)/getdepartments/', 'webportal.ajaxs.org_getdepartments',name = 'get-departments'),
     url(r'^(?P<org_id>\d+)/departmentnew/', 'webportal.ajaxs.org_departmentnew',name = 'get-departmentnew'),
+    url(r'^(?P<org_id>\d+)/getdoctors/', 'webportal.ajaxs.doctor_getdoctors',name = 'get-doctors'),
 ]

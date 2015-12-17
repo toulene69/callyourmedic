@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^(?P<org_id>\d+)/getdepartments/', 'webportal.ajaxs.org_getdepartments',name = 'get-departments'),
     url(r'^(?P<org_id>\d+)/departmentnew/', 'webportal.ajaxs.org_departmentnew',name = 'get-departmentnew'),
     url(r'^(?P<org_id>\d+)/getdoctors/', 'webportal.ajaxs.doctor_getdoctors',name = 'get-doctors'),
+    url(r'^(?P<org_id>\d+)/hospital/(?P<hospital_id>\d+)/getdoctors/', 'webportal.ajaxs.doctor_getdoctorsforhospitals',name = 'get-hospital-doctors'),
 ]

@@ -195,13 +195,17 @@
                                         <!-- /.panel-heading -->
                                         <div class="panel-body">
                                             <div class="dataTable_wrapper">
-                                                <table class="table table-striped table-bordered table-hover" id="dataTables-doctors">
+                                                <table class="table table-striped table-bordered table-hover" id="dataTables-Doctors">
                                                     <thead>
                                                     <tr>
                                                         <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Phone Number(s)</th>
                                                         <th>Department</th>
+                                                        <th>Doctor Code</th>
+                                                        <th>Qualification</th>
+                                                        <th>Experience</th>
+                                                        <th>Email Id</th>
+                                                        <th>Phone Number</th>
+                                                        <th>Date Joined</th>
                                                         <th></th>
                                                     </tr>
                                                     </thead>
@@ -328,25 +332,27 @@
     <script>
         $(document).ready(function() {
 
-            $('#tab-doctors').click(function(){
-                console.log('click');
-            });
-            $('#tab-requests').click(function(){
-                console.log('click');
-            });
-            $('#dataTables-doctors').DataTable({
-                    responsive: true
+            $('#dataTables-Doctors').DataTable({
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "responsive" : true,
+                "processing": true,
+                "serverside" : true,
+                "ajax": {
+                     "url": "/web/{{request.session.org_id}}/hospital/{{hospital.hospital_id}}/getdoctors/",
+                }
             });
             $('#dataTables-requests').DataTable({
                     responsive: true
             });
-            $('#id_choices').on('change', function() {
+
+        });
+
+        $('#id_choices').on('change', function() {
                 url = "/web/{{request.session.org_id}}/hospitaldetails/"+ $("#id_choices").val() + "/";
                 console.log(url);
                 <!--$('#view-org').attr('action', url);-->
                 window.location.href = url;
             });
-        });
 
     </script>
 {% endblock %}

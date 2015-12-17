@@ -340,5 +340,38 @@ def doctor_getdoctors(request, org_id=0):
 	else:
 		raise Http404("Groups fetch request not proper")
 
+def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
+	res = {
+		"draw": 1,
+    	"recordsTotal": 0,
+    	"recordsFiltered": 0,
+		"data" : []
+		}
+	if request.is_ajax() | True:
+		x = []
+		try:
+			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id,doctor_hospital = hospital_id).order_by('doctor_id'))
+			i=0
+			for doctor in doctors:
+				doc = []
+				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
+				doc.append(details.doctor_first_name+' '+details.doctor_last_name)
+				doc.append(doctor.doctor_department.department_name)
+				doc.append(doctor.doctor_code)
+				doc.append(details.doctor_qualification)
+				doc.append(details.doctor_experience)
+				doc.append(doctor.doctor_email)
+				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
+				doc.append(details.doctor_date_joined)
+				doc.append('<a href="#">View</a>')
+				res['data'].append(doc)
+		except:
+			traceback.print_exc()
+		res['recordsTotal'] = len(res['data'])
+		res['recordsFiltered'] = len(res['data'])
+		return JsonResponse(res , safe = False)
+	else:
+		raise Http404("Groups fetch request not proper")
+
 
 """ Ends Webportal doctors"""

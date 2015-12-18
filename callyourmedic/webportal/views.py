@@ -34,9 +34,13 @@ def login(request):
                 orgIdentifier = formLogin.cleaned_data['org_identifier']
                 username = formLogin.cleaned_data['user_name']
                 password = formLogin.cleaned_data['password']
+                orgIdentifier = orgIdentifier.strip()
+                username = username.strip()
+                password = password.strip()
                 try:
                     organisation = Organisation.objects.get(org_identifier__iexact = orgIdentifier)
                 except(KeyError, Organisation.DoesNotExist):
+                    traceback.print_exc()
                     error = "Org Identifier incorrect"
                 try:
                     user = WebUser.objects.get(usr_email__iexact = username, usr_org= organisation, usr_status = True)

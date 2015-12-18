@@ -64,7 +64,15 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Org Status</td>
-                                                        <td>{{org.org_active}}</td>
+                                                        <td>{% ifequal org.org_active "T" %}
+                                                                Test
+                                                            {% else %}
+                                                                {% ifequal org.org_active "A" %}
+                                                                    Active
+                                                                {% else %}
+                                                                    Dead
+                                                                {% endifequal %}
+                                                            {% endifequal %}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

@@ -325,10 +325,13 @@ def doctor_getdoctors(request, org_id=0):
 				doc.append(doctor.doctor_hospital.hospital_branch_code)
 				doc.append(doctor.doctor_department.department_name)
 				doc.append(doctor.doctor_code)
-				doc.append(details.doctor_qualification)
 				doc.append(details.doctor_experience)
 				doc.append(doctor.doctor_email)
 				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
+				if doctor.doctor_status:
+					doc.append('Active')
+				else:
+					doc.append('Inactive')
 				doc.append(details.doctor_date_joined)
 				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)

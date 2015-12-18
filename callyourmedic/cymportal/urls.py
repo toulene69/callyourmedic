@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^usrgroupnew/', 'cymportal.ajaxs.usr_usrgroupnew',name = 'get-usrgroupnew'),
     url(r'^getorgs/', 'cymportal.ajaxs.org_getorgs',name = 'get-orgs'),
     url(r'^(?P<org_id>\d+)/gethospitals/', 'cymportal.ajaxs.org_gethospitals',name = 'get-hospitals'),
-
+    url(r'^(?P<org_id>\d+)/getdoctors/', 'cymportal.ajaxs.org_getdoctors',name = 'get-doctors'),
 ]

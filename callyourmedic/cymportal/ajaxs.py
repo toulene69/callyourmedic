@@ -3,13 +3,14 @@ __author__ = 'apoorv'
 from django.http import HttpRequest , HttpResponse , JsonResponse , HttpResponseRedirect , Http404
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+import traceback
 
 # model imports
 from models import User
 from models import Group
 from organisations.models import Organisation
 from hospitals.models import Hospital
-
+from doctors.models import DoctorDetails, DoctorRegistration
 # form imports
 from forms import CYMUserGroupCreationForm
 from forms import CYMUserCreationForm
@@ -224,6 +225,43 @@ def org_gethospitals(request,org_id=0):
 			hspt.append(hospital.hospital_date_joined)
 			hspt.append('<a href="#">View</a>')
 			res['data'].append(hspt)
+		res['recordsTotal'] = len(res['data'])
+		res['recordsFiltered'] = len(res['data'])
+		return JsonResponse(res , safe = False)
+	else:
+		raise Http404("Groups fetch request not proper")
+
+def org_getdoctors(request, org_id=0):
+	res = {
+		"draw": 1,
+    	"recordsTotal": 0,
+    	"recordsFiltered": 0,
+		"data" : []
+		}
+	if request.is_ajax() | True:
+		x = []
+		try:
+			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id).order_by('doctor_id'))
+			i=0
+			for doctor in doctors:
+				doc = []
+				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
+				doc.append(details.doctor_first_name+' '+details.doctor_last_name)
+				doc.append(doctor.doctor_hospital.hospital_branch_code)
+				doc.append(doctor.doctor_department.department_name)
+				doc.append(doctor.doctor_code)
+				doc.append(doctor.doctor_email)
+				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
+				if doctor.doctor_status:
+					doc.append('Active')
+				else:
+					doc.append('Inactive')
+				doc.append(details.doctor_date_joined)
+				#doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
+				doc.append('<a href="#">View</a>')
+				res['data'].append(doc)
+		except:
+			traceback.print_exc()
 		res['recordsTotal'] = len(res['data'])
 		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res , safe = False)

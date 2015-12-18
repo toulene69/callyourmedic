@@ -78,7 +78,16 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Org Status</td>
-                                                        <td>{{org.org_active}}</td>
+                                                        <td>{% ifequal org.org_active "T" %}
+                                                                Test
+                                                            {% else %}
+                                                                {% ifequal org.org_active "A" %}
+                                                                    Active
+                                                                {% else %}
+                                                                    Dead
+                                                                {% endifequal %}
+                                                            {% endifequal %}
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -175,7 +184,7 @@
                                                             <tr>
                                                                 <td>{{dept.department_name}}</td>
                                                                 <td>{{dept.department_code}}</td>
-                                                                <td>{{dept.department_status}}</td>
+                                                                <td>{% if dept.department_status %}Active{% else %}Inactive{% endif %}</td>
                                                             </tr>
                                                         {% endfor %}
                                                     {% else %}
@@ -239,10 +248,13 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Phone Number(s)</th>
+                                                        <th>Hospital Branch Code</th>
                                                         <th>Department</th>
-                                                        <th>Hospital</th>
+                                                        <th>Doctor Code</th>
+                                                        <th>Email Id</th>
+                                                        <th>Phone Number</th>
+                                                        <th>Status</th>
+                                                        <th>Date Joined</th>
                                                         <th></th>
                                                     </tr>
                                                     </thead>
@@ -376,22 +388,18 @@
                     "ajax": {
                          "url": "/cym/{{org.org_id}}/gethospitals/",
                     }
-                });
-            $('#tab-hospitals').click(function(){
+            });
 
-            });
-            $('#tab-doctors').click(function(){
-                console.log('click');
-            });
-            $('#tab-requests').click(function(){
-                console.log('click');
-            });
-            <!--$('#dataTables-hospitals').DataTable({-->
-                    <!--responsive: true-->
-            <!--});-->
             $('#dataTables-doctors').DataTable({
-                    responsive: true
-            });
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    "responsive" : true,
+                    "processing": true,
+                    "serverside" : true,
+                    "ajax": {
+                         "url": "/cym/{{org.org_id}}/getdoctors/",
+                    }
+             });
+
             $('#dataTables-requests').DataTable({
                     responsive: true
             });

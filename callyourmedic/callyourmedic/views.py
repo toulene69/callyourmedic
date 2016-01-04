@@ -5,7 +5,7 @@ from django.template.loader import get_template
 from django.template import Context
 
 def index(request):
-	temp = get_template('index.html')
+	temp = get_template('index1.html')
 	html = temp.render()
 	return HttpResponse(html)
 

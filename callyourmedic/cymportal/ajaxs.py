@@ -35,7 +35,7 @@ def usr_getusers(request):
 		users = list(User.objects.all())
 		for user in users:
 			usr = []
-			usr.append(user.usr_first_name)
+			usr.append(user.usr_first_name+' '+user.usr_last_name)
 			usr.append(user.usr_email)
 			usr.append(user.usr_phone)
 			usr.append(user.usr_group.grp_name)

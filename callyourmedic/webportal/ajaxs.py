@@ -4,6 +4,9 @@ from django.http import HttpRequest , HttpResponse , JsonResponse , HttpResponse
 from django.shortcuts import render_to_response, render
 from django.core.context_processors import csrf
 import traceback
+from django.utils import timezone
+import pytz, time
+
 
 from organisations.models import Organisation
 from models import WebUser, WebGroup
@@ -16,7 +19,8 @@ from utils.app_utils import get_permission , get_active_status, generateRandomPa
 # form imports
 from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm
 
-
+timezone.activate(pytz.timezone("Asia/Kolkata"))
+current_tz = timezone.get_current_timezone()
 """ For webportal org"""
 
 def org_getdepartments(request,org_id=0):
@@ -38,7 +42,7 @@ def org_getdepartments(request,org_id=0):
 					dept.append('Active')
 				else:
 					dept.append('Inactive')
-				dept.append(department.department_date_added)
+				dept.append(current_tz.normalize(department.department_date_added).date())
 				dept.append('<a href="#">Edit</a>')
 				res['data'].append(dept)
 		except:
@@ -293,7 +297,7 @@ def hospital_gethospitals(request,org_id=0):
 			hspt.append(hospital.hospital_address.address_city)
 			hspt.append(hospital.hospital_address.address_state)
 			hspt.append(hospital.hospital_phone1)
-			hspt.append(hospital.hospital_date_joined)
+			hspt.append(current_tz.normalize(hospital.hospital_date_joined).date())
 			hspt.append('<a href="/web/'+str(org_id)+'/hospitaldetails/'+str(hospital.hospital_id)+'/">View</a>')
 			res['data'].append(hspt)
 		res['recordsTotal'] = len(res['data'])
@@ -332,7 +336,7 @@ def doctor_getdoctors(request, org_id=0):
 					doc.append('Active')
 				else:
 					doc.append('Inactive')
-				doc.append(details.doctor_date_joined)
+				doc.append(current_tz.normalize(details.doctor_date_joined).date())
 				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
@@ -365,7 +369,7 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 				doc.append(details.doctor_experience)
 				doc.append(doctor.doctor_email)
 				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
-				doc.append(details.doctor_date_joined)
+				doc.append(current_tz.normalize(details.doctor_date_joined).date())
 				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:

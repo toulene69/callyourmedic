@@ -5,6 +5,9 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 import traceback
 
+from django.utils import timezone
+import pytz, time
+
 # model imports
 from models import User
 from models import Group
@@ -19,7 +22,8 @@ from forms import CYMUserCreationForm
 from utils.session_utils import isUserLogged , userSessionExpired
 from utils.app_utils import get_permission , get_active_status
 
-
+timezone.activate(pytz.timezone("Asia/Kolkata"))
+current_tz = timezone.get_current_timezone()
 
 """ For CYM Users """
 def usr_getusers(request):
@@ -222,7 +226,7 @@ def org_gethospitals(request,org_id=0):
 			hspt.append(hospital.hospital_address.address_city)
 			hspt.append(hospital.hospital_address.address_state)
 			hspt.append(hospital.hospital_phone1)
-			hspt.append(hospital.hospital_date_joined)
+			hspt.append(current_tz.normalize(hospital.hospital_date_joined).date())
 			hspt.append('<a href="#">View</a>')
 			res['data'].append(hspt)
 		res['recordsTotal'] = len(res['data'])
@@ -256,7 +260,7 @@ def org_getdoctors(request, org_id=0):
 					doc.append('Active')
 				else:
 					doc.append('Inactive')
-				doc.append(details.doctor_date_joined)
+				doc.append(current_tz.normalize(details.doctor_date_joined).date())
 				#doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				doc.append('<a href="#">View</a>')
 				res['data'].append(doc)

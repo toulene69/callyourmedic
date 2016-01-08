@@ -42,6 +42,12 @@ def login(request):
                 except(KeyError, Organisation.DoesNotExist):
                     traceback.print_exc()
                     error = "Org Identifier incorrect"
+                    formLogin = PortalUserLoginForm()
+                    request.session.set_test_cookie()
+                    args.update(csrf(request))
+                    args['formLogin'] = formLogin
+                    args['error'] = error
+                    return render_to_response('wlogin.html',args)
                 try:
                     user = WebUser.objects.get(usr_email__iexact = username, usr_org= organisation, usr_status = True)
                     #return HttpResponseRedirect('/web/dashboard/')

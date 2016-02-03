@@ -4,6 +4,11 @@ from django.utils import timezone
 import os
 import sys
 import random
+import string
+import django.contrib.auth.hashers
+from django.contrib.auth.hashers import make_password, get_hasher, check_password
+
+# Consider adding string.punctuation
 
 def date_default():
     return timezone.now()
@@ -63,3 +68,39 @@ def generateDoctorCode(org_id,hospital_code,doc_id):
     docCode = str(org_id)+'#'+hospital_code+'#'+str(doc_id)
     docCode = docCode.replace(" ", "")
     return docCode
+
+
+def generateAPIKey():
+    CHAR_LIST = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789'
+    PASSWORD_LENGTH = 16
+    key = ''
+    rnd = random.SystemRandom()
+    for i in range(0,16,1):
+        index = rnd.randint(0,60)
+        key += CHAR_LIST[index]
+    print 'apikey created: '+key
+    return key
+
+def generateAuthToken(length=64):
+    possible_characters = string.ascii_letters + string.digits
+    rng = random.SystemRandom()
+    tok = ""
+    tok = tok.join([rng.choice(possible_characters) for i in range(length)])
+    return tok
+
+def getPasswordHash(password):
+    if password is None :
+        return None
+    else:
+        hasher = get_hasher('default')
+        salt = hasher.salt()
+        pass_hash = make_password(password,salt)
+        return pass_hash
+
+def checkPassword(password,hash):
+    if password is None:
+        return False
+    if check_password(password,hash) :
+        return True
+    else:
+        return False

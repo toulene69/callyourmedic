@@ -33,4 +33,8 @@ urlpatterns = [
     url('portal/$', 'webportal.views.login'),
     url('portal/logout/$','webportal.views.logout'),
     url('web/', include('webportal.urls')),
+
+    #REST
+    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/v1/',include('webapi.urls')),
 ]

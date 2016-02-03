@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^organisationnew/', 'cymportal.views.org_new'),
     url(r'^organisationrequests/$', 'cymportal.views.org_requests'),
     url(r'^organisationrequests/(?P<org_id>\d+)/$', 'cymportal.views.org_requests'),
+    url(r'^generateapikey/(?P<org_id>\d+)/','cymportal.views.org_create_apikey'),
 
     #cym user
     url(r'^usr/', 'cymportal.views.usr_dashboard'),

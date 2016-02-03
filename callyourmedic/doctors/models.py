@@ -33,3 +33,7 @@ class DoctorDetails(models.Model):
     doctor_address     = models.ForeignKey(Address)
     doctor_date_joined = models.DateTimeField(default=app_utils.date_default())
     doctor_date_left   = models.DateTimeField(blank=True, null=True)
+
+
+    def __str__(self): # __unicode__ on Python 2
+        return self.doctor_first_name

@@ -3,14 +3,14 @@ from django.http import HttpResponse , HttpResponseRedirect , Http404
 from django.template.loader import get_template
 from django.core.context_processors import csrf
 from django.db import IntegrityError, transaction
-
+import traceback
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #model imports
 from models import User
 from addresses.models import Address
-from organisations.models import Organisation
+from organisations.models import Organisation, Apikey
 from hospitals.models import Department
 from webportal.models import createSuperUserAndGroup
 
@@ -19,6 +19,7 @@ from addresses.forms import AddressForm
 from forms import CYMUserLoginForm , CYMOrganisationCreationForm , CYMOrganisationSelectionForm
 
 from utils.session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired
+from utils.app_utils import generateAPIKey
 
 import logging
 
@@ -166,6 +167,30 @@ def org_requests(request,org_id=0):
 	temp = get_template('org_requests.html')
 	html = temp.render()
 	return HttpResponse(html)
+
+def org_create_apikey(request,org_id=0):
+	error = None
+	args = {}
+	if isUserLogged(request):
+		usr_details = request.session['usr_details']
+		try:
+			organisation = Organisation.objects.get(org_id = org_id)
+			key = generateAPIKey()
+			apikey = Apikey(apikey_org = organisation,apikey_key = key)
+			try:
+				apikey.save()
+			except:
+				traceback.print_exc()
+				error = "Key Generation Failed! Try Again."
+		except(KeyError, Organisation.DoesNotExist):
+			error = "Username or password incorrect"
+		args['error'] = error
+		args['usr_details'] = usr_details
+		return HttpResponseRedirect('/cym/organisationdetails/'+str(org_id)+'/')
+	else:
+		return userSessionExpired()
+
+
 """ Organisation Views Ends"""
 
 

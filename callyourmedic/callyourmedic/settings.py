@@ -32,6 +32,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
+    'rest_framework.authtoken',
+    'rest_framework',
     'widget_tweaks',
     'storages',
     'django.contrib.admin',
@@ -45,7 +47,7 @@ INSTALLED_APPS = (
     'addresses',
     'hospitals',
     'doctors',
-    #'patients',
+    'patients',
     #'transactions',
     #util apps
     'utils',
@@ -64,6 +66,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
 
 ROOT_URLCONF = 'callyourmedic.urls'
 
@@ -103,10 +109,15 @@ WSGI_APPLICATION = 'callyourmedic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'medicalldb',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin123',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
 #     }
 # }
 
@@ -114,23 +125,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'medicalldb',
-        'USER': 'postgres',
+        'USER': 'apoorv',
         'PASSWORD': 'admin123',
-        'HOST': '127.0.0.1',
+        'HOST': 'postgresql-medicall-instance.ckzsmmruhp4x.ap-southeast-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'medicalldb',
-#         'USER': 'apoorv',
-#         'PASSWORD': 'admin123',
-#         'HOST': 'postgresql-medicall-instance.ckzsmmruhp4x.ap-southeast-1.rds.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -165,11 +165,11 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = BASE_DIR + '/static'
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-# AWS_ACCESS_KEY_ID = 'AKIAJU7LWHYCQZVTM6PA'
-# AWS_SECRET_ACCESS_KEY = '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'
-# AWS_STORAGE_BUCKET_NAME = 'callyourmedic-resources-bucket'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = 'AKIAJU7LWHYCQZVTM6PA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'callyourmedic-resources-bucket'
 
 LOGGING = {
     'version' : 1,
@@ -188,10 +188,34 @@ LOGGING = {
             'backupCount' : 5,
             'formatter' : 'standard',
         },
+        'cym_handler' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : BASE_DIR + '/logs/cym.log',
+            'maxBytes' : 1024 * 1024 * 5, #5MB
+            'backupCount' : 5,
+            'formatter' : 'standard',
+        },
+        'webportal_handler' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : BASE_DIR + '/logs/webportal.log',
+            'maxBytes' : 1024 * 1024 * 5, #5MB
+            'backupCount' : 5,
+            'formatter' : 'standard',
+        },
         'request_handler' : {
             'level' : 'DEBUG',
             'class' : 'logging.handlers.RotatingFileHandler',
             'filename' : BASE_DIR + '/logs/request_handler.log',
+            'maxBytes' : 1024 * 1024 * 5, #5MB
+            'backupCount' : 5,
+            'formatter' : 'standard',
+        },
+        'api_handler' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : BASE_DIR + '/logs/api_logger.log',
             'maxBytes' : 1024 * 1024 * 5, #5MB
             'backupCount' : 5,
             'formatter' : 'standard',
@@ -203,10 +227,25 @@ LOGGING = {
             'level' : 'DEBUG',
             'propagate' : True,
         },
-        'django_request' : {
+        'django.request' : {
             'handlers' : ['request_handler'],
             'level' : 'DEBUG',
             'propagate' : False,
+        },
+        'cym' : {
+            'handlers' : ['cym_handler'],
+            'level' : 'DEBUG',
+            'propagate' : True,
+        },
+        'webportal' : {
+            'handlers' : ['webportal_handler'],
+            'level' : 'DEBUG',
+            'propagate' : True,
+        },
+        'webapi' : {
+            'handlers' : ['api_handler'],
+            'level' : 'DEBUG',
+            'propagate' : True,
         },
     }
 }
@@ -218,3 +257,22 @@ CACHES = { 'default': {
 }
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'support@callyourmedic.com'
+EMAIL_HOST_PASSWORD = 'birth@3107'
+EMAIL_PORT = 587

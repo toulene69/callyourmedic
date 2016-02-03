@@ -1,0 +1,18 @@
+
+[28757 MainProcess] [2016-01-27 18:22:33,576] [DEBUG] [api_request | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient already exists
+[28866 MainProcess] [2016-01-27 18:34:10,154] [DEBUG] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient already exists
+[28888 MainProcess] [2016-01-27 18:35:43,672] [DEBUG] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient already exists!
+[29057 MainProcess] [2016-01-27 18:56:51,221] [DEBUG] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient already exists!
+[29783 MainProcess] [2016-01-27 20:49:11,374] [INFO] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[29962 MainProcess] [2016-01-27 21:11:33,651] [INFO] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[29975 MainProcess] [2016-01-27 21:13:13,599] [ERROR] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : Already exists with emailid [patient1@org6.com]
+[29997 MainProcess] [2016-01-27 21:19:15,817] [INFO] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[30042 MainProcess] [2016-01-27 21:21:29,482] [INFO] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[30066 MainProcess] [2016-01-27 21:24:05,017] [INFO] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[30075 MainProcess] [2016-01-27 21:24:26,579] [INFO] [webapi | patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[97521 MainProcess] [2016-01-29 15:44:18,664] [INFO] [webapi | create_patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[97543 MainProcess] [2016-01-29 15:46:29,210] [INFO] [webapi | create_patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient1@org6.com]
+[97557 MainProcess] [2016-01-29 15:48:31,506] [INFO] [webapi | create_patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient2@org6.com]
+[97557 MainProcess] [2016-01-29 15:49:15,915] [INFO] [webapi | create_patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient2@org6.]
+[97579 MainProcess] [2016-01-29 15:50:52,482] [INFO] [webapi | create_patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient2@org6.]
+[2468 MainProcess] [2016-01-31 14:51:54,386] [INFO] [webapi | create_patient] :  HTTP Method | POST, API_KEY | GzMBvAXqJPejTZwE, Messge | Patient Creation : New Email id [patient3@org6.com]

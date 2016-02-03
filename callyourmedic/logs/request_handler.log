@@ -1,0 +1,1900 @@
+[97521 MainProcess] [2016-01-29 15:44:18,749] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 80, in patient
+    return create_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 118, in create_patient
+    patient_tok = PatientAuthToken(patient_id = patient,patien_token = '')
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 480, in __init__
+    raise TypeError("'%s' is an invalid keyword argument for this function" % list(kwargs)[0])
+TypeError: 'patien_token' is an invalid keyword argument for this function
+[98956 MainProcess] [2016-01-30 16:39:03,435] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 60, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[98956 MainProcess] [2016-01-30 16:42:22,952] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 60, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[98956 MainProcess] [2016-01-30 16:43:10,267] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 60, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[98956 MainProcess] [2016-01-30 16:46:01,610] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 60, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[99378 MainProcess] [2016-01-30 16:47:10,194] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 61, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[99388 MainProcess] [2016-01-30 16:47:45,661] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 62, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[99399 MainProcess] [2016-01-30 16:48:22,140] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 63, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[99410 MainProcess] [2016-01-30 16:48:45,964] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 63, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[99415 MainProcess] [2016-01-30 16:49:22,928] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 63, in logout
+    print request.data['usertype']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/datastructures.py", line 322, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'usertype'"
+[99428 MainProcess] [2016-01-30 16:52:32,868] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/logout/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 60, in logout
+    logger.error()
+TypeError: error() takes at least 2 arguments (1 given)
+[1415 MainProcess] [2016-01-30 22:47:49,843] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 282, in update_patient
+    patientAuthObj.patient_id.patient_first_name = patientserializer['patient_first_name']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1536 MainProcess] [2016-01-30 22:49:43,684] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 282, in update_patient
+    patientAuthObj.patient_id.patient_first_name = patientserializer['patient_first_name']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1544 MainProcess] [2016-01-30 22:50:11,003] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 282, in update_patient
+    patientAuthObj.patient_id.patient_first_name = patientserializer['patient_first_name']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1551 MainProcess] [2016-01-30 22:50:26,962] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 282, in update_patient
+    patientAuthObj.patient_id.patient_first_name = patientserializer['patient_first_name']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1551 MainProcess] [2016-01-30 22:50:32,593] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 282, in update_patient
+    patientAuthObj.patient_id.patient_first_name = patientserializer['patient_first_name']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1560 MainProcess] [2016-01-30 22:51:05,458] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 282, in update_patient
+    patientAuthObj.patient_id.patient_first_name = patientserializer['patient_first_name']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1570 MainProcess] [2016-01-30 22:51:58,701] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 281, in update_patient
+    print(patientserializer['patient_first_name'])
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1575 MainProcess] [2016-01-30 22:52:15,128] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 281, in update_patient
+    print(patientserializer.data['patient_first_name'])
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1575 MainProcess] [2016-01-30 22:52:20,219] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 281, in update_patient
+    print(patientserializer.data['patient_first_name'])
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[1646 MainProcess] [2016-01-30 22:59:25,125] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 274, in update_patient
+    patientserializer = PatientSerializer(patient_id = patientAuthObj.patient_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'patient_id'
+[1662 MainProcess] [2016-01-30 23:02:30,479] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 274, in update_patient
+    patientserializer = PatientSerializer(patient_id = patientAuthObj.patient_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'patient_id'
+[1666 MainProcess] [2016-01-30 23:02:47,315] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 274, in update_patient
+    patientserializer = PatientSerializer(patient_id = patientAuthObj.patient_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'patient_id'
+[1697 MainProcess] [2016-01-30 23:04:47,429] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 274, in update_patient
+    patientserializer = PatientSerializer(patient_id = patientAuthObj.patient_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'patient_id'
+[1706 MainProcess] [2016-01-30 23:05:07,035] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 274, in update_patient
+    patientserializer = PatientSerializer(patient_id = patientAuthObj.patient_id.patient_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'patient_id'
+[1715 MainProcess] [2016-01-30 23:05:42,958] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 307, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1731 MainProcess] [2016-01-30 23:07:09,112] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 307, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1743 MainProcess] [2016-01-30 23:07:35,334] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 307, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1764 MainProcess] [2016-01-30 23:15:33,962] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 277, in update_patient
+    if patientserializer.data['patient_address'] is None:
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 235, in data
+    raise AssertionError(msg)
+AssertionError: When a serializer is passed a `data` keyword argument you must call `.is_valid()` before attempting to access the serialized `.data` representation.
+You should either call `.is_valid()` first, or access `.initial_data` instead.
+[1833 MainProcess] [2016-01-30 23:17:10,566] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 277, in update_patient
+    if patientserializer.data['patient_address'] is None:
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 235, in data
+    raise AssertionError(msg)
+AssertionError: When a serializer is passed a `data` keyword argument you must call `.is_valid()` before attempting to access the serialized `.data` representation.
+You should either call `.is_valid()` first, or access `.initial_data` instead.
+[1867 MainProcess] [2016-01-30 23:18:50,175] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 288, in update_patient
+    print(addressserializer.data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[1867 MainProcess] [2016-01-30 23:19:47,483] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 288, in update_patient
+    print(addressserializer.data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[1928 MainProcess] [2016-01-30 23:29:52,174] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 289, in update_patient
+    print(addressserializer.data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[1936 MainProcess] [2016-01-30 23:31:48,997] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 316, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1944 MainProcess] [2016-01-30 23:33:09,000] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 316, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1963 MainProcess] [2016-01-30 23:35:51,254] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 323, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1972 MainProcess] [2016-01-30 23:36:29,642] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 324, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1978 MainProcess] [2016-01-30 23:37:17,735] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 324, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[1993 MainProcess] [2016-01-30 23:38:20,406] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 325, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2006 MainProcess] [2016-01-30 23:40:09,747] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 323, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2014 MainProcess] [2016-01-30 23:40:40,825] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 323, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2024 MainProcess] [2016-01-30 23:41:11,692] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 324, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2051 MainProcess] [2016-01-30 23:42:42,007] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 325, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2069 MainProcess] [2016-01-30 23:43:52,478] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 328, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2069 MainProcess] [2016-01-30 23:44:54,797] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 328, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2085 MainProcess] [2016-01-30 23:45:53,845] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 330, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2093 MainProcess] [2016-01-30 23:46:29,630] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 331, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2112 MainProcess] [2016-01-30 23:49:09,142] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 280, in update_patient
+    if patientserializer.validated_data['patient_address'] is None:
+KeyError: 'patient_address'
+[2127 MainProcess] [2016-01-30 23:50:32,759] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 280, in update_patient
+    if patientserializer.validated_data['patient_address'] is None:
+KeyError: 'patient_address'
+[2135 MainProcess] [2016-01-30 23:51:58,754] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 161, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 331, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2596 MainProcess] [2016-01-31 15:11:42,753] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 331, in update_patient
+    return Response(patient.data,status=status.HTTP_200_OK)
+AttributeError: 'function' object has no attribute 'data'
+[2641 MainProcess] [2016-01-31 15:13:44,528] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 279, in update_patient
+    print(patientserializer.data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[2662 MainProcess] [2016-01-31 15:14:46,847] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 280, in update_patient
+    print(patientserializer.data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `patient_email` on serializer `PatientSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'patient_email'."
+[2831 MainProcess] [2016-01-31 15:51:47,960] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 325, in update_patient
+    address.address_city = addressserializer['address_city']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[2959 MainProcess] [2016-01-31 15:52:31,896] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 326, in update_patient
+    address.address_city = addressserializer['address_city']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[2967 MainProcess] [2016-01-31 15:52:51,265] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 327, in update_patient
+    address.address_city = addressserializer['address_city']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[2977 MainProcess] [2016-01-31 15:53:32,042] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 327, in update_patient
+    address.address_city = addressserializer['address_city']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line1` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line1'."
+[2977 MainProcess] [2016-01-31 15:54:42,382] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 323, in update_patient
+    address.address_line1 = addressserializer['address_line1']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_line2` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_line2'."
+[2977 MainProcess] [2016-01-31 15:54:59,519] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 334, in update_patient
+    address.save()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 846, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 885, in _do_insert
+    using=using, raw=raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/query.py", line 920, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 973, in execute_sql
+    for sql, params in self.as_sql():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 931, in as_sql
+    for obj in self.query.objs
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 710, in get_db_prep_save
+    prepared=False)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 702, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 1868, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'BoundField'
+[2993 MainProcess] [2016-01-31 15:55:52,252] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 334, in update_patient
+    address.save()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 846, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 885, in _do_insert
+    using=using, raw=raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/query.py", line 920, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 973, in execute_sql
+    for sql, params in self.as_sql():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 931, in as_sql
+    for obj in self.query.objs
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 710, in get_db_prep_save
+    prepared=False)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 702, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 1868, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'BoundField'
+[3006 MainProcess] [2016-01-31 15:56:57,415] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 335, in update_patient
+    address.save()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 846, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 885, in _do_insert
+    using=using, raw=raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/query.py", line 920, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 973, in execute_sql
+    for sql, params in self.as_sql():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 931, in as_sql
+    for obj in self.query.objs
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 710, in get_db_prep_save
+    prepared=False)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 702, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 1868, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'BoundField'
+[3013 MainProcess] [2016-01-31 15:57:39,869] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 336, in update_patient
+    address.save()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 846, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 885, in _do_insert
+    using=using, raw=raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/query.py", line 920, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 973, in execute_sql
+    for sql, params in self.as_sql():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 931, in as_sql
+    for obj in self.query.objs
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 710, in get_db_prep_save
+    prepared=False)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 702, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 1868, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'BoundField'
+[3021 MainProcess] [2016-01-31 15:58:08,685] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 336, in update_patient
+    address.save()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 734, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 762, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 846, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/base.py", line 885, in _do_insert
+    using=using, raw=raw)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/query.py", line 920, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 973, in execute_sql
+    for sql, params in self.as_sql():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/sql/compiler.py", line 931, in as_sql
+    for obj in self.query.objs
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 710, in get_db_prep_save
+    prepared=False)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 702, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/db/models/fields/__init__.py", line 1868, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'BoundField'
+[3051 MainProcess] [2016-01-31 16:02:15,069] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 324, in update_patient
+    address.address_line1 = addressserializer['address_line1']
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 492, in __getitem__
+    value = self.data.get(key)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 241, in data
+    self._data = self.to_representation(self.validated_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+KeyError: u"Got KeyError when attempting to get a value for field `address_pincode` on serializer `AddressSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `OrderedDict` instance.\nOriginal exception text was: u'address_pincode'."
+[3508 MainProcess] [2016-01-31 16:53:44,900] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 233, in update_patient
+    return ResponseMessageSerializer(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'status'
+[3508 MainProcess] [2016-01-31 16:54:25,853] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 233, in update_patient
+    return ResponseMessageSerializer(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'status'
+[3520 MainProcess] [2016-01-31 16:54:57,461] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 233, in update_patient
+    return ResponseMessageSerializer(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'status'
+[3530 MainProcess] [2016-01-31 16:55:56,853] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 162, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 234, in update_patient
+    return ResponseMessageSerializer(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 95, in __init__
+    super(BaseSerializer, self).__init__(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'status'
+[22728 MainProcess] [2016-02-01 19:42:14,037] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/patient/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 179, in patient
+    return update_patient(request)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 289, in update_patient
+    if addressserializer.is_valid() is False:
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 213, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 407, in run_validation
+    value = self.to_internal_value(data)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 431, in to_internal_value
+    fields = self._writable_fields
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/functional.py", line 60, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 346, in _writable_fields
+    field for field in self.fields.values()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 339, in fields
+    for key, value in self.get_fields().items():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 919, in get_fields
+    field_names = self.get_field_names(declared_fields, info)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 977, in get_field_names
+    type(exclude).__name__
+TypeError: The `exclude` option must be a list or tuple. Got str.
+[22984 MainProcess] [2016-02-01 20:25:47,435] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/departments/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 430, in departments
+    print departmentserializer.data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 503, in data
+    ret = super(Serializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 235, in data
+    raise AssertionError(msg)
+AssertionError: When a serializer is passed a `data` keyword argument you must call `.is_valid()` before attempting to access the serialized `.data` representation.
+You should either call `.is_valid()` first, or access `.initial_data` instead.
+[23162 MainProcess] [2016-02-01 21:06:30,166] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/departments/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 115, in get_callable
+    (lookup_view, mod_name))
+ViewDoesNotExist: Could not import 'webapi.views.DepartmentList.as_view()'. Parent module webapi.views.DepartmentList does not exist.
+[23223 MainProcess] [2016-02-01 21:07:05,544] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/departments/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 112, in get_callable
+    if submod and not module_has_submodule(import_module(parentmod), submod):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+ImportError: No module named views
+[23265 MainProcess] [2016-02-01 21:11:38,696] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/departments/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 366, in resolve
+    for pattern in self.url_patterns:
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 402, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/urlresolvers.py", line 396, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/callyourmedic/urls.py", line 39, in <module>
+    url(r'^api/v1/',include('webapi.urls')),
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/conf/urls/__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/urls.py", line 13, in <module>
+    url(r'^departments/', views.DepartmentList.as_view()),
+AttributeError: 'function' object has no attribute 'as_view'
+[23320 MainProcess] [2016-02-01 21:19:08,019] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/departments/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 431, in departments
+    if departmentserializer.is_valid():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 207, in is_valid
+    'Cannot call `.is_valid()` as no `data=` keyword argument was '
+AssertionError: Cannot call `.is_valid()` as no `data=` keyword argument was passed when instantiating the serializer instance.
+[23333 MainProcess] [2016-02-01 21:19:34,624] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/departments/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 431, in departments
+    print departments.data
+AttributeError: 'QuerySet' object has no attribute 'data'
+[23537 MainProcess] [2016-02-01 21:49:33,601] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/doctors/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 531, in doctors
+    return Response(departmentserializer.data,status=status.HTTP_200_OK)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 674, in data
+    ret = super(ListSerializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 239, in data
+    self._data = self.to_representation(self.instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 614, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 472, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 472, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 459, in to_representation
+    fields = self._readable_fields
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/functional.py", line 60, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 353, in _readable_fields
+    field for field in self.fields.values()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 339, in fields
+    for key, value in self.get_fields().items():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 919, in get_fields
+    field_names = self.get_field_names(declared_fields, info)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 1034, in get_field_names
+    serializer_class=self.__class__.__name__
+AssertionError: The field 'hospital_id ' was included on serializer HospitalSerializer in the 'exclude' option, but does not match any model field.
+[23567 MainProcess] [2016-02-01 21:53:32,966] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/doctors/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 531, in doctors
+    return Response(departmentserializer.data,status=status.HTTP_200_OK)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 674, in data
+    ret = super(ListSerializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 239, in data
+    self._data = self.to_representation(self.instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 614, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 472, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 472, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 459, in to_representation
+    fields = self._readable_fields
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/utils/functional.py", line 60, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 353, in _readable_fields
+    field for field in self.fields.values()
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 339, in fields
+    for key, value in self.get_fields().items():
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 919, in get_fields
+    field_names = self.get_field_names(declared_fields, info)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 1034, in get_field_names
+    serializer_class=self.__class__.__name__
+AssertionError: The field 'hospital_id ' was included on serializer HospitalSerializer in the 'exclude' option, but does not match any model field.
+[23703 MainProcess] [2016-02-01 22:07:09,465] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/doctors/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 531, in doctors
+    return Response(departmentserializer.data,status=status.HTTP_200_OK)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 674, in data
+    ret = super(ListSerializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 239, in data
+    self._data = self.to_representation(self.instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 614, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 463, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 422, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `doctor_other_details` on serializer `DoctorDetailSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `DoctorDetails` instance.
+Original exception text was: 'DoctorDetails' object has no attribute 'doctor_other_details'.
+[23715 MainProcess] [2016-02-01 22:10:03,993] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /api/v1/doctors/
+Traceback (most recent call last):
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/Django-1.8.4-py2.7.egg/django/views/generic/base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/decorators.py", line 53, in handler
+    return func(*args, **kwargs)
+  File "/Volumes/Apoorv/MyWork/django/callyourmedic_dev/callyourmedic/webapi/views.py", line 531, in doctors
+    return Response(departmentserializer.data,status=status.HTTP_200_OK)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 674, in data
+    ret = super(ListSerializer, self).data
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 239, in data
+    self._data = self.to_representation(self.instance)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 614, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/serializers.py", line 472, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 1644, in to_representation
+    method = getattr(self.parent, self.method_name)
+AttributeError: 'DoctorDetailSerializer' object has no attribute 'hospital'

@@ -31,10 +31,10 @@ class Apikey(models.Model):
 
     apikey_id               = models.AutoField(primary_key = True)
     apikey_org              = models.ForeignKey(Organisation)
-    apikey_key              = models.PositiveIntegerField()
-    apikey_status           = models.BooleanField()
-    apikey_generation_date  = models.DateTimeField()
-    apikey_termination_date = models.DateTimeField()
+    apikey_key              = models.CharField(max_length=17,unique = True)
+    apikey_status           = models.BooleanField(default = True)
+    apikey_generation_date  = models.DateTimeField(default = app_utils.date_default())
+    apikey_termination_date = models.DateTimeField(null = True)
 
 
 

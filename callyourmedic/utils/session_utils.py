@@ -25,9 +25,10 @@ def createUserSession(request,user):
     request.session['usr_details'] = usr_details
     if request.session.test_cookie_worked():
         request.session['isCookieEnables'] = True
+        request.session.delete_test_cookie()
     else:
         request.session['isCookieEnables'] = False
-    request.session.delete_test_cookie()
+    print(request.session['isCookieEnables'])
     request.session.set_expiry(1800)
     print ('******** Session created : ')
     print(request.session['usr_id'])

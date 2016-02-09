@@ -1898,3 +1898,32 @@ Traceback (most recent call last):
   File "/Volumes/Apoorv/MyWork/django/WebDev/lib/python2.7/site-packages/rest_framework/fields.py", line 1644, in to_representation
     method = getattr(self.parent, self.method_name)
 AttributeError: 'DoctorDetailSerializer' object has no attribute 'hospital'
+[31100 MainProcess] [2016-02-03 18:46:43,560] [WARNING] [django.request | get_response] : Not Found: /api/v1/logon/
+[31116 MainProcess] [2016-02-04 20:23:56,607] [WARNING] [django.request | get_response] : Not Found: /robots.txt
+[31116 MainProcess] [2016-02-04 20:23:57,366] [WARNING] [django.request | get_response] : Not Found: /sitemap.xml
+[31116 MainProcess] [2016-02-06 11:44:13,716] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /web/1/hospitaldetails/2/
+Traceback (most recent call last):
+  File "/home/ubuntu/python_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./webportal/views.py", line 133, in hospital_details
+    hospital = Hospital.objects.get(hospital_org__exact = org_id, hospital_id__exact = hospital_id)
+  File "/home/ubuntu/python_env/local/lib/python2.7/site-packages/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ubuntu/python_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Hospital matching query does not exist.
+[31116 MainProcess] [2016-02-06 11:44:14,027] [WARNING] [django.request | get_response] : Not Found: /favicon.ico
+[31116 MainProcess] [2016-02-06 11:44:51,763] [ERROR] [django.request | handle_uncaught_exception] : Internal Server Error: /web/1/doctordetails/2/
+Traceback (most recent call last):
+  File "/home/ubuntu/python_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./webportal/views.py", line 288, in doctor_details
+    docReg = DoctorRegistration.objects.get(doctor_org = org_id, doctor_id = doctor_id)
+  File "/home/ubuntu/python_env/local/lib/python2.7/site-packages/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ubuntu/python_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: DoctorRegistration matching query does not exist.
+[19412 MainProcess] [2016-02-07 23:44:09,188] [WARNING] [django.request | get_response] : Not Found: /admin/config.php
+[19412 MainProcess] [2016-02-09 08:49:19,881] [WARNING] [django.request | get_response] : Not Found: /admin/i18n/readme.txt
+[19412 MainProcess] [2016-02-09 16:41:12,424] [WARNING] [django.request | get_response] : Not Found: /robots.txt

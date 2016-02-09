@@ -46,6 +46,7 @@ def login(request):
 						print ("********* Password incorrect")
 						error = "Username or password incorrect"
 				except (KeyError, User.DoesNotExist):
+					traceback.print_exc()
 					error = "Username or password incorrect"
 					print ("********* User does not exists")
 			else:

@@ -132,7 +132,10 @@ def hospital_details(request,org_id=0,hospital_id=0):
                 if hospital_id !=0 :
                     hospital = Hospital.objects.get(hospital_org__exact = org_id, hospital_id__exact = hospital_id)
 
-                    departments = Department.objects.filter(department_id__in = DoctorRegistration.objects.filter(doctor_org = org_id, doctor_hospital = hospital_id).values_list('doctor_department', flat=True))
+                    departments = Department.objects.filter(department_id__in =
+                                                            DoctorRegistration.objects.filter(
+                                                                doctor_org = org_id,
+                                                                doctor_hospital = hospital_id).values_list('doctor_department', flat=True))
                     # print(departments)
                     # doctors = list(DoctorRegistration.objects.filter(doctor_org = org_id, doctor_hospital = hospital_id))
                     args['depts'] = departments

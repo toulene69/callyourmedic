@@ -12,7 +12,7 @@ import pytz, time
 from models import User
 from models import Group
 from organisations.models import Organisation
-from hospitals.models import Hospital
+from hospitals.models import Hospital, Department
 from doctors.models import DoctorDetails, DoctorRegistration
 # form imports
 from forms import CYMUserGroupCreationForm
@@ -22,8 +22,13 @@ from forms import CYMUserCreationForm
 from utils.session_utils import isUserLogged , userSessionExpired
 from utils.app_utils import get_permission , get_active_status
 
+import logging
+
+logger = logging.getLogger('cym')
+
 timezone.activate(pytz.timezone("Asia/Kolkata"))
 current_tz = timezone.get_current_timezone()
+
 
 """ For CYM Users """
 def usr_getusers(request):
@@ -38,16 +43,15 @@ def usr_getusers(request):
 		print ("ajax")
 		users = list(User.objects.all())
 		for user in users:
-			usr = []
-			usr.append(user.usr_first_name+' '+user.usr_last_name)
-			usr.append(user.usr_email)
-			usr.append(user.usr_phone)
-			usr.append(user.usr_group.grp_name)
+			usr = {}
+			usr['name'] = user.usr_first_name+' '+user.usr_last_name
+			usr['username'] = user.usr_email
+			usr['phonenumber'] = user.usr_phone
+			usr['usergroup'] = user.usr_group.grp_name
 			res['data'].append(usr)
 
 		res['recordsTotal'] = len(res['data'])
 		res['recordsFiltered'] = len(res['data'])
-		print res
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Users fetch request not proper")
@@ -65,16 +69,16 @@ def usr_getgroups(request):
 		groups = list(Group.objects.all().order_by('grp_id'))
 		i=0
 		for group in groups:
-			grp = []
-			grp.append(group.grp_name)
-			grp.append(get_permission(group.grp_org))
-			grp.append(get_permission(group.grp_hospital))
-			grp.append(get_permission(group.grp_doctor))
-			grp.append(get_permission(group.grp_patients))
-			grp.append(get_permission(group.grp_call))
-			grp.append(get_permission(group.grp_transaction))
-			grp.append(get_permission(group.grp_user))
-			grp.append('<a href="#">Edit</a>')
+			grp = {}
+			grp['grpname'] = group.grp_name
+			grp['orglevel'] = get_permission(group.grp_org)
+			grp['hospitallevel'] = get_permission(group.grp_hospital)
+			grp['doclevel'] = get_permission(group.grp_doctor)
+			grp['patientlevel'] = get_permission(group.grp_patients)
+			grp['calllevel'] = get_permission(group.grp_call)
+			grp['transactionlevel'] = get_permission(group.grp_transaction)
+			grp['userlevel'] = get_permission(group.grp_user)
+			# grp.append('<a href="#">Edit</a>')
 			res['data'].append(grp)
 		res['recordsTotal'] = len(res['data'])
 		res['recordsFiltered'] = len(res['data'])
@@ -185,23 +189,17 @@ def org_getorgs(request):
     	"recordsFiltered": 0,
 		"data" : []
 		}
+	# res = {}
 	if request.is_ajax() | True:
 		organisations = list(Organisation.objects.all())
 		for organisation in organisations:
-			org = []
-			org.append(organisation.org_name)
-			org.append(organisation.org_brand)
-			org.append(organisation.org_identifier)
-			org.append(get_active_status(organisation.org_active))
-			org.append('<a href="/cym/organisationdetails/'+str(organisation.org_id)+'/">View</a>')
+			org = {}
+			org['name'] = organisation.org_name
+			org['brand'] = organisation.org_brand
+			org['identifier'] = organisation.org_identifier
+			org['state'] = get_active_status(organisation.org_active)
+			org['view'] = str(organisation.org_id)
 			res['data'].append(org)
-		# org = []
-		# org.append("XYZ Hospitals Enterprise Ltd.")
-		# org.append("XYZ")
-		# org.append("123_XYZ")
-		# org.append(get_active_status('A'))
-		# org.append('<a href="/cym/organisationdetails/'+str(1)+'/">View</a>')
-		# res['data'].append(org)
 		res['recordsTotal'] = len(res['data'])
 		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res )
@@ -210,9 +208,7 @@ def org_getorgs(request):
 
 def org_gethospitals(request,org_id=0):
 	res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
 	if request.is_ajax() | True:
@@ -220,26 +216,22 @@ def org_gethospitals(request,org_id=0):
 		hospitals = list(Hospital.objects.filter(hospital_org__exact = org_id).order_by('hospital_id'))
 		i=0
 		for hospital in hospitals:
-			hspt = []
-			hspt.append(hospital.hospital_name)
-			hspt.append(hospital.hospital_branch_code)
-			hspt.append(hospital.hospital_address.address_city)
-			hspt.append(hospital.hospital_address.address_state)
-			hspt.append(hospital.hospital_phone1)
-			hspt.append(current_tz.normalize(hospital.hospital_date_joined).date())
-			hspt.append('<a href="#">View</a>')
+			hspt = {}
+			hspt['hospital_name'] = (hospital.hospital_name)
+			hspt['branch_code'] = (hospital.hospital_branch_code)
+			hspt['city'] = (hospital.hospital_address.address_city)
+			hspt['state'] = (hospital.hospital_address.address_state)
+			hspt['phone'] = (hospital.hospital_phone1)
+			hspt['joined'] = (current_tz.normalize(hospital.hospital_date_joined).date())
 			res['data'].append(hspt)
 		res['recordsTotal'] = len(res['data'])
-		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Groups fetch request not proper")
 
 def org_getdoctors(request, org_id=0):
 	res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
 	if request.is_ajax() | True:
@@ -248,21 +240,72 @@ def org_getdoctors(request, org_id=0):
 			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id).order_by('doctor_id'))
 			i=0
 			for doctor in doctors:
-				doc = []
+				doc = {}
 				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
-				doc.append(details.doctor_first_name+' '+details.doctor_last_name)
-				doc.append(doctor.doctor_hospital.hospital_branch_code)
-				doc.append(doctor.doctor_department.department_name)
-				doc.append(doctor.doctor_code)
-				doc.append(doctor.doctor_email)
-				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
-				if doctor.doctor_status:
-					doc.append('Active')
+				doc['doctor_name'] = (details.doctor_first_name+' '+details.doctor_last_name)
+				doc['hospital_branch_code'] = (doctor.doctor_hospital.hospital_branch_code)
+				doc['department'] = (doctor.doctor_department.department_name)
+				doc['doctor_code'] = (doctor.doctor_code)
+				doc['email'] = (doctor.doctor_email)
+				if (details.doctor_phone1 is not None):
+					doc['phone1'] = str(details.doctor_phone1)
 				else:
-					doc.append('Inactive')
-				doc.append(current_tz.normalize(details.doctor_date_joined).date())
+					doc['phone1'] = "None"
+				if (details.doctor_phone2 is not None):
+					doc['phone2'] = str(details.doctor_phone2)
+				else:
+					doc['phone2'] = "None"
+				if doctor.doctor_status:
+					doc['status'] = 'Active'
+				else:
+					doc['status'] = 'Inactive'
+				doc['joined'] = details.doctor_date_joined
 				#doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
-				doc.append('<a href="#">View</a>')
+				# doc.append('<a href="#">View</a>')
+				res['data'].append(doc)
+		except:
+			traceback.print_exc()
+		res['recordsTotal'] = len(res['data'])
+		return JsonResponse(res , safe = False)
+	else:
+		raise Http404("Groups fetch request not proper")
+
+
+def org_hospital_getdoctors(request,org_id=0,hospital_id=0):
+	res = {
+    	"recordsTotal": 0,
+		"data" : []
+		}
+	if (org_id ==0 and hospital_id == 0) and (org_id is None or hospital_id is None):
+		raise Http404("Groups fetch request not proper")
+
+	if request.is_ajax() | True:
+		try:
+			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id, doctor_hospital=hospital_id).order_by('doctor_id'))
+			i=0
+			for doctor in doctors:
+				doc = {}
+				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
+				doc['doctor_name'] = (details.doctor_first_name+' '+details.doctor_last_name)
+				doc['hospital_branch_code'] = (doctor.doctor_hospital.hospital_branch_code)
+				doc['department'] = (doctor.doctor_department.department_name)
+				doc['doctor_code'] = (doctor.doctor_code)
+				doc['email'] = (doctor.doctor_email)
+				if (details.doctor_phone1 is not None):
+					doc['phone1'] = str(details.doctor_phone1)
+				else:
+					doc['phone1'] = "None"
+				if (details.doctor_phone2 is not None):
+					doc['phone2'] = str(details.doctor_phone2)
+				else:
+					doc['phone2'] = "None"
+				if doctor.doctor_status:
+					doc['status'] = 'Active'
+				else:
+					doc['status'] = 'Inactive'
+				doc['joined'] = details.doctor_date_joined
+				#doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
+				# doc.append('<a href="#">View</a>')
 				res['data'].append(doc)
 		except:
 			traceback.print_exc()
@@ -273,3 +316,152 @@ def org_getdoctors(request, org_id=0):
 		raise Http404("Groups fetch request not proper")
 
 """ CYM Ends"""
+
+""" for search drop down """
+
+
+def org_getorgsforsearch(request):
+	res = {
+    	"recordsTotal": 0,
+		"data" : []
+		}
+	# res = {}
+	if request.is_ajax() | True:
+		organisations = list(Organisation.objects.all().values('org_id','org_name'))
+		for organisation in organisations:
+			org = {}
+			org['org_name'] = organisation['org_name']
+			org['org_id'] = organisation['org_id']
+			res['data'].append(org)
+		# res['data'] = organisations
+		res['recordsTotal'] = len(res['data'])
+		# res['recordsFiltered'] = len(res['data'])
+		# res['data'] = organisations
+		return JsonResponse(res)
+	else:
+		raise Http404("Error in request")
+
+def org_gethospitalsforsearch(request,org_id=0):
+	res = {
+    	"recordsTotal": 0,
+		"data" : []
+		}
+	print(request.GET)
+	if request.is_ajax() | True:
+		x = []
+		hospitals = list(Hospital.objects.filter(hospital_org__exact = org_id).order_by('hospital_id').values('hospital_id','hospital_name'))
+		i=0
+		for hospital in hospitals:
+			hspt = {}
+			hspt['hospital_name'] = hospital['hospital_name']
+			hspt['hospital_id'] = hospital['hospital_id']
+			res['data'].append(hspt)
+		res['recordsTotal'] = len(res['data'])
+		return JsonResponse(res)
+	else:
+		raise Http404("Groups fetch request not proper")
+
+def org_getdoctorsforsearch(request,org_id=0,hospital_id=0):
+	res = {
+    	"recordsTotal": 0,
+		"data" : []
+		}
+	if (org_id ==0 and hospital_id == 0) and (org_id is None or hospital_id is None):
+		raise Http404("Groups fetch request not proper")
+
+	if request.is_ajax() | True:
+		try:
+			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id, doctor_hospital=hospital_id).order_by('doctor_id'))
+			i=0
+			for doctor in doctors:
+				doc = {}
+				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
+				doc['doctor_name'] = details.doctor_first_name+' | '+doctor.doctor_code
+				doc['doctor_id'] = doctor.doctor_id
+				res['data'].append(doc)
+		except:
+			traceback.print_exc()
+		res['recordsTotal'] = len(res['data'])
+		return JsonResponse(res)
+	else:
+		raise Http404("Groups fetch request not proper")
+
+def org_searchdetails(request):
+	searchType = None
+	args = {}
+	try:
+		searchType = request.GET['type']
+	except:
+		args['error'] = "Search type not sent in request"
+		return render_to_response('org_search_details.html',args)
+
+
+	if searchType == 'org':
+		args['isSearchOrg'] = True
+		try:
+			org_id = request.GET['org']
+		except:
+			args['error'] = "Org ID not sent in request"
+			return render_to_response('org_search_details.html',args)
+
+		organisation = None
+		department = None
+		if org_id != 0:
+			orgID = org_id
+			try:
+				organisation = Organisation.objects.get(org_id = orgID)
+				department = Department.objects.filter(department_org = orgID)
+			except:
+				args['error'] = "Org not found"
+				logger.exception("Organisation ID "+str(orgID)+" not found")
+				return render_to_response('org_search_details.html',args)
+			args['org'] = organisation
+			args['depts'] = department
+		return render_to_response('org_search_details.html',args)
+
+	elif searchType =='hospital':
+		args['isSearchHospital'] = True
+		try:
+			hospital_id = request.GET['hospital']
+		except:
+			args['error'] = "Hospital ID not sent in request"
+			return render_to_response('org_search_details.html',args)
+		hospital = None
+		departments = None
+		if hospital_id !=0 :
+			try:
+				hospital = Hospital.objects.get(hospital_id__exact = hospital_id)
+				departments = Department.objects.filter(department_id__in =DoctorRegistration.objects.filter(
+                            doctor_hospital = hospital_id).values_list('doctor_department', flat=True))
+			except:
+				args['error'] = "Hospital not found"
+				logger.exception("Organisation ID "+str(hospital_id)+" not found")
+				return render_to_response('org_search_details.html',args)
+			args['depts'] = departments
+			args['hospital'] = hospital
+		return render_to_response('org_search_details.html',args)
+
+	elif searchType == 'doctor' :
+		args['isSearchDoctor'] = True
+		try:
+			doc_id = request.GET['doctor']
+		except :
+			args['error'] = "Doctor ID not sent in request"
+			return render_to_response('org_search_details.html',args)
+		doctor = {}
+		docReg = None
+		docDetails = None
+		try:
+			docReg = DoctorRegistration.objects.get( doctor_id = doc_id)
+			docDetails = DoctorDetails.objects.get(doctor_id = doc_id)
+		except:
+			args['error'] = "Doctor details not found"
+			return render_to_response('org_search_details.html',args)
+		doctor['docReg'] = docReg
+		doctor['docDetails'] = docDetails
+		args['doctor'] = doctor
+		return render_to_response('org_search_details.html',args)
+	else :
+		args['error'] = "Improper search type"
+		return render_to_response('org_search_details.html',args)
+	return render_to_response('org_search_details.html',args)

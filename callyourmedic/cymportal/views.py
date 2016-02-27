@@ -11,22 +11,24 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from models import User
 from addresses.models import Address
 from organisations.models import Organisation, Apikey
-from hospitals.models import Department
+from hospitals.models import Department, Hospital
+from doctors.models import DoctorRegistration, DoctorDetails
 from webportal.models import createSuperUserAndGroup
 
 #form imports
 from addresses.forms import AddressForm
-from forms import CYMUserLoginForm , CYMOrganisationCreationForm , CYMOrganisationSelectionForm
+from forms import CYMUserLoginForm , CYMOrganisationCreationForm , CYMOrganisationSelectionForm, CYMOrgHospitalSelectionForm
 
 from utils.session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired
 from utils.app_utils import generateAPIKey
 
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('cym')
 
 """Login/Logout"""
 def login(request):
+	args = {}
 	if isUserLogged(request):
 		return HttpResponseRedirect('/cym/dashboard')
 	else:
@@ -36,28 +38,37 @@ def login(request):
 			if formLogin.is_valid():
 				username = formLogin.cleaned_data['user_name']
 				password = formLogin.cleaned_data['password']
+				obj = None
 				try:
 					obj = User.objects.get(usr_email__iexact = username)
-					print (obj.usr_password)
-					if obj.usr_password == password:
+				except (KeyError, User.DoesNotExist):
+					error = "Username or password incorrect"
+					logger.exception("User does not exists "+username)
+					args.update(csrf(request))
+					args['formLogin'] = formLogin
+					args['error'] = error
+					return render_to_response('login.html',args)
+				if obj.usr_password == password:
+					try:
 						createUserSession(request,obj)
 						return HttpResponseRedirect('/cym/dashboard')
-					else:
-						print ("********* Password incorrect")
-						error = "Username or password incorrect"
-				except (KeyError, User.DoesNotExist):
-					traceback.print_exc()
+					except:
+						error = "Session error occurred"
+						logger.exception("Session creation error occured for user "+username)
+						args.update(csrf(request))
+						args['formLogin'] = formLogin
+						args['error'] = error
+						return render_to_response('login.html',args)
+				else:
+					logger.info("Incorrect password for user "+username)
 					error = "Username or password incorrect"
-					print ("********* User does not exists")
 			else:
 				print ("*********Form invalid")
 		else:
 			formLogin = CYMUserLoginForm()
 			request.session.set_test_cookie()
-		args = {}
 		if 'sessionError' in request.GET:
 			if request.GET['sessionError'] == '100':
-				print ('******* Session Expired ***')
 				args['sessionError'] = True
 		args.update(csrf(request))
 		args['formLogin'] = formLogin
@@ -92,10 +103,15 @@ def org_details(request,org_id=0):
 	if isUserLogged(request):
 		args = {}
 		usr_details = request.session['usr_details']
+		organisation = None
+		department = None
 		if org_id != 0:
 			orgID = org_id
-			organisation = Organisation.objects.get(org_id = orgID)
-			department = Department.objects.filter(department_org = orgID)
+			try:
+				organisation = Organisation.objects.get(org_id = orgID)
+				department = Department.objects.filter(department_org = orgID)
+			except:
+				logger.exception("Organisation ID "+str(orgID)+" not found")
 			args['org'] = organisation
 			args['depts'] = department
 		formOrgChoice = CYMOrganisationSelectionForm()
@@ -188,6 +204,15 @@ def org_create_apikey(request,org_id=0):
 		args['error'] = error
 		args['usr_details'] = usr_details
 		return HttpResponseRedirect('/cym/organisationdetails/'+str(org_id)+'/')
+	else:
+		return userSessionExpired()
+
+def search(request,org_id=0,hospital_id=0):
+	if isUserLogged(request):
+		args = {}
+		usr_details = request.session['usr_details']
+		args['usr_details'] = usr_details
+		return render_to_response('org_search.html',args)
 	else:
 		return userSessionExpired()
 

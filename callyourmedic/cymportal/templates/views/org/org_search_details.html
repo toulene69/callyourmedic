@@ -1,0 +1,798 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% if error %}
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{error}}
+    </div>
+{% else %}
+    {% if isSearchOrg %}
+        {% if org %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{org.org_name}}</h4>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#home" data-toggle="tab">Organisation Info</a>
+                        </li>
+                        <li>
+                            <a id="tab-hospitals" href="#hospitals" data-toggle="tab">Hospitals</a>
+                        </li>
+                        <li>
+                            <a id="tab-doctors" href="#doctors" data-toggle="tab">Doctors</a>
+                        </li>
+                        <li>
+                            <a href="#settings" data-toggle="tab">Settings</a>
+                        </li>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="home">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Basic Info
+                                        </div>
+                                        <div class="panel-body" >
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Org ID</td>
+                                                        <td>{{org.org_id}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Name</td>
+                                                        <td>{{org.org_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Brand</td>
+                                                        <td>{{org.org_brand}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Identifier</td>
+                                                        <td>{{org.org_identifier}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Status</td>
+                                                        <td>{% ifequal org.org_active "T" %}
+                                                                Test
+                                                            {% else %}
+                                                                {% ifequal org.org_active "A" %}
+                                                                    Active
+                                                                {% else %}
+                                                                    Dead
+                                                                {% endifequal %}
+                                                            {% endifequal %}
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#basicInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Contact Info
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Org Email ID</td>
+                                                        <td>{{org.org_emailid}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Phone Number</td>
+                                                        <td>{{org.org_phone}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Join Date</td>
+                                                        <td>{{org.org_date_joined}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Leaving Date</td>
+                                                        <td>{% if org.org_date_left %}org.org_date_left{% else %}-NA-{% endif %}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Org Billing ID</td>
+                                                        <td>{{org.org_billing_id}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Address Info
+                                        </div>
+                                        <div class="panel-body" >
+                                            <address>
+                                                <strong>{{org.org_name}}</strong>
+                                                <br>{{org.org_address.address_line1}},
+                                                <br>{{org.org_address.address_line2}},
+                                                <br>{{org.org_address.address_city}}, {{org.org_address.address_state}} - {{org.org_address.address_pincode}}
+                                                <br><br>
+                                                <abbr title="Phone">P:</abbr>{{org.org_phone}}
+                                            </address>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#addressInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Departments/Categories
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    {% if depts %}
+                                                        {% for dept in depts %}
+                                                            <tr>
+                                                                <td>{{dept.department_name}}</td>
+                                                                <td>{{dept.department_code}}</td>
+                                                                <td>{% if dept.department_status %}Active{% else %}Inactive{% endif %}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        No department/categories added
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="hospitals">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            All Hospitals
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+                                            <div id="grid-Hospitals"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="doctors">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            All Doctors
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+                                            <div id="grid-Doctors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="settings">
+                            <h4>Settings</h4>
+                            <p><a href="/cym/generateapikey/{{org.org_id}}/" class="btn btn-outline btn-primary" >Create APIKey</a></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <script type="text/javascript">
+                $("#grid-Hospitals").kendoGrid({
+                    toolbar: ["excel"],
+                    excel: {
+                        fileName: "HospitalsList.xlsx",
+                        allPages: true,
+                    },
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "/cym/{{org.org_id}}/gethospitals/",
+                                dataType: "json"
+                                }
+                            },
+                            schema: {
+                                data: "data",
+                                model: {
+                                    fields: {
+                                        hospital_name: { type: "string" },
+                                        branch_code: { type: "string" },
+                                        city: { type: "string" },
+                                        state: { type: "string" },
+                                        phone: { type: "string" },
+                                        joined: { type: "date" }
+                                    }
+                                }
+                             },
+                        },
+                    height: 500,
+                    groupable: true,
+                    sortable: true,
+                    filterable: true,
+                    resizable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        pageSize: 10,
+                        buttonCount: 1
+                    },
+                    columns: [
+                        {
+                             field:"hospital_name",
+                             title:"Hospital Name",
+                             filterable: false,
+                             groupable: false,
+                        },
+                        {
+                             field: "branch_code",
+                             title: "Branch Code",
+                        },
+                        {
+                            field: "city",
+                            title: "City"
+                        },
+                        {
+                            field: "state",
+                            title: "State"
+                        },
+                        {
+                            field: "phone",
+                            title: "Phone Number"
+                        },
+                        {
+                            field: "joined",
+                            title: "Date Joined",
+                            template: '#= kendo.toString(joined,"dd-MMM-yyyy") #'
+                        }
+                    ]
+                });
+                $("#grid-Doctors").kendoGrid({
+                    toolbar: ["excel"],
+                    excel: {
+                        fileName: "DoctorsList.xlsx",
+                        allPages: true,
+                    },
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "/cym/{{org.org_id}}/getdoctors/",
+                                dataType: "json"
+                                }
+                            },
+                            schema: {
+                                data: "data",
+                                model: {
+                                    fields: {
+                                        doctor_name: { type: "string" },
+                                        hospital_branch_code: { type: "string" },
+                                        department: { type: "string" },
+                                        doctor_code: { type: "string" },
+                                        email: { type: "string" },
+                                        phone1: { type: "string" },
+                                        phone2: { type: "string" },
+                                        status: {type: "string" },
+                                        joined: { type: "date" }
+                                    }
+                                }
+                             },
+                        },
+                    height: 500,
+                    groupable: true,
+                    sortable: true,
+                    filterable: true,
+                    resizable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        pageSize: 10,
+                        buttonCount: 1
+                    },
+                    columns: [
+                        {
+                             field:"doctor_name",
+                             title:"Name",
+                             groupable: false,
+                        },
+                        {
+                             field: "hospital_branch_code",
+                             title: "Hospital Code",
+                        },
+                        {
+                            field: "doctor_code",
+                            title: "Code"
+                        },
+                        {
+                            field: "department",
+                            title: "Department"
+                        },
+                        {
+                            field: "email",
+                            title: "Email"
+                        },
+                        {
+
+                            title: "Phone Number",
+                            template: "#= phone1 +', '+phone2 #"
+                        },
+                        {
+                            field: "status",
+                            title: "Status"
+                        },
+                        {
+                            field: "joined",
+                            title: "Date Joined",
+                            template: '#= kendo.toString(joined,"dd-MMM-yyyy") #'
+                        }
+                    ]
+                });
+            </script>
+        {% endif %}
+    {% elif isSearchHospital %}
+        {% if hospital %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{hospital.hospital_name}} | {{hospital.hospital_branch_code}}</h4>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#hospitalHome" data-toggle="tab">Hospital Info</a>
+                        </li>
+                        <li>
+                            <a href="#hospitalDoctors" data-toggle="tab">Doctors</a>
+                        </li>
+                        <li>
+                            <a href="#hospitalSettings" data-toggle="tab">Settings</a>
+                        </li>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="hospitalHome">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Basic Info
+                                        </div>
+                                        <div class="panel-body" >
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Org Name</td>
+                                                        <td>{{hospital.hospital_org.org_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Name</td>
+                                                        <td>{{hospital.hospital_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Branch Code</td>
+                                                        <td>{{hospital.hospital_branch_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Statue</td>
+                                                        <td>{{hospital.hospital_status}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Contact Info
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Hospital Email ID</td>
+                                                        <td>{{hospital.hospital_email_id}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Phone Number</td>
+                                                        <td>{{hospital.hospital_phone1}} {{hospital.hospital_phone2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Join Date</td>
+                                                        <td>{{hospital.hospital_date_joined}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Leaving Date</td>
+                                                        <td>{% if hospital.hospital_date_left %}hospital.hospital_date_left{% else %}-NA-{% endif %}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="panel panel-info" style="margin-top:15px;">
+                                    <div class="panel-heading">
+                                        Address Info
+                                    </div>
+                                    <div class="panel-body" >
+                                        <address>
+                                            <strong>{{hospital.hospital_name}}</strong>
+                                            <br>{{hospital.hospital_address.address_line1}},
+                                                <br>{{hospital.hospital_address.address_line2}},
+                                                <br>{{hospital.hospital_address.address_city}}, {{hospital.hospital_address.address_state}} - {{hospital.hospital_address.address_pincode}}
+                                                <br><br>
+                                                <abbr title="Phone">P:</abbr>{{hospital.hospital_phone1}} {{hospital.hospital_phone2}}
+                                            </address>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#addressInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Departments/Categories
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    {% if depts %}
+                                                        {% for dept in depts %}
+                                                            <tr>
+                                                                <td>{{dept.department_name}}</td>
+                                                                <td>{{dept.department_code}}</td>
+                                                                <td>{{dept.department_status}}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        No department/categories added
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="hospitalDoctors">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            All Doctors
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+                                            <div id="grid-Hospital-Doctors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="hospitalSettings">
+                            <h4>Settings</h4>
+                            <p>Needs to be decided</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#grid-Hospital-Doctors").kendoGrid({
+                    toolbar: ["excel"],
+                    excel: {
+                        fileName: "DoctorsList.xlsx",
+                        allPages: true,
+                    },
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "/cym/{{hospital.hospital_org.org_id}}/{{hospital.hospital_id}}/getdoctors/",
+                                dataType: "json"
+                                }
+                            },
+                            schema: {
+                                data: "data",
+                                model: {
+                                    fields: {
+                                        doctor_name: { type: "string" },
+                                        hospital_branch_code: { type: "string" },
+                                        department: { type: "string" },
+                                        doctor_code: { type: "string" },
+                                        email: { type: "string" },
+                                        phone1: { type: "string" },
+                                        phone2: { type: "string" },
+                                        status: {type: "string" },
+                                        joined: { type: "date" }
+                                    }
+                                }
+                             },
+                        },
+                    height: 500,
+                    groupable: true,
+                    sortable: true,
+                    filterable: true,
+                    resizable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        pageSize: 10,
+                        buttonCount: 1
+                    },
+                    columns: [
+                        {
+                             field:"doctor_name",
+                             title:"Name",
+                             groupable: false,
+                        },
+                        {
+                             field: "hospital_branch_code",
+                             title: "Hospital Code",
+                        },
+                        {
+                            field: "doctor_code",
+                            title: "Code"
+                        },
+                        {
+                            field: "department",
+                            title: "Department"
+                        },
+                        {
+                            field: "email",
+                            title: "Email"
+                        },
+                        {
+
+                            title: "Phone Number",
+                            template: "#= phone1 +', '+phone2 #"
+                        },
+                        {
+                            field: "status",
+                            title: "Status"
+                        },
+                        {
+                            field: "joined",
+                            title: "Date Joined",
+                            template: '#= kendo.toString(joined,"dd-MMM-yyyy") #'
+                        }
+                    ]
+                });
+            </script>
+        {% endif %}
+
+    {% elif isSearchDoctor %}
+        {% if doctor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{doctor.docReg.doctor_code}} : {{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}</h4>
+                </div>
+                <!-- /.panel-heading -->
+
+                <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#home" data-toggle="tab">Info</a>
+                        </li>
+                        <li>
+                            <a href="#schedules" data-toggle="tab">Schedules</a>
+                        </li>
+                        <li>
+                            <a href="#settings" data-toggle="tab">Settings</a>
+                        </li>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="home">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Basic Info
+                                        </div>
+                                        <div class="panel-body" >
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Name</td>
+                                                        <td>{{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Code</td>
+                                                        <td>{{doctor.docReg.doctor_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Department</td>
+                                                        <td>{{doctor.docReg.doctor_department.department_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hospital Branch Code</td>
+                                                        <td>{{doctor.docReg.doctor_hospital.hospital_branch_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Status</td>
+                                                        <td>{% if doctor.docReg.doctor_status %}Active{% else %}Inactive{% endif %}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#basicInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Contact Info
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Email ID</td>
+                                                        <td>{{doctor.docReg.doctor_email}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone Number</td>
+                                                        <td>{{doctor.docDetails.doctor_phone1}},{{doctor.docDetails.doctor_phone2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Join Date</td>
+                                                        <td>{{doctor.docDetails.doctor_date_joined}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Leaving Date</td>
+                                                        <td>{% if doctor.docDetails.doctor_date_left %}{{doctor.docDetails.doctor_date_left}}{% else %}-NA-{% endif %}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Professional Info
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Experience</td>
+                                                        <td>{{doctor.docDetails.doctor_experience}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Qualifications</td>
+                                                        <td>{{doctor.docDetails.doctor_qualification}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Edit</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="schedules">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Schedule
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="settings">
+                            <h4>Settings</h4>
+                            <p>Needs to be decided</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        {% endif %}
+    {% endif %}
+{% endif %}

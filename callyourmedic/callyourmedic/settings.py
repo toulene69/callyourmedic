@@ -163,13 +163,14 @@ STATICFILES_DIRS = (
     
 )
 
-STATIC_ROOT = BASE_DIR + '/static'
+# STATIC_ROOT = BASE_DIR + '/static'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAJU7LWHYCQZVTM6PA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'callyourmedic-resources-bucket'
+AWS_QUERYSTRING_AUTH = False
 
 LOGGING = {
     'version' : 1,

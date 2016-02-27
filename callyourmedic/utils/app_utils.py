@@ -65,7 +65,7 @@ def generateRandomPassword():
     return password
 
 def generateDoctorCode(org_id,hospital_code,doc_id):
-    docCode = str(org_id)+'#'+hospital_code+'#'+str(doc_id)
+    docCode = str(org_id)+'_'+hospital_code+'_'+str(doc_id)
     docCode = docCode.replace(" ", "")
     return docCode
 

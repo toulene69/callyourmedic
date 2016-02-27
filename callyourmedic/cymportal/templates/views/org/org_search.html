@@ -1,0 +1,298 @@
+{% extends 'orgbase.html' %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-4">
+            <p><label for="organisation">Organisations:</label></p>
+
+        <!--</div>-->
+        <!--<div class="col-lg-6">-->
+            <p><input id="organisation" style="width: 270px" /></p>
+            <p><button class="btn btn-outline btn-primary" id="btnOrg">View Organisation Details</button></p>
+        </div>
+        <div class="col-lg-4">
+            <p><label for="hospital">Hospitals:</label></p>
+        <!--</div>-->
+        <!--<div class="col-lg-6">-->
+            <p><input id="hospital" disabled="disabled" style="width: 270px" /></p>
+            <p><button class="btn btn-outline btn-primary" id="btnHospital">View Hospital Details</button></p>
+        </div>
+        <div class="col-lg-4">
+            <p><label for="doctor">Doctors:</label></p>
+        <!--</div>-->
+        <!--<div class="col-lg-6">-->
+            <p><input id="doctor" disabled="disabled" style="width: 270px" /></p>
+            <p><button class="btn btn-outline btn-primary" id="btnDoctor">View Doctor Details</button></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" id="searchResult">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript_tags %}
+    <!--<script src="{% static "sbadmin/bower_components/morrisjs/morris.min.js" %}"></script>-->
+    <!--<script src="{% static "sbadmin/js/morris-data.js" %}"></script>-->
+
+    <link href="{% static "kendo/css/kendo.common.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}"rel="stylesheet">
+
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.default.min.css" %}" rel="stylesheet">
+    <script src="{% static "kendo/js/kendo.all.min.js" %}"></script>
+
+    <script>
+        $(document).ready(function() {
+            var orgid;
+            var org = $("#organisation").kendoDropDownList({
+                        optionLabel: "Select Organisation...",
+                        dataTextField: "org_name",
+                        dataValueField: "org_id",
+                        dataSource: {
+                            type: "json",
+                            serverFiltering: true,
+                            transport: {
+                                read: getorgurl()
+                            },
+                            schema : {
+                                type: "json",
+                                data: "data",
+                                total: "recordsTotal",
+                                model: {
+                                    fields: {
+                                        org_name:{ type: "string" },
+                                        org_id: {type: "number" }
+                                    }
+                                }
+                            }
+                        },
+                        change : orgChange
+            }).data("kendoDropDownList");
+
+            <!--var hospital = $("#hospital").kendoDropDownList({-->
+                    <!--autoBind: false,-->
+                    <!--cascadeFrom: "organisation",-->
+                    <!--optionLabel: "Select Hospital...",-->
+                    <!--dataTextField: "hospital_name",-->
+                    <!--dataValueField: "hospital_id",-->
+                    <!--dataSource: {-->
+                        <!--type: "json",-->
+                        <!--serverFiltering: true,-->
+                        <!--transport: {-->
+                            <!--read: gethospitalurl()-->
+                        <!--},-->
+                        <!--schema : {-->
+                            <!--type: "json",-->
+                            <!--data: "data",-->
+                            <!--total: "recordsTotal",-->
+                            <!--model: {-->
+                                <!--fields: {-->
+                                    <!--hospital_name:{ type: "string" },-->
+                                    <!--hospital_id: {type: "number" }-->
+                                <!--}-->
+                            <!--}-->
+                        <!--}-->
+                    <!--},-->
+                    <!--change : hospitalChange-->
+            <!--}).data("kendoDropDownList");-->
+
+            <!--var doctor = $("#doctor").kendoDropDownList({-->
+                    <!--autoBind: false,-->
+                    <!--cascadeFrom: "hospital",-->
+                    <!--optionLabel: "Select Doctor...",-->
+                    <!--dataTextField: "doctor_name",-->
+                    <!--dataValueField: "doctor_id",-->
+                    <!--dataSource: {-->
+                        <!--type: "json",-->
+                        <!--serverFiltering: true,-->
+                        <!--transport: {-->
+                            <!--read: getdoctorurl()-->
+                        <!--},-->
+                        <!--schema : {-->
+                            <!--type: "json",-->
+                            <!--data: "data",-->
+                            <!--total: "recordsTotal",-->
+                            <!--model: {-->
+                                <!--fields: {-->
+                                    <!--doctor_name:{ type: "string" },-->
+                                    <!--doctor_id: {type: "number" }-->
+                                <!--}-->
+                            <!--}-->
+                        <!--}-->
+                    <!--},-->
+            <!--}).data("kendoDropDownList");-->
+
+            $("#btnOrg").click(function() {
+
+                var orgId = $("#organisation").val();
+                if(orgId)
+                {
+                    $.ajax(
+                        {
+                            url: "/cym/getsearchdetails/?type=org&org="+orgId,
+                            dataType: "html",
+                            type: "GET",
+                            success: function(result){
+                                $("#searchResult").html(result);
+                            },
+                            error: function(xhr){
+                                //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                                $("#newUserDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                            },
+                            complete: function (xhr, status) {
+                                //$('#showresults').slideDown('slow')
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    alert("Please select Organisation");
+                }
+            });
+
+            $("#btnHospital").click(function()
+            {
+                var hospitalId = $("#hospital").val();
+                if(hospitalId)
+                {
+                    $.ajax(
+                        {
+                            url: "/cym/getsearchdetails/?type=hospital&hospital="+hospitalId,
+                            dataType: "html",
+                            type: "GET",
+                            success: function(result){
+                                $("#searchResult").html(result);
+                            },
+                            error: function(xhr){
+                                //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                                $("#newUserDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                            },
+                            complete: function (xhr, status) {
+                                //$('#showresults').slideDown('slow')
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    alert("Please select Hospital");
+                }
+            });
+
+            $("#btnDoctor").click(function()
+            {
+                var doctorId = $("#doctor").val();
+                if(doctorId)
+                {
+                    $.ajax(
+                        {
+                            url: "/cym/getsearchdetails/?type=doctor&doctor="+doctorId,
+                            dataType: "html",
+                            type: "GET",
+                            success: function(result){
+                                $("#searchResult").html(result);
+                            },
+                            error: function(xhr){
+                                //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                                $("#newUserDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                            },
+                            complete: function (xhr, status) {
+                                //$('#showresults').slideDown('slow')
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    alert("Please select Doctor");
+                }
+            });
+
+
+        });
+
+        function getorgurl(){
+            return "/cym/getorgsforsearch/";
+        }
+
+        function gethospitalurl(){
+            var orgid = $("#organisation").val();
+            return "/cym/"+orgid+"/gethospitalsforsearch/"
+        }
+
+        function getdoctorurl(){
+             var orgid = $("#organisation").val();
+             var hospitalid = $("#hospital").val();
+             return "/cym/"+orgid+"/"+hospitalid+"/getdoctorsforsearch/"
+        }
+
+        function orgChange()
+        {
+            var url = gethospitalurl()
+            var hospital = $("#hospital").kendoDropDownList({
+                    autoBind: false,
+                    cascadeFrom: "organisation",
+                    optionLabel: "Select Hospital...",
+                    dataTextField: "hospital_name",
+                    dataValueField: "hospital_id",
+                    dataSource: {
+                        type: "json",
+                        serverFiltering: true,
+                        transport: {
+                            read: url
+                        },
+                        schema : {
+                            type: "json",
+                            data: "data",
+                            total: "recordsTotal",
+                            model: {
+                                fields: {
+                                    hospital_name:{ type: "string" },
+                                    hospital_id: {type: "number" }
+                                }
+                            }
+                        }
+                    },
+                    change : hospitalChange
+            }).data("kendoDropDownList");
+        }
+
+        function hospitalChange()
+        {
+            var doctor = $("#doctor").kendoDropDownList({
+                    autoBind: false,
+                    cascadeFrom: "hospital",
+                    optionLabel: "Select Doctor...",
+                    dataTextField: "doctor_name",
+                    dataValueField: "doctor_id",
+                    dataSource: {
+                        type: "json",
+                        serverFiltering: true,
+                        transport: {
+                            read: getdoctorurl()
+                        },
+                        schema : {
+                            type: "json",
+                            data: "data",
+                            total: "recordsTotal",
+                            model: {
+                                fields: {
+                                    doctor_name:{ type: "string" },
+                                    doctor_id: {type: "number" }
+                                }
+                            }
+                        }
+                    },
+            }).data("kendoDropDownList");
+        }
+    </script>
+{% endblock %}

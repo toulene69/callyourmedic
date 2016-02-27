@@ -10,7 +10,12 @@ urlpatterns = [
     # cym org
     url(r'^organisation/', 'cymportal.views.org_dashboard'),
     url(r'^organisationdetails/$', 'cymportal.views.org_details'),
+
     url(r'^organisationdetails/(?P<org_id>\d+)/$', 'cymportal.views.org_details'),
+    url(r'^search/$','cymportal.views.search'),
+    url(r'^(?P<org_id>\d+)/hospitaldetails/$','cymportal.views.org_hospital_details'),
+    url(r'^(?P<org_id>\d+)/hospitaldetails/(?P<hospital_id>\d+)/$','cymportal.views.org_hospital_details'),
+
     url(r'^organisationnew/', 'cymportal.views.org_new'),
     url(r'^organisationrequests/$', 'cymportal.views.org_requests'),
     url(r'^organisationrequests/(?P<org_id>\d+)/$', 'cymportal.views.org_requests'),
@@ -29,4 +34,10 @@ urlpatterns = [
     url(r'^getorgs/', 'cymportal.ajaxs.org_getorgs',name = 'get-orgs'),
     url(r'^(?P<org_id>\d+)/gethospitals/', 'cymportal.ajaxs.org_gethospitals',name = 'get-hospitals'),
     url(r'^(?P<org_id>\d+)/getdoctors/', 'cymportal.ajaxs.org_getdoctors',name = 'get-doctors'),
+    url(r'^(?P<org_id>\d+)/(?P<hospital_id>\d+)/getdoctors/', 'cymportal.ajaxs.org_hospital_getdoctors',name = 'get-doctorsForHospital'),
+
+    url(r'^getorgsforsearch/', 'cymportal.ajaxs.org_getorgsforsearch'),
+    url(r'^(?P<org_id>\d+)/gethospitalsforsearch/', 'cymportal.ajaxs.org_gethospitalsforsearch'),
+    url(r'^(?P<org_id>\d+)/(?P<hospital_id>\d+)/getdoctorsforsearch/', 'cymportal.ajaxs.org_getdoctorsforsearch'),
+    url(r'^getsearchdetails/', 'cymportal.ajaxs.org_searchdetails'),
 ]

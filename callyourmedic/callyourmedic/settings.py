@@ -163,7 +163,7 @@ STATICFILES_DIRS = (
     
 )
 
-# STATIC_ROOT = BASE_DIR + '/static'
+STATIC_ROOT = BASE_DIR + '/static'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

@@ -17,54 +17,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <!--<table class="table table-striped table-bordered table-hover" id="dataTable-Users">-->
-                            <!--<thead>-->
-                                <!--<tr>-->
-                                    <!--<th>Name</th>-->
-                                    <!--<th>User Name</th>-->
-                                    <!--<th>Phone Number</th>-->
-                                    <!--<th>Group</th>-->
-                                <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody>-->
-                                <!--{% for usr in users %}-->
-                                    <!--{# Each "contact" is a Contact model object. #}-->
-                                    <!--<tr>-->
-                                        <!--<td>{{ usr.usr_first_name }} {{usr.usr_last_name}}</td>-->
-                                        <!--<td>{{ usr.usr_email }}</td>-->
-                                        <!--<td>{{ usr.usr_phone }}</td>-->
-                                        <!--<td>{{ usr.usr_group.grp_id}}</td>-->
-                                    <!--</tr>-->
-                                <!--{% endfor %}-->
-                            <!--</tbody>-->
-
-                        <!--</table>-->
-                        <!--<div class="pagination">-->
-                            <!--<span class="step-links">-->
-                                <!--{% if users.has_previous %}-->
-                                    <!--<a href="?page={{ users.previous_page_number }}">previous</a>-->
-                                <!--{% endif %}-->
-                                <!--<span class="current">-->
-                                    <!--Page {{ users.number }} of {{ users.paginator.num_pages }}.-->
-                                <!--</span>-->
-                                <!--{% if contacts.has_next %}-->
-                                    <!--<a href="/cym/usr/?page={{ users.next_page_number }}">next</a>-->
-                                <!--{% endif %}-->
-                            <!--</span>-->
-                        <!--</div>-->
-                        <table class="table table-striped table-bordered table-hover" style="width:100%;" id="dataTable-Users">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>User Name</th>
-                                <th>Phone Number</th>
-                                <th>User Group</th>
-                            </tr>
-                            </thead>
-
-                        </table>
-                    </div>
+                    <div id="grid-Users"></div>
                 </div>
                 <!-- /.panel-body -->
             </div>
@@ -79,34 +32,75 @@
 {% block javascript_tags %}
     <!--<script src="{% static "sbadmin/bower_components/morrisjs/morris.min.js" %}"></script>-->
     <!--<script src="{% static "sbadmin/js/morris-data.js" %}"></script>-->
-    <!-- DataTables JavaScript -->
-    <!-- DataTables CSS -->
-    <link href="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.common.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}"rel="stylesheet">
 
-    <!-- DataTables Responsive CSS -->
-    <!--<link href="{% static "sbadmin/bower_components/datatables-responsive/css/dataTables.responsive.css" %}" rel="stylesheet">-->
-    <link href="{% static "sbadmin/bower_components/datatables-responsive/css/responsive.dataTables.scss" %}" rel="stylesheet">
-
-    <script src="{% static "sbadmin/bower_components/datatables/media/js/jquery.dataTables.min.js" %}"></script>
-    <script src="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" %}"></script>
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.default.min.css" %}" rel="stylesheet">
+    <script src="{% static "kendo/jszip.min.js" %}"></script>
+    <script src="{% static "kendo/js/kendo.all.min.js" %}"></script>
 
     <script>
         $(document).ready(function() {
-            $('#dataTable-Users').DataTable({
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                "responsive" : true,
-                "processing": true,
-                "serverside" : true,
-                "ajax": {
-                     "url": "/web/{{request.session.org_id}}/getusers/",
+
+            $("#grid-Users").kendoGrid({
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "UserList.xlsx",
+                    allPages: true,
+
                 },
-                <!--"columns" : [-->
-                    <!--{"data" : "usr_first_name"},-->
-                    <!--{"data" : "usr_email"},-->
-                    <!--{"data" : "usr_phone"},-->
-                    <!--{"data" : "usr_group"}-->
-                <!--]-->
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/web/{{request.session.org_id}}/getusers/",
+                            dataType: "json"
+                            }
+                        },
+                        schema: {
+                            data: "data",
+                            model: {
+                                fields: {
+                                    name: { type: "string" },
+                                    username: { type: "string" },
+                                    phonenumber: { type: "string" },
+                                    usergroup: { type: "string" }
+                                }
+                            }
+                         },
+                    },
+                    height: 500,
+                    groupable: true,
+                    sortable: true,
+                    filterable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        pageSize: 10,
+                        buttonCount: 1
+                    },
+                    columns: [
+                        {
+                            field:"name",
+                            title:"Name",
+                            groupable: false,
+                        },
+                        {
+                            field: "username",
+                            title: "User Name",
+                        },
+                        {
+                            field: "phonenumber",
+                            title: "Phone Number"
+                        },
+                        {
+                            field: "usergroup",
+                            title: "User Group"
+                        },
+                    ]
             });
+
         });
     </script>
 {% endblock %}

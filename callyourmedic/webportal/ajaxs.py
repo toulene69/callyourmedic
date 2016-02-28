@@ -25,30 +25,28 @@ current_tz = timezone.get_current_timezone()
 
 def org_getdepartments(request,org_id=0):
 	res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
 	if request.is_ajax() | True:
 		try:
 			departments = list(Department.objects.filter(department_org__exact = org_id))
 			for department in departments:
-				dept = []
-				dept.append(department.department_name)
-				dept.append(department.department_description)
-				dept.append(department.department_code)
+				dept = {}
+				dept['name'] = (department.department_name)
+				dept['description'] = (department.department_description)
+				dept['code'] = (department.department_code)
 				if department.department_status:
-					dept.append('Active')
+					dept['status'] = 'Active'
 				else:
-					dept.append('Inactive')
-				dept.append(current_tz.normalize(department.department_date_added).date())
-				dept.append('<a href="#">Edit</a>')
+					dept['status'] = 'Inactive'
+				dept['date_add'] = department.department_date_added
+				dept['org_id'] = org_id
+				dept['dept_id'] = department.department_id
 				res['data'].append(dept)
 		except:
 			print "error retrieving users"
 		res['recordsTotal'] = len(res['data'])
-		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Users fetch request not proper")
@@ -106,9 +104,7 @@ def org_departmentnew(request,org_id=0):
 """ FOR WebPortal Users"""
 def usr_getusers(request,org_id=0):
     res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
     if request.is_ajax() | True:
@@ -116,26 +112,23 @@ def usr_getusers(request,org_id=0):
             #organisation = Organisation.objects.get(org_id = org_id)
             users = list(WebUser.objects.filter(usr_org__exact = org_id))
             for user in users:
-                usr = []
-                usr.append(user.usr_first_name)
-                usr.append(user.usr_email)
-                usr.append(user.usr_phone)
-                usr.append(user.usr_group.grp_name)
+                usr = {}
+                usr['name'] = (user.usr_first_name)
+                usr['username'] = (user.usr_email)
+                usr['phonenumber'] = (user.usr_phone)
+                usr['usergroup'] = (user.usr_group.grp_name)
                 res['data'].append(usr)
         except:
             print "error retrieving users"
 
         res['recordsTotal'] = len(res['data'])
-        res['recordsFiltered'] = len(res['data'])
         return JsonResponse(res , safe = False)
     else:
         raise Http404("Users fetch request not proper")
 
 def usr_getgroups(request,org_id=0):
 	res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
 	if request.is_ajax() | True:
@@ -143,19 +136,18 @@ def usr_getgroups(request,org_id=0):
 		groups = list(WebGroup.objects.filter(grp_org_id__exact = org_id).order_by('grp_id'))
 		i=0
 		for group in groups:
-			grp = []
-			grp.append(group.grp_name)
-			grp.append(get_permission(group.grp_org))
-			grp.append(get_permission(group.grp_hospital))
-			grp.append(get_permission(group.grp_doctor))
-			grp.append(get_permission(group.grp_patients))
-			grp.append(get_permission(group.grp_call))
-			grp.append(get_permission(group.grp_transaction))
-			grp.append(get_permission(group.grp_user))
-			grp.append('<a href="#">Edit</a>')
+			grp = {}
+			grp['name'] = (group.grp_name)
+			grp['org'] = (get_permission(group.grp_org))
+			grp['hospital'] = (get_permission(group.grp_hospital))
+			grp['doctor'] = (get_permission(group.grp_doctor))
+			grp['patient'] = (get_permission(group.grp_patients))
+			grp['call'] = (get_permission(group.grp_call))
+			grp['transaction'] = (get_permission(group.grp_transaction))
+			grp['user'] = (get_permission(group.grp_user))
+			grp['groupid'] = group.grp_id
 			res['data'].append(grp)
 		res['recordsTotal'] = len(res['data'])
-		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Groups fetch request not proper")
@@ -281,9 +273,7 @@ def hospital_check_branch_code(request,org_id=0):
 
 def hospital_gethospitals(request,org_id=0):
 	res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
 	if request.is_ajax() | True:
@@ -291,17 +281,18 @@ def hospital_gethospitals(request,org_id=0):
 		hospitals = list(Hospital.objects.filter(hospital_org__exact = org_id).order_by('hospital_id'))
 		i=0
 		for hospital in hospitals:
-			hspt = []
-			hspt.append(hospital.hospital_name)
-			hspt.append(hospital.hospital_branch_code)
-			hspt.append(hospital.hospital_address.address_city)
-			hspt.append(hospital.hospital_address.address_state)
-			hspt.append(hospital.hospital_phone1)
-			hspt.append(current_tz.normalize(hospital.hospital_date_joined).date())
-			hspt.append('<a href="/web/'+str(org_id)+'/hospitaldetails/'+str(hospital.hospital_id)+'/">View</a>')
+			hspt = {}
+			hspt['name'] = (hospital.hospital_name)
+			hspt['code'] = (hospital.hospital_branch_code)
+			hspt['city'] = (hospital.hospital_address.address_city)
+			hspt['state'] = (hospital.hospital_address.address_state)
+			hspt['phone'] = (hospital.hospital_phone1)
+			hspt['joined'] = (hospital.hospital_date_joined)
+			hspt['hospital_id'] = hospital.hospital_id
+			hspt['org_id'] = org_id
+			# hspt.append('<a href="/web/'+str(org_id)+'/hospitaldetails/'+str(hospital.hospital_id)+'/">View</a>')
 			res['data'].append(hspt)
 		res['recordsTotal'] = len(res['data'])
-		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Groups fetch request not proper")
@@ -312,9 +303,7 @@ def hospital_gethospitals(request,org_id=0):
 """ Webportal Doctors"""
 def doctor_getdoctors(request, org_id=0):
 	res = {
-		"draw": 1,
     	"recordsTotal": 0,
-    	"recordsFiltered": 0,
 		"data" : []
 		}
 	if request.is_ajax() | True:
@@ -323,26 +312,27 @@ def doctor_getdoctors(request, org_id=0):
 			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id).order_by('doctor_id'))
 			i=0
 			for doctor in doctors:
-				doc = []
+				doc = {}
 				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
-				doc.append(details.doctor_first_name+' '+details.doctor_last_name)
-				doc.append(doctor.doctor_hospital.hospital_branch_code)
-				doc.append(doctor.doctor_department.department_name)
-				doc.append(doctor.doctor_code)
-				doc.append(details.doctor_experience)
-				doc.append(doctor.doctor_email)
-				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
+				doc['name'] = (details.doctor_first_name+' '+details.doctor_last_name)
+				doc['department'] = (doctor.doctor_department.department_name)
+				doc['code'] = (doctor.doctor_code)
+				doc['qualification'] = (details.doctor_qualification)
+				doc['experience'] = (details.doctor_experience)
+				doc['email'] = (doctor.doctor_email)
+				doc['phone'] = (str(details.doctor_phone1)+', '+str(details.doctor_phone2))
+				doc['joined'] = details.doctor_date_joined
+				doc['org_id'] = org_id
+				doc['doctor_id'] = doctor.doctor_id
 				if doctor.doctor_status:
-					doc.append('Active')
+					doc['status'] = 'Active'
 				else:
-					doc.append('Inactive')
-				doc.append(current_tz.normalize(details.doctor_date_joined).date())
-				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
+					doc['status'] = 'Inactive'
+				# doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
 			traceback.print_exc()
 		res['recordsTotal'] = len(res['data'])
-		res['recordsFiltered'] = len(res['data'])
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Groups fetch request not proper")
@@ -360,17 +350,23 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 			doctors = list(DoctorRegistration.objects.filter(doctor_org__exact = org_id,doctor_hospital = hospital_id).order_by('doctor_id'))
 			i=0
 			for doctor in doctors:
-				doc = []
+				doc = {}
 				details = DoctorDetails.objects.get(doctor_id__exact = doctor.doctor_id)
-				doc.append(details.doctor_first_name+' '+details.doctor_last_name)
-				doc.append(doctor.doctor_department.department_name)
-				doc.append(doctor.doctor_code)
-				doc.append(details.doctor_qualification)
-				doc.append(details.doctor_experience)
-				doc.append(doctor.doctor_email)
-				doc.append(str(details.doctor_phone1)+'<br>'+str(details.doctor_phone2))
-				doc.append(current_tz.normalize(details.doctor_date_joined).date())
-				doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
+				doc['name'] = (details.doctor_first_name+' '+details.doctor_last_name)
+				doc['department'] = (doctor.doctor_department.department_name)
+				doc['code'] = (doctor.doctor_code)
+				doc['qualification'] = (details.doctor_qualification)
+				doc['experience'] = (details.doctor_experience)
+				doc['email'] = (doctor.doctor_email)
+				doc['phone'] = (str(details.doctor_phone1)+', '+str(details.doctor_phone2))
+				doc['joined'] = details.doctor_date_joined
+				doc['org_id'] = org_id
+				doc['doctor_id'] = doctor.doctor_id
+				if doctor.doctor_status:
+					doc['status'] = 'Active'
+				else:
+					doc['status'] = 'Inactive'
+				# doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
 			traceback.print_exc()

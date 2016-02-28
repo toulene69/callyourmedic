@@ -103,28 +103,28 @@ def org_departmentnew(request,org_id=0):
 
 """ FOR WebPortal Users"""
 def usr_getusers(request,org_id=0):
-    res = {
+	res = {
     	"recordsTotal": 0,
 		"data" : []
 		}
-    if request.is_ajax() | True:
-        try:
-            #organisation = Organisation.objects.get(org_id = org_id)
-            users = list(WebUser.objects.filter(usr_org__exact = org_id))
-            for user in users:
-                usr = {}
-                usr['name'] = (user.usr_first_name)
-                usr['username'] = (user.usr_email)
-                usr['phonenumber'] = (user.usr_phone)
-                usr['usergroup'] = (user.usr_group.grp_name)
-                res['data'].append(usr)
-        except:
-            print "error retrieving users"
+	if request.is_ajax() | True:
+		try:
+			users = list(WebUser.objects.filter(usr_org__exact = org_id))
+			for user in users:
+				usr = {}
+				usr['name'] = (user.usr_first_name)
+				usr['username'] = (user.usr_email)
+				usr['phonenumber'] = (user.usr_phone)
+				usr['usergroup'] = (user.usr_group.grp_name)
+				usr['status'] = (user.usr_status)
+				res['data'].append(usr)
+		except:
+			print "error retrieving users"
 
-        res['recordsTotal'] = len(res['data'])
-        return JsonResponse(res , safe = False)
-    else:
-        raise Http404("Users fetch request not proper")
+		res['recordsTotal'] = len(res['data'])
+		return JsonResponse(res , safe = False)
+	else:
+		raise Http404("Users fetch request not proper")
 
 def usr_getgroups(request,org_id=0):
 	res = {
@@ -146,6 +146,7 @@ def usr_getgroups(request,org_id=0):
 			grp['transaction'] = (get_permission(group.grp_transaction))
 			grp['user'] = (get_permission(group.grp_user))
 			grp['groupid'] = group.grp_id
+			grp['status'] = group.grp_status
 			res['data'].append(grp)
 		res['recordsTotal'] = len(res['data'])
 		return JsonResponse(res , safe = False)
@@ -167,6 +168,7 @@ def usr_usrgroupnew(request,org_id):
 						groupForm = groupCreationForm.save(commit=False)
 						org = Organisation.objects.get(org_id__exact = org_id)
 						groupForm.grp_org_id = org
+						groupForm.grp_status = True
 						groupForm.save()
 						return render(request,'w_group_usr.html')
 					except:
@@ -217,6 +219,7 @@ def usr_usernew(request,org_id=0):
 						org = Organisation.objects.get(org_id__exact = org_id)
 						userForm.usr_org = org
 						userForm.usr_password = generateRandomPassword()
+						userForm.usr_status = True
 						userForm.save()
 						return render(request,'w_users_usr.html')
 					except:

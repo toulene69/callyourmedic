@@ -65,7 +65,8 @@
                                     name: { type: "string" },
                                     username: { type: "string" },
                                     phonenumber: { type: "string" },
-                                    usergroup: { type: "string" }
+                                    usergroup: { type: "string" },
+                                    status: { type: "boolean" }
                                 }
                             }
                          },
@@ -97,6 +98,11 @@
                         {
                             field: "usergroup",
                             title: "User Group"
+                        },
+                        {
+                            field: "status",
+                            title: "Status",
+                            template: '<input type="checkbox" #= status ? "checked=checked" : "" # disabled="disabled" ></input>'
                         },
                     ]
             });

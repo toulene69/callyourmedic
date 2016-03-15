@@ -3,6 +3,21 @@ from utils import app_utils
 
 from addresses.models import Address
 
+class OrgSettings(models.Model):
+
+    orgsettings_id            = models.AutoField(primary_key = True)
+    orgsettings_subscription  = models.CharField(max_length = 5, default = 'C' , choices = app_utils.choice_subscription_type())
+    orgsettings_billing_cycle = models.PositiveIntegerField(default = 30,choices = app_utils.choice_billing_cycle())
+    orgsettings_email         = models.EmailField(help_text = "This email will be used to send the auto generated mails to the general customers.", null = True, blank = True, default = None)
+    orgsettings_email_smtp    = models.CharField(max_length = 20, null = True, blank = True, default = None)
+    orgsettings_voice_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True , default = None)
+    orgsettings_video_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True , default = None)
+    orgsettings_subscription_rate = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True , default = None)
+    orgsettings_status        = models.CharField(max_length = 1, choices = app_utils.choices_active_status())
+
+    def __str__(self): # __unicode__ on Python 2
+        return app_utils(self.orgsettings_subscription)
+
 # Organisation model
 class Organisation(models.Model):
     ORG_ACTIVE_STATUS = (
@@ -22,6 +37,7 @@ class Organisation(models.Model):
     org_date_joined  = models.DateTimeField(default = app_utils.date_default())
     org_date_left    = models.DateTimeField(null = True)
     org_billing_id   = models.CharField(max_length = 100)         # concatenation of the orgid and org identifier
+    org_settings     = models.OneToOneField(OrgSettings, null = True )
 
     def __str__(self): # __unicode__ on Python 2
         return self.org_name
@@ -38,7 +54,7 @@ class Apikey(models.Model):
 
 
 
-# Organisation and hospital level user model
+
 
 
 

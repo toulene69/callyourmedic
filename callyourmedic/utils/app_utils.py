@@ -53,6 +53,49 @@ def get_active_status(value):
     else:
         return 'Test'
 
+SUBSCRIPTION_TYPE = (
+        ('C', 'Call Only Consultation'),
+        ('CV', 'Call and Video Consultation'),
+        ('CVP', 'Call and Video with e-Prescription')
+    )
+
+BILLING_CYCLE = (
+        (1, 'Daily'),
+        (7, 'Weekly'),
+        (14, 'Bi-Weekly'),
+        (30, 'Monthly')
+    )
+
+def choice_subscription_type():
+
+    return SUBSCRIPTION_TYPE
+
+def get_subscription_type(value):
+    if value == 'C':
+        return 'Call Only Consultation'
+    elif value == 'CV':
+        return 'Call and Video Consultation'
+    elif value == 'CVP' :
+        return 'Call and Video with e-Prescription'
+    else:
+        return None
+
+def choice_billing_cycle():
+
+    return BILLING_CYCLE
+
+def get_billing_cycle(value):
+    if value == 1:
+        return 'Daily'
+    elif value == 7:
+        return 'Weekly'
+    elif value == 14:
+        return 'Bi-Weekly'
+    elif value == 30:
+        return 'Monthly'
+    else :
+        return '-NA-'
+
 def generateRandomPassword():
     CHAR_LIST = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789'
     PASSWORD_LENGTH = 8

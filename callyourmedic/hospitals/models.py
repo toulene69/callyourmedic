@@ -3,7 +3,17 @@ from utils import app_utils
 from organisations.models import Organisation
 from addresses.models import Address
 
+
 # hospital model
+class HospitalSettings(models.Model):
+
+    settings_id            = models.AutoField(primary_key = True)
+    settings_email         = models.EmailField(help_text = "This email will be used to send the auto generated mails to the general customers.", null = True, blank = True)
+    settings_email_smtp    = models.CharField(max_length = 20, null = True, blank = True)
+    settings_voice_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True)
+    settings_video_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True)
+    settings_status        = models.BooleanField(default = True)
+
 class Hospital(models.Model):
 
     hospital_id              = models.AutoField(primary_key = True)
@@ -17,6 +27,7 @@ class Hospital(models.Model):
     hospital_status          = models.BooleanField(default=True)
     hospital_date_joined     = models.DateTimeField(default = app_utils.date_default())
     hospital_date_left       = models.DateTimeField(null=True)
+    hospital_settings        = models.OneToOneField(HospitalSettings,null = True)
 
     def __str__(self): # __unicode__ on Python 2
         return self.hospital_name
@@ -35,3 +46,5 @@ class Department(models.Model):
 
     def __str__(self): # __unicode__ on Python 2
         return self.department_name
+
+

@@ -3,7 +3,7 @@ __author__ = 'apoorv'
 from django import forms
 from models import Group
 from models import User
-from organisations.models import Organisation
+from organisations.models import Organisation, OrgSettings
 from hospitals.models import Hospital
 
 class CYMUserLoginForm(forms.Form):
@@ -28,7 +28,7 @@ class CYMOrganisationCreationForm(forms.ModelForm):
 
     class Meta:
         model = Organisation
-        exclude = ('org_address','org_identifier','org_date_joined','org_date_left','org_billing_id',)
+        exclude = ('org_address','org_identifier','org_date_joined','org_date_left','org_billing_id','org_settings',)
 
 
 class CYMOrganisationSelectionForm(forms.ModelForm):
@@ -46,6 +46,11 @@ class CYMOrgHospitalSelectionForm(forms.Form):
         self.QS_CHOICES = hospitalChoices(org_id)
         self.fields['hospitals'].choices = [('', 'Select a Hospital|Branch Code')] + list(hospitalChoices(org_id))
 
+class CYMOrgSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = OrgSettings
+        fields = '__all__'
 
 
 def hospitalChoices(org_id):

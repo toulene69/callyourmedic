@@ -6,6 +6,16 @@ from hospitals.models import Hospital
 from hospitals.models import Department
 from addresses.models import Address
 
+class DoctorSettings(models.Model):
+
+    settings_id            = models.AutoField(primary_key = True)
+    settings_voice         = models.BooleanField(default = False)
+    settings_video         = models.BooleanField(default = False)
+    settings_eprescription = models.BooleanField(default = False)
+    settings_voice_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True)
+    settings_video_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True)
+    settings_status        = models.BooleanField(default = True)
+
 class DoctorRegistration(models.Model):
 
     doctor_id          = models.AutoField(primary_key = True)
@@ -16,6 +26,7 @@ class DoctorRegistration(models.Model):
     doctor_password    = models.CharField(max_length = 20, blank = True)
     doctor_status      = models.BooleanField(default = True)
     doctor_code        = models.CharField(max_length = 50)
+    doctor_settings    = models.OneToOneField(DoctorSettings, null = True)
 
 
 
@@ -37,3 +48,5 @@ class DoctorDetails(models.Model):
 
     def __str__(self): # __unicode__ on Python 2
         return self.doctor_first_name
+
+

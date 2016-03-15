@@ -10,10 +10,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #model imports
 from models import User
 from addresses.models import Address
-from organisations.models import Organisation, Apikey
+from organisations.models import Organisation, Apikey, OrgSettings
 from hospitals.models import Department, Hospital
 from doctors.models import DoctorRegistration, DoctorDetails
 from webportal.models import createSuperUserAndGroup
+from utils import app_utils
 
 #form imports
 from addresses.forms import AddressForm
@@ -103,15 +104,38 @@ def org_details(request,org_id=0):
 	if isUserLogged(request):
 		args = {}
 		usr_details = request.session['usr_details']
+		if 'setting' in request.GET :
+			result = request.GET['setting']
+			args['result'] = result
 		organisation = None
 		department = None
+		settings = None
+		apikey = None
 		if org_id != 0:
 			orgID = org_id
 			try:
 				organisation = Organisation.objects.get(org_id = orgID)
 				department = Department.objects.filter(department_org = orgID)
+				settings = organisation.org_settings
+				apikey = list(Apikey.objects.filter(apikey_org = org_id))
 			except:
 				logger.exception("Organisation ID "+str(orgID)+" not found")
+			if settings is not None:
+				args['subscription'] = app_utils.get_subscription_type(settings.orgsettings_subscription)
+				args['billing_cycle'] = app_utils.get_billing_cycle(settings.orgsettings_billing_cycle)
+				args['email']         = settings.orgsettings_email
+				args['email_smtp']    = settings.orgsettings_email_smtp
+				args['voice_rate']    = settings.orgsettings_voice_rate
+				args['video_rate']    = settings.orgsettings_video_rate
+				args['subscription_rate'] = settings.orgsettings_subscription_rate
+				args['status'] = settings.orgsettings_status
+				args['isSettings'] = True
+			else:
+				args['isSettings'] = False
+			if len(apikey) == 0:
+				args['apikey'] = 'Not Created'
+			else:
+				args['apikey'] = apikey[0]
 			args['org'] = organisation
 			args['depts'] = department
 		formOrgChoice = CYMOrganisationSelectionForm()
@@ -133,6 +157,7 @@ def org_new(request):
 
 				address = Address()
 				organisation = Organisation()
+				settings = OrgSettings()
 				address.address_line1 = formAddress.cleaned_data['address_line1']
 				address.address_line2 = formAddress.cleaned_data['address_line2']
 				address.address_city = formAddress.cleaned_data['address_city']
@@ -146,10 +171,13 @@ def org_new(request):
 				organisation.org_phone = formOrg.cleaned_data['org_phone']
 				organisation.org_active = formOrg.cleaned_data['org_active']
 				organisation.org_emailid = formOrg.cleaned_data['org_emailid']
+				settings.orgsettings_status = formOrg.cleaned_data['org_active']
 				try:
 					with transaction.atomic():
 						address.save()
+						settings.save()
 						organisation.org_address = address
+						organisation.org_settings = settings
 						organisation.save()
 						organisation.org_billing_id = organisation.org_id
 						identifier = str(organisation.org_id) + '_' + organisation.org_brand
@@ -165,9 +193,10 @@ def org_new(request):
 					args['new_org_id'] = organisation.org_id
 					return render_to_response('org_dashboard.html',args)
 				except IntegrityError:
+					traceback.print_exc()
 					error = 'Error creating new organisation'
 			else:
-				error = 'Error creating new organisation'
+				error = 'Error creating new organisation. Invalid form!'
 		else:
 			formOrg = CYMOrganisationCreationForm()
 			formAddress = AddressForm()

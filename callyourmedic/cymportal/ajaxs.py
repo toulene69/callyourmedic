@@ -3,6 +3,7 @@ __author__ = 'apoorv'
 from django.http import HttpRequest , HttpResponse , JsonResponse , HttpResponseRedirect , Http404
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+from django.db import IntegrityError, transaction
 import traceback
 
 from django.utils import timezone
@@ -11,16 +12,17 @@ import pytz, time
 # model imports
 from models import User
 from models import Group
-from organisations.models import Organisation
+from organisations.models import Organisation, OrgSettings, Apikey
 from hospitals.models import Hospital, Department
 from doctors.models import DoctorDetails, DoctorRegistration
 # form imports
 from forms import CYMUserGroupCreationForm
-from forms import CYMUserCreationForm
+from forms import CYMUserCreationForm, CYMOrgSettingsForm
 
 # utils imports
 from utils.session_utils import isUserLogged , userSessionExpired
 from utils.app_utils import get_permission , get_active_status
+from utils import app_utils
 
 import logging
 
@@ -415,6 +417,24 @@ def org_searchdetails(request):
 				args['error'] = "Org not found"
 				logger.exception("Organisation ID "+str(orgID)+" not found")
 				return render_to_response('org_search_details.html',args)
+			settings = organisation.org_settings
+			apikey = list(Apikey.objects.filter(apikey_org = org_id))
+			if settings is not None:
+				args['subscription'] = app_utils.get_subscription_type(settings.orgsettings_subscription)
+				args['billing_cycle'] = app_utils.get_billing_cycle(settings.orgsettings_billing_cycle)
+				args['email']         = settings.orgsettings_email
+				args['email_smtp']    = settings.orgsettings_email_smtp
+				args['voice_rate']    = settings.orgsettings_voice_rate
+				args['video_rate']    = settings.orgsettings_video_rate
+				args['subscription_rate'] = settings.orgsettings_subscription_rate
+				args['status'] = settings.orgsettings_status
+				args['isSettings'] = True
+			else:
+				args['isSettings'] = False
+			if len(apikey) == 0:
+				args['apikey'] = 'Not Created'
+			else:
+				args['apikey'] = apikey[0]
 			args['org'] = organisation
 			args['depts'] = department
 		return render_to_response('org_search_details.html',args)
@@ -437,6 +457,16 @@ def org_searchdetails(request):
 				args['error'] = "Hospital not found"
 				logger.exception("Organisation ID "+str(hospital_id)+" not found")
 				return render_to_response('org_search_details.html',args)
+			if hospital.hospital_settings is None:
+				args['isSettings'] = False
+			else:
+				settings = hospital.hospital_settings
+				args['email']         = settings.settings_email
+				args['email_smtp']    = settings.settings_email_smtp
+				args['voice_rate']    = settings.settings_voice_rate
+				args['video_rate']    = settings.settings_video_rate
+				args['status'] 		  = settings.settings_status
+				args['isSettings'] = True
 			args['depts'] = departments
 			args['hospital'] = hospital
 		return render_to_response('org_search_details.html',args)
@@ -457,6 +487,17 @@ def org_searchdetails(request):
 		except:
 			args['error'] = "Doctor details not found"
 			return render_to_response('org_search_details.html',args)
+		settings = docReg.doctor_settings
+		if settings is None:
+			args['isSettings'] = False
+		else:
+			args['isSettings'] = True
+			args['isVoice']         = settings.settings_voice
+			args['isVideo']         = settings.settings_video
+			args['isEprescription'] = settings.settings_eprescription
+			args['voice_rate']    	= settings.settings_voice_rate
+			args['video_rate']	    = settings.settings_video_rate
+			args['status']			= settings.settings_status
 		doctor['docReg'] = docReg
 		doctor['docDetails'] = docDetails
 		args['doctor'] = doctor
@@ -465,3 +506,71 @@ def org_searchdetails(request):
 		args['error'] = "Improper search type"
 		return render_to_response('org_search_details.html',args)
 	return render_to_response('org_search_details.html',args)
+
+""" Settings """
+
+def org_edit_settings(request,org_id=0):
+	error = None
+	formError = False
+	args = {}
+	if isUserLogged(request):
+		if org_id == 0:
+			html = '<div class="modal-body" id="modal-body-createGroup">Bad Request! Try Again</div>'
+			return HttpResponse(html)
+		org = Organisation.objects.get(org_id = org_id)
+		settings = None
+		if request.POST:
+			orgSettingsForm = CYMOrgSettingsForm(request.POST)
+			if orgSettingsForm.is_valid():
+				if org.org_settings is None:
+					settings = OrgSettings()
+				else:
+					settings = org.org_settings
+				settings.orgsettings_status = orgSettingsForm.cleaned_data['orgsettings_status']
+				settings.orgsettings_billing_cycle = orgSettingsForm.cleaned_data['orgsettings_billing_cycle']
+				settings.orgsettings_email = orgSettingsForm.cleaned_data['orgsettings_email']
+				settings.orgsettings_email_smtp = orgSettingsForm.cleaned_data['orgsettings_email_smtp']
+				settings.orgsettings_subscription = orgSettingsForm.cleaned_data['orgsettings_subscription']
+				settings.orgsettings_subscription_rate = orgSettingsForm.cleaned_data['orgsettings_subscription_rate']
+				settings.orgsettings_voice_rate = orgSettingsForm.cleaned_data['orgsettings_voice_rate']
+				settings.orgsettings_video_rate = orgSettingsForm.cleaned_data['orgsettings_video_rate']
+				org.org_active = orgSettingsForm.cleaned_data['orgsettings_status']
+				try:
+					with transaction.atomic():
+						settings.save()
+						if org.org_settings is None:
+							org.org_settings = settings
+						org.save()
+					usr_details = request.session['usr_details']
+					return HttpResponseRedirect('/cym/organisationdetails/'+str(org_id)+'/?setting=updated')
+				except:
+					print '********* form invalid'
+					error = 'Error updating settings. Please try again'
+					formError = True
+					usr_details = request.session['usr_details']
+					args['formError'] = formError
+					args['error'] = error
+					args['usr_details'] = usr_details
+					return HttpResponseRedirect('/cym/organisationdetails/'+str(org_id)+'/?setting=error')
+
+			else:
+				print '********form incomplete'
+				error = 'Settings form incomplete. Please try again!'
+				formError = True
+				usr_details = request.session['usr_details']
+				args['formError'] = formError
+				args['error'] = error
+				args['usr_details'] = usr_details
+				return HttpResponseRedirect('/cym/organisationdetails/'+str(org_id)+'/?setting=incomplete')
+		else:
+			if org.org_settings is None:
+				orgSettingsForm = CYMOrgSettingsForm()
+			else:
+				orgSettingsForm = CYMOrgSettingsForm(instance = org.org_settings)
+		args.update(csrf(request))
+		args['orgSettingsForm'] = orgSettingsForm
+		args['orgid'] = org_id
+		return render_to_response('org_settings_edit.html',args)
+	else:
+		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/cymlogin/?sessionError=100">Login</a></div>'
+		return HttpResponse(html)

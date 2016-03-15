@@ -40,4 +40,7 @@ urlpatterns = [
     url(r'^(?P<org_id>\d+)/gethospitalsforsearch/', 'cymportal.ajaxs.org_gethospitalsforsearch'),
     url(r'^(?P<org_id>\d+)/(?P<hospital_id>\d+)/getdoctorsforsearch/', 'cymportal.ajaxs.org_getdoctorsforsearch'),
     url(r'^getsearchdetails/', 'cymportal.ajaxs.org_searchdetails'),
+
+    #edit settings
+    url(r'^(?P<org_id>\d+)/orgsettings/', 'cymportal.ajaxs.org_edit_settings'),
 ]

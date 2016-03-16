@@ -267,20 +267,24 @@
                                                     <em>{% if email %}{{email}}{% endif %}{% if email_smtp %} ; {{email_smtp}} {% endif %}</em>
                                                 </span>
                                             </div>
+                                            {% if isVoice %}
                                             <div class="list-group-item">
                                                 <i class="fa fa-phone fa-fw"></i> Org wide voice consultation rate
                                                 <span class="pull-right text-muted small"><em>INR {{voice_rate}}/min</em>
                                                 </span>
                                             </div>
+                                            {% endif %}
+                                            {% if isVideo %}
                                             <div class="list-group-item">
                                                 <i class="fa fa-video-camera fa-fw"></i> Org wide video consultation rate
                                                 <span class="pull-right text-muted small"><em>INR {{video_rate}}/consultation</em>
                                                 </span>
                                             </div>
+                                            {% endif %}
                                             <div class="list-group-item">
                                                 <i class="fa fa-key fa-fw"></i> API key
-                                                <span class="pull-right text-muted small"><em>Key: {{apikey.apikey_key}} | {{apikey.apikey_generation_date}}</em>
-                                                </span>
+                                                <span class="pull-right text-muted small"><em>{% if apikey %}Key: {{apikey.apikey_key}} | {{apikey.apikey_generation_date}}
+                                                    {% else %}None{% endif%}</em></span>
                                             </div>
                                         </div>
                                         <!-- /.list-group -->

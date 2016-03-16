@@ -245,8 +245,8 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="settings">
+                            {% if isSettings %}
                             <div class="row">
-                                {% if isSettings %}
                                 <div class="col-lg-2"></div>
                                 <div class="col-lg-8">
                                         <!-- /.panel-heading -->
@@ -291,20 +291,24 @@
                                                 <span class="pull-right text-muted small"><em>{{email}} ; {{email_smtp}}</em>
                                                 </span>
                                             </div>
+                                            {% if isVoice %}
                                             <div class="list-group-item">
                                                 <i class="fa fa-phone fa-fw"></i> Org wide voice consultation rate
                                                 <span class="pull-right text-muted small"><em>INR {{voice_rate}}/min</em>
                                                 </span>
                                             </div>
+                                            {% endif %}
+                                            {% if isVideo %}
                                             <div class="list-group-item">
                                                 <i class="fa fa-video-camera fa-fw"></i> Org wide video consultation rate
                                                 <span class="pull-right text-muted small"><em>INR {{video_rate}}/consultation</em>
                                                 </span>
                                             </div>
+                                            {% endif %}
                                             <div class="list-group-item">
                                                 <i class="fa fa-key fa-fw"></i> API key
-                                                <span class="pull-right text-muted small"><em>Key: {{apikey.apikey_key}} | {{apikey.apikey_generation_date}}</em>
-                                                </span>
+                                                <span class="pull-right text-muted small"><em>{% if apikey %}Key: {{apikey.apikey_key}} | {{apikey.apikey_generation_date}}
+                                                    {% else %}None{% endif%}</em></span>
                                             </div>
                                         </div>
                                         <!-- /.list-group -->
@@ -313,12 +317,12 @@
                                     <!-- /.panel-body -->
                                 </div>
                                 <div class="col-lg-2"></div>
-                                {% else %}
-                                    <h4>Settings not set. Please edit</h4>
-                                <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
-                                {% endif %}
-
                             </div>
+                            {% else %}
+                                <br>
+                                <h4>Settings not set. Please edit</h4>
+                                <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                            {% endif %}
                             <p><a href="/cym/generateapikey/{{org.org_id}}/" class="btn btn-outline btn-danger" >Create APIKey</a></p>
                         </div>
                     </div>

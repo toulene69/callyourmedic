@@ -2,8 +2,9 @@ __author__ = 'apoorv'
 
 from django import forms
 from models import WebGroup, WebUser
-from hospitals.models import Hospital, Department
-from doctors.models import DoctorDetails, DoctorRegistration
+from hospitals.models import Hospital, Department, HospitalSettings
+from doctors.models import DoctorDetails, DoctorRegistration, DoctorSettings
+from organisations.models import OrgSettings
 
 class PortalUserLoginForm(forms.Form):
     org_identifier = forms.CharField(label = 'Org Identifier')
@@ -91,7 +92,23 @@ class PortalDoctorSelectionForm(forms.Form):
         self.QS_CHOICES = hospitalChoices(org_id)
         self.fields['choices'].choices = [('', 'Select a Doctor|Doctor Code')] + list(doctorChoices(org_id))
 
+class PortalOrgSettingsForm(forms.ModelForm):
 
+    class Meta:
+        model = OrgSettings
+        exclude = ('orgsettings_subscription','orgsettings_subscription_rate','orgsettings_status',)
+
+class PortalHospitalSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = HospitalSettings
+        fields = '__all__'
+
+class PortalDoctorSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = DoctorSettings
+        fields = '__all__'
 
 def hospitalChoices(org_id):
     choices = []

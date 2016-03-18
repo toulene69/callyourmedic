@@ -11,6 +11,30 @@
     </div>
 
     <div class="row">
+        {% if error %}
+            <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                   {{error}}
+                </div>
+        {% endif %}
+        {% if result %}
+            {% if result == "updated" %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Settings updated successfully.
+                </div>
+            {% elif result == "error" %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Error updating settings.
+                </div>
+            {% elif result == "incomplete" %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Settings form incomplete.
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -229,8 +253,54 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="settings">
-                            <h4>Settings</h4>
-                            <p>Needs to be decided</p>
+
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    {% if isSettings %}
+                                        <!-- /.panel-heading -->
+                                    <div class="panel-body">
+                                        <div class="list-group">
+                                            <div class="list-group-item">
+                                                <i class="fa fa-flag fa-fw"></i> Hospital Status
+                                                <span class="pull-right text-muted small"><em>{% if status %}
+                                                                Active
+                                                            {% else %}
+                                                                Inactive
+                                                            {% endif %}</em>
+                                                </span>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <i class="fa fa-envelope fa-fw"></i> Support email and smtp info
+                                                <span class="pull-right text-muted small"><em>{{email}} ; {{email_smtp}}</em>
+                                                </span>
+                                            </div>
+                                            {% if isVoice %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-phone fa-fw"></i> Hospital wide voice consultation rate
+                                                <span class="pull-right text-muted small"><em>INR {{voice_rate}}/min</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            {% if isVoice %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-video-camera fa-fw"></i> Hospital wide video consultation rate
+                                                <span class="pull-right text-muted small"><em>INR {{video_rate}}/consultation</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <!-- /.list-group -->
+                                        <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                    {% else %}
+                                        <p><h4>No settings for this hospital has been set.</h4></p>
+                                        <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-2"></div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -290,6 +360,22 @@
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="editSettings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="setingsLabel">Settings</h4>
+                    </div>
+                    <div id="settingsDiv">
+
+                    </div>
+                </div>
+
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
@@ -417,6 +503,24 @@
                 <!--$('#view-org').attr('action', url);-->
                 window.location.href = url;
             });
-
+        $("#btnSettingsEdit").click(function(){
+            $.ajax(
+                {
+                    url: "/web/hospitalsettings/{{org.org_id}}/{{hospital.hospital_id}}/",
+                    dataType: "html",
+                    type: "GET",
+                    success: function(result){
+                        $("#settingsDiv").html(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        $("#settingsDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                });
+        });
     </script>
+
 {% endblock %}

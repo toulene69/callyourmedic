@@ -1,0 +1,50 @@
+{% load widget_tweaks %}
+<form id="settingsForm" action="/web/orgsettings/{{request.session.org_id}}/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body" id="modal-body-settings">
+
+        <div class="form-group">
+            <label >Billing Cycle</label>
+            {% render_field orgSettingsForm.orgsettings_billing_cycle class+="form-control" required="true" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ orgSettingsForm.orgsettings_billing_cycle.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Support Email</label>
+            {% render_field orgSettingsForm.orgsettings_email class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ orgSettingsForm.orgsettings_email.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Support Email SMTP</label>
+            {% render_field orgSettingsForm.orgsettings_email_smtp class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ orgSettingsForm.orgsettings_email_smtp.errors.as_text }}</label>
+            </div>
+        </div>
+        {% if isVoice %}
+        <div class="form-group">
+            <label >Org wide voice consultation rate</label>
+            {% render_field orgSettingsForm.orgsettings_voice_rate class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ orgSettingsForm.orgsettings_voice_rate.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        {% if isVideo %}
+        <div class="form-group">
+            <label >Org wide video consultation rate</label>
+            {% render_field orgSettingsForm.orgsettings_video_rate class+="form-control"  %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ orgSettingsForm.orgsettings_video_rate.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newGroup">Save</button>
+    </div>
+</form>
+

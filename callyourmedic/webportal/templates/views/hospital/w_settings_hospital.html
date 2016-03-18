@@ -1,0 +1,70 @@
+{% load widget_tweaks %}
+<form id="settingsForm" action="/web/hospitalsettings/{{orgid}}/{{hospitalid}}/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body" id="modal-body-settings">
+        <div class="row">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Hospital Status</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_status  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_status.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Support Email</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_email class+="form-control" %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_email.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Support Email SMTP</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_email_smtp class+="form-control" %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_email_smtp.errors.as_text }}</label>
+            </div>
+        </div>
+        {% if isVoice %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Hospital wide voice consultation rate</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_voice_rate class+="form-control" %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_voice_rate.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        {% if isVideo %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Hospital wide video consultation rate</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_video_rate class+="form-control"  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_video_rate.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newGroup">Save</button>
+    </div>
+</form>

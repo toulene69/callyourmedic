@@ -11,6 +11,24 @@
     </div>
 
     <div class="row">
+        {% if result %}
+            {% if result == "updated" %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Settings updated successfully.
+                </div>
+            {% elif result == "error" %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Error updating settings.
+                </div>
+            {% elif result == "incomplete" %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Settings form incomplete.
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -219,8 +237,88 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="settings">
-                            <h4>Settings</h4>
-                            <p>Needs to be decided</p>
+
+                            <div class="row">
+
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                        <!-- /.panel-heading -->
+                                    {% if isSettings %}
+                                    <div class="panel-body">
+                                        <div class="list-group">
+                                            <div class="list-group-item">
+                                                <i class="fa fa-flag fa-fw"></i> Org Status
+                                                <span class="pull-right text-muted small"><em>{% ifequal status "T" %}
+                                                                Test
+                                                            {% else %}
+                                                                {% ifequal status "A" %}
+                                                                    Active
+                                                                {% else %}
+                                                                    Dead
+                                                                {% endifequal %}
+                                                            {% endifequal %}</em>
+                                                </span>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <i class="fa fa-fw"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABWElEQVRoQ+2
+                                                ZYRHCMAyFPxyAAnAAErCAA3CAA5CAA3CABSSAApCAA7j+K924LHTZVi77ubRJ3ntJ1t5GFP6MCs8fB9C3gnUKv
+                                                HpOSlUVDsBALVcg7QEVIz8okhWvSQ84AEEVVyAlKIuRFnpAcvFR0kPsAXMAuV/qlDStv2wFtAFTRv8egARw8Ao4AGmMWveAu
+                                                QLSmNPatYRl94A2QWm9AxjaUcK8B4pvYgeQ1GznTVy8AtJY1No7V0CboLS+cwDFl5AD8CkUMTDES735UUKaKlp751NIm6C03gFIx+kJ
+                                                8JRozLA/gGm0P443A+6Jb/FGdgXm0aYLsDIEsQd2NfHCqzOwjGw3YBEDqptCa+CYwajl1g1wkgAEe6qCZVJNfVfYDxu//bwYA6
+                                                F04lJqGshiXUg+lFKlF6W/L6Gctj0CCYkf0rJpUkIWLJr4lBQwCdqmUwfQJpu/+HoDv
+                                                H56MWvXR9gAAAAASUVORK5CYII=" width="14" height="14"></i> Subscription
+                                                <span class="pull-right text-muted small"><em>{{subscription}}</em>
+                                                </span>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <i class="fa fa-tag fa-fw"></i> Subscription Rate
+                                                <span class="pull-right text-muted small"><em>{{subscription_rate}}</em>
+                                                </span>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <i class="fa fa-refresh fa-fw"></i> Billing Cycle
+                                                <span class="pull-right text-muted small"><em>{{billing_cycle}}</em>
+                                                </span>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <i class="fa fa-envelope fa-fw"></i> Support email and smtp info
+                                                <span class="pull-right text-muted small"><em>{{email}} ; {{email_smtp}}</em>
+                                                </span>
+                                            </div>
+                                            {% if isVoice %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-phone fa-fw"></i> Org wide voice consultation rate
+                                                <span class="pull-right text-muted small"><em>INR {{voice_rate}}/min</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            {% if isVideo %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-video-camera fa-fw"></i> Org wide video consultation rate
+                                                <span class="pull-right text-muted small"><em>INR {{video_rate}}/consultation</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-key fa-fw"></i> API key
+                                                <span class="pull-right text-muted small"><em>{% if apikey %}Key: {{apikey.apikey_key}} | {{apikey.apikey_generation_date}}
+                                                    {% else %}None{% endif%}</em>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- /.list-group -->
+                                        <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                    {% else %}
+                                        <br>
+                                        <h4>Settings not set. Please edit</h4>
+                                        <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -284,6 +382,22 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
+        <div class="modal fade" id="editSettings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="setingsLabel">Settings</h4>
+                    </div>
+                    <div id="settingsDiv">
+
+                    </div>
+                </div>
+
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
         {% endif %}
     </div>
 </div>
@@ -305,40 +419,32 @@
 
     <script>
         $(document).ready(function() {
-            $('#dataTables-hospitals').DataTable({
-                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                    "responsive" : true,
-                    "processing": true,
-                    "serverside" : true,
-                    "ajax": {
-                         "url": "/cym/{{org.org_id}}/gethospitals/",
-                    }
-                });
-            $('#tab-hospitals').click(function(){
 
-            });
-            $('#tab-doctors').click(function(){
-                console.log('click');
-            });
-            $('#tab-requests').click(function(){
-                console.log('click');
-            });
-            <!--$('#dataTables-hospitals').DataTable({-->
-                    <!--responsive: true-->
-            <!--});-->
-            $('#dataTables-doctors').DataTable({
-                    responsive: true
-            });
             $('#dataTables-requests').DataTable({
                     responsive: true
             });
-            $('#id_orgs').on('change', function() {
-                url = "/cym/organisationdetails/"+ $("#id_orgs").val() + "/";
-                console.log(url);
-                <!--$('#view-org').attr('action', url);-->
-                window.location.href = url;
-            });
+
         });
 
+    </script>
+    <script type="text/javascript">
+        $("#btnSettingsEdit").click(function(){
+            $.ajax(
+                {
+                    url: "/web/orgsettings/{{org.org_id}}/",
+                    dataType: "html",
+                    type: "GET",
+                    success: function(result){
+                        $("#settingsDiv").html(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        $("#settingsDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                });
+        });
     </script>
 {% endblock %}

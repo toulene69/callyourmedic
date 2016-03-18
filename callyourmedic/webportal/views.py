@@ -6,8 +6,8 @@ from django.db import IntegrityError, transaction
 import traceback
 # model imports
 from models import WebUser , WebGroup
-from organisations.models import Organisation
-from hospitals.models import Hospital, Department
+from organisations.models import Organisation, Apikey, OrgSettings
+from hospitals.models import Hospital, Department, HospitalSettings
 from doctors.models import DoctorDetails, DoctorRegistration
 
 # form imports
@@ -16,6 +16,7 @@ from addresses.forms import AddressForm
 
 from utils.web_portal_session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired, isUserRequestValid
 from utils.app_utils import generateRandomPassword, generateDoctorCode
+from utils import app_utils
 
 import logging
 
@@ -65,9 +66,9 @@ def login(request):
             formLogin = PortalUserLoginForm()
             request.session.set_test_cookie()
         if 'sessionError' in request.GET:
-			if request.GET['sessionError'] == '100':
-				print ('******* Session Expired ***')
-				args['sessionError'] = True
+            if request.GET['sessionError'] == '100':
+                print ('******* Session Expired ***')
+                args['sessionError'] = True
         args.update(csrf(request))
         args['formLogin'] = formLogin
         args['error'] = error
@@ -96,9 +97,47 @@ def dashboard(request):
 def org_dashboard(request):
     args = {}
     if isUserLogged(request):
+        if 'setting' in request.GET :
+            result = request.GET['setting']
+            args['result'] = result
         org_id = int(request.session['org_id'])
-        organisation = Organisation.objects.get(org_id__exact = org_id)
-        depts = list(Department.objects.filter(department_org__exact = org_id))
+        organisation = None
+        depts = None
+        apikey = None
+        try:
+            organisation = Organisation.objects.get(org_id__exact = org_id)
+            depts = list(Department.objects.filter(department_org__exact = org_id))
+            apikey = list(Apikey.objects.filter(apikey_org = org_id))
+        except:
+            traceback.print_exc()
+            args['error'] = "Organisation details could not be found"
+            return render(request,'w_dashboard_org.html',args)
+
+        if organisation.org_settings is None:
+            args['isSettings'] = False
+        else:
+            settings = organisation.org_settings
+            args['isSettings'] = True
+            args['subscription'] = app_utils.get_subscription_type(settings.orgsettings_subscription)
+            args['billing_cycle'] = app_utils.get_billing_cycle(settings.orgsettings_billing_cycle)
+            args['email']         = settings.orgsettings_email
+            args['email_smtp']    = settings.orgsettings_email_smtp
+            args['voice_rate']    = settings.orgsettings_voice_rate
+            args['video_rate']    = settings.orgsettings_video_rate
+            args['subscription_rate'] = settings.orgsettings_subscription_rate
+            args['status'] = settings.orgsettings_status
+            args['isVoice'] = False
+            args['isVideo'] = False
+            if organisation.org_settings.orgsettings_subscription == 'C':
+                args['isVoice'] = True
+            else:
+                args['isVoice'] = True
+                args['isVideo'] = True
+        if len(apikey) == 0:
+            args['apikey'] = None
+        else:
+            args['apikey'] = apikey[0]
+
         args['org'] = organisation
         args['depts'] = depts
         return render(request,'w_dashboard_org.html',args)
@@ -124,14 +163,29 @@ def hospital_dashboard(request):
 def hospital_details(request,org_id=0,hospital_id=0):
     error = None
     args = {}
+    hospital = None
+    organisation = None
+    departments = None
     if isUserLogged(request):
+        if 'setting' in request.GET :
+            result = request.GET['setting']
+            args['result'] = result
         if isUserRequestValid(request,org_id):
             if org_id!=0:
-                organisation = Organisation.objects.get(org_id__exact = org_id)
-                args['org'] = organisation
+                try:
+                    organisation = Organisation.objects.get(org_id__exact = org_id)
+                    args['org'] = organisation
+                except:
+                    error = 'Organisation in request could not be found! Please try again.'
+                    args['error'] = error
+                    return render(request,'w_details_hospital.html',args)
                 if hospital_id !=0 :
-                    hospital = Hospital.objects.get(hospital_org__exact = org_id, hospital_id__exact = hospital_id)
-
+                    try:
+                        hospital = Hospital.objects.get(hospital_org__exact = org_id, hospital_id__exact = hospital_id)
+                    except:
+                        error = 'Hospital in request could not be found! Please try again.'
+                        args['error'] = error
+                        return render(request,'w_details_hospital.html',args)
                     departments = Department.objects.filter(department_id__in =
                                                             DoctorRegistration.objects.filter(
                                                                 doctor_org = org_id,
@@ -140,6 +194,23 @@ def hospital_details(request,org_id=0,hospital_id=0):
                     # doctors = list(DoctorRegistration.objects.filter(doctor_org = org_id, doctor_hospital = hospital_id))
                     args['depts'] = departments
                     args['hospital'] = hospital
+                    if hospital.hospital_settings is None:
+                        args['isSettings'] = False
+                    else:
+                        settings = hospital.hospital_settings
+                        args['isSettings'] = True
+                        args['email']         = settings.settings_email
+                        args['email_smtp']    = settings.settings_email_smtp
+                        args['voice_rate']    = settings.settings_voice_rate
+                        args['video_rate']    = settings.settings_video_rate
+                        args['status']        = settings.settings_status
+                        args['isVoice'] = False
+                        args['isVideo'] = False
+                        if organisation.org_settings.orgsettings_subscription == 'C':
+                            args['isVoice'] = True
+                        else:
+                            args['isVoice'] = True
+                            args['isVideo'] = True
             else:
                 error = 'Invalid request'
             formHospitalChoice = PortalHospitalSelectionForm(org_id)
@@ -175,6 +246,10 @@ def hospital_new(request,org_id=0):
                                 hospital.hospital_address = address
                                 hospital.hospital_org = organisation
                                 hospital.hospital_status = True
+                                settings = HospitalSettings()
+                                settings.settings_status = True
+                                settings.save()
+                                hospital.hospital_settings = settings
                                 hospital.save()
                             args['new_hospital_added'] = hospital.hospital_name
                             args['new_hospital_id'] = hospital.hospital_id
@@ -282,18 +357,53 @@ def doctor_new(request, org_id=0):
 def doctor_details(request,org_id=0,doctor_id=0):
     error = None
     args = {}
+    organisation = None
+    docReg = None
+    docDetails = None
     if isUserLogged(request):
+        if 'setting' in request.GET :
+            result = request.GET['setting']
+            args['result'] = result
         if isUserRequestValid(request,org_id):
             if org_id!=0:
                 organisation = Organisation.objects.get(org_id__exact = org_id)
                 args['org'] = organisation
                 if doctor_id !=0 :
-                    docReg = DoctorRegistration.objects.get(doctor_org = org_id, doctor_id = doctor_id)
-                    docDetails = DoctorDetails.objects.get(doctor_id = doctor_id)
+                    try:
+                        docReg = DoctorRegistration.objects.get(doctor_org = org_id, doctor_id = doctor_id)
+                        docDetails = DoctorDetails.objects.get(doctor_id = doctor_id)
+                    except:
+                        error = 'Doctor in request could not be found! Please try again.'
+                        args['error'] = error
+                        return render(request,'w_details_doctor.html',args)
                     doctor = {}
                     doctor['docReg'] = docReg
                     doctor['docDetails'] = docDetails
                     args['doctor'] = doctor
+                    if docReg.doctor_settings is None:
+                        args['isSettings'] = False
+                    else:
+                        settings = docReg.doctor_settings
+                        args['isSettings'] = True
+                        args['isVoice']       = settings.settings_voice
+                        args['isVideo']       = settings.settings_video
+                        args['isPrescription'] = settings.settings_eprescription
+                        args['voice_rate']    = settings.settings_voice_rate
+                        args['video_rate']    = settings.settings_video_rate
+                        args['status']        = settings.settings_status
+
+                        args['isVoiceEnabled'] = False
+                        args['isVideoEnabled'] = False
+                        args['isPrescriptionEnabled'] = False
+                        if organisation.org_settings.orgsettings_subscription == 'C':
+                            args['isVoiceEnabled'] = True
+                        elif organisation.org_settings.orgsettings_subscription == 'CV':
+                            args['isVoiceEnabled'] = True
+                            args['isVideoEnabled'] = True
+                        elif organisation.org_settings.orgsettings_subscription == 'CVP':
+                            args['isVoiceEnabled'] = True
+                            args['isVideoEnabled'] = True
+                            args['isPrescriptionEnabled'] = True
             else:
                 error = 'Invalid request'
             formDoctorChoice = PortalDoctorSelectionForm(org_id)

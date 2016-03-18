@@ -11,6 +11,30 @@
     </div>
 
     <div class="row">
+        {% if error %}
+            <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                   {{error}}
+                </div>
+        {% endif %}
+        {% if result %}
+            {% if result == "updated" %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Settings updated successfully.
+                </div>
+            {% elif result == "error" %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Error updating settings.
+                </div>
+            {% elif result == "incomplete" %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Settings form incomplete.
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -187,8 +211,68 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="settings">
-                            <h4>Settings</h4>
-                            <p>Needs to be decided</p>
+                            <div class="row">
+
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    {% if isSettings %}
+                                        <!-- /.panel-heading -->
+                                    <div class="panel-body">
+                                        <div class="list-group">
+                                            <div class="list-group-item">
+                                                <i class="fa fa-flag fa-fw"></i> Doctor Status
+                                                <span class="pull-right text-muted small"><em>{% if status %}
+                                                                Active
+                                                            {% else %}
+                                                                Inactive
+                                                            {% endif %}</em>
+                                                </span>
+                                            </div>
+                                            {% if isVoiceEnabled %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-phone fa-fw"></i> Voice consultation
+                                                <span class="pull-right text-muted small"><em>{% if isVoice %}True{% else %}False{% endif %}{% if voice_rate %}; INR {{voice_rate}}/min{% endif %}</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            {% if isVideoEnabled %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-video-camera fa-fw"></i> Video consultation
+                                                <span class="pull-right text-muted small"><em>{% if isVideo %}True{% else %}False{% endif %}{% if video_rate %}; INR {{video_rate}}/consultation{% endif %}</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            {% if isPrescriptionEnabled %}
+                                            <div class="list-group-item">
+                                                <i class="fa fa-fw"><img class="icon icons8-Treatment-Plan" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAA
+                                                AAwCAYAAABXAvmHAAABr0lEQVRoQ+1a0U3EMAx9NwEwAbABjMAEsAGwAUwCGwAbwASMACPABMAEoIdy0imkie049FTZX5VqO37Pzz21vhXG2DmACwBHKf
+                                                0rgHsAD97HrZwT7gJ43ig8T08gJwA+vc71BvBSKX5dM0EcbyMASuZOWNhlkpTQfdqt1YEDADeJVV5rjHq/SgG3ADgXGnsDwG5dA+B10WoAWDAlQV1bbG
+                                                9D68zxYUmSclByRRA1AI8ATo2HMswLAHM9ATgr1VIDQMas7PMsPjbZfhplyBmxGtk/1AL4zgJysPl9a3HruFb+Itm1DgQAZUuiAzlhLQkpCVa7i87vm
+                                                QF1RcqAACBiQMmqxl10fkhIQ6nSd/YOiAqogBLFj5SQqIAA0MvA3PEhoSV0oPe9YEoFooeAh4QCwIQMowMiBpYwxFMY/oUAjyEOAHMPcXRgWzugfH/54
+                                                y56CIwc4gDQ+Db7ezs60KuT3l/yRXeAq9CdgQxrUr8DKO7oRq6YNAW2fE0rJiLmlnDuLnylLal6yUdWCIIrUv5lYL9Fk/N9yoYEclVrWrM61zMmXWvRPe
+                                                ZUx6wBwJFMU6ofCsp8Meg/6zIAAAAASUVORK5CYII=" width="14" height="14"></i> E-prescription
+                                                <span class="pull-right text-muted small"><em>{% if isPrescription %}True{% else %}False{% endif %}</em>
+                                                </span>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <i class="fa fa-certificate fa-fw"></i> Signing Certificate
+                                                <span class="pull-right text-muted small"><em>-NA-</em>
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <!-- /.list-group -->
+                                        <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                    {% else %}
+                                        <h4>No settings for this doctor has been set.</h4>
+                                        <a id="btnSettingsEdit" href="#" data-toggle="modal" data-target="#editSettings" class="btn btn-default btn-block">Edit Settings</a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-2"></div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,6 +336,22 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
+        <div class="modal fade" id="editSettings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="setingsLabel">Settings</h4>
+                    </div>
+                    <div id="settingsDiv">
+
+                    </div>
+                </div>
+
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
         {% endif %}
     </div>
 </div>
@@ -290,6 +390,23 @@
                 window.location.href = url;
             });
         });
-
+        $("#btnSettingsEdit").click(function(){
+            $.ajax(
+                {
+                    url: "/web/doctorsettings/{{request.session.org_id}}/{{doctor.docReg.doctor_hospital.hospital_id}}/{{doctor.docReg.doctor_id}}/",
+                    dataType: "html",
+                    type: "GET",
+                    success: function(result){
+                        $("#settingsDiv").html(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        $("#settingsDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                });
+        });
     </script>
 {% endblock %}

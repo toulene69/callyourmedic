@@ -225,6 +225,7 @@ def org_gethospitals(request,org_id=0):
 			hspt['state'] = (hospital.hospital_address.address_state)
 			hspt['phone'] = (hospital.hospital_phone1)
 			hspt['joined'] = (current_tz.normalize(hospital.hospital_date_joined).date())
+			hspt['status'] = hospital.hospital_status
 			res['data'].append(hspt)
 		res['recordsTotal'] = len(res['data'])
 		return JsonResponse(res , safe = False)
@@ -257,10 +258,7 @@ def org_getdoctors(request, org_id=0):
 					doc['phone2'] = str(details.doctor_phone2)
 				else:
 					doc['phone2'] = "None"
-				if doctor.doctor_status:
-					doc['status'] = 'Active'
-				else:
-					doc['status'] = 'Inactive'
+				doc['status'] = doctor.doctor_status
 				doc['joined'] = details.doctor_date_joined
 				#doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				# doc.append('<a href="#">View</a>')
@@ -301,10 +299,7 @@ def org_hospital_getdoctors(request,org_id=0,hospital_id=0):
 					doc['phone2'] = str(details.doctor_phone2)
 				else:
 					doc['phone2'] = "None"
-				if doctor.doctor_status:
-					doc['status'] = 'Active'
-				else:
-					doc['status'] = 'Inactive'
+				doc['status'] = doctor.doctor_status
 				doc['joined'] = details.doctor_date_joined
 				#doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				# doc.append('<a href="#">View</a>')
@@ -429,10 +424,17 @@ def org_searchdetails(request):
 				args['subscription_rate'] = settings.orgsettings_subscription_rate
 				args['status'] = settings.orgsettings_status
 				args['isSettings'] = True
+				args['isVoice'] = False
+				args['isVideo'] = False
+				if organisation.org_settings.orgsettings_subscription == 'C':
+					args['isVoice'] = True
+				else:
+					args['isVoice'] = True
+					args['isVideo'] = True
 			else:
 				args['isSettings'] = False
 			if len(apikey) == 0:
-				args['apikey'] = 'Not Created'
+				args['apikey'] = None
 			else:
 				args['apikey'] = apikey[0]
 			args['org'] = organisation

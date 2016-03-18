@@ -17,131 +17,139 @@
                     {{error}}
                 </div>
             {% endif %}
-            <form id="orgForm" action="/cym/organisationnew/" method="post">
-            {% csrf_token %}
-                <div class="form-group">
-                    <div class="col-lg-4">
-                        <label >Organisation Name<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formOrg.org_name class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formOrg.org_name.errors.as_text }}</label>
-                        </div>
-                    </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Organisation Creation Form
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-4">
-                        <label >Organisation Brand<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formOrg.org_brand class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formOrg.org_brand.errors.as_text }}</label>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <form id="orgForm" action="/cym/organisationnew/" method="post">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <div class="col-lg-4">
+                                <label >Organisation Name<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formOrg.org_name class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formOrg.org_name.errors.as_text }}</label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="col-lg-4">
+                                <label >Organisation Brand<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formOrg.org_brand class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formOrg.org_brand.errors.as_text }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4">
+                                <label >Organisation Email Id<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formOrg.org_emailid class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formOrg.org_emailid.errors.as_text }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4">
+                                <label >Organisation Status<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formOrg.org_active class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formOrg.org_active.errors.as_text }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4">
+                                <label >Address Line 1<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formAddress.address_line1 class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formAddress.address_line1.errors.as_text }}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label >Address Line 2<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formAddress.address_line2 class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formAddress.address_line2.errors.as_text }}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label >City<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formAddress.address_city class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formAddress.address_city.errors.as_text }}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label >State<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formAddress.address_state class+="form-control" required="true"%}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formAddress.address_state.errors.as_text }}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label >Pincode<span style="color:red;">*</span></label>
+                            </div>
+                            <div class="col-lg-4">
+                                {% render_field formAddress.address_pincode class+="form-control" required="true" max="999999" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group has-error">
+                                    <label class="control-label" >{{ formAddress.address_pincode.errors.as_text }}</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <p>
+
+
+                        <div class="col-lg-4">
+                            <button type="submit" class="btn btn-outline btn-primary">Create</button>
+                            <button type="reset" class="btn btn-outline btn-default" id="btnReset">Reset</button>
+                        </div>
+                        </p>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-4">
-                        <label >Organisation Email Id<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formOrg.org_emailid class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formOrg.org_emailid.errors.as_text }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4">
-                        <label >Organisation Status<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formOrg.org_active class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formOrg.org_active.errors.as_text }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4">
-                        <label >Address Line 1<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formAddress.address_line1 class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formAddress.address_line1.errors.as_text }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <label >Address Line 2<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formAddress.address_line2 class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formAddress.address_line2.errors.as_text }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <label >City<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formAddress.address_city class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formAddress.address_city.errors.as_text }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <label >State<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formAddress.address_state class+="form-control" required="true"%}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formAddress.address_state.errors.as_text }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <label >Pincode<span style="color:red;">*</span></label>
-                    </div>
-                    <div class="col-lg-4">
-                        {% render_field formAddress.address_pincode class+="form-control" required="true" max="999999" %}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group has-error">
-                            <label class="control-label" >{{ formAddress.address_pincode.errors.as_text }}</label>
-                        </div>
-                    </div>
-
-                </div>
-                <p>
-
-
-                <div class="col-lg-4">
-                    <button type="submit" class="btn btn-outline btn-primary">Create</button>
-                    <button type="reset" class="btn btn-outline btn-default" id="btnReset">Reset</button>
-                </div>
-                </p>
-            </form>
+            </div>
         </div>
     </div>
     <div class="row">

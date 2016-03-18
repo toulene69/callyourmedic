@@ -130,10 +130,17 @@ def org_details(request,org_id=0):
 				args['subscription_rate'] = settings.orgsettings_subscription_rate
 				args['status'] = settings.orgsettings_status
 				args['isSettings'] = True
+				args['isVoice'] = False
+				args['isVideo'] = False
+				if organisation.org_settings.orgsettings_subscription == 'C':
+					args['isVoice'] = True
+				else:
+					args['isVoice'] = True
+					args['isVideo'] = True
 			else:
 				args['isSettings'] = False
 			if len(apikey) == 0:
-				args['apikey'] = 'Not Created'
+				args['apikey'] = None
 			else:
 				args['apikey'] = apikey[0]
 			args['org'] = organisation

@@ -80,7 +80,8 @@
                                 phone: { type: "string" },
                                 joined: { type: "date" },
                                 org_id: { type: "integer" },
-                                hospital_id: {type: "integer", editable: false }
+                                hospital_id: {type: "integer", editable: false },
+                                status : { type: "boolean" }
                             }
                         }
                     },
@@ -118,6 +119,11 @@
                         {
                             field: "phone",
                             title: "Phone Number"
+                        },
+                        {
+                            field: "status",
+                            title: "Status",
+                            template: '# if (status) { #Active# } else { #Inactive# } #'
                         },
                         {
                             field: "joined",

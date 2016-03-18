@@ -6,18 +6,22 @@ from django.core.context_processors import csrf
 import traceback
 from django.utils import timezone
 import pytz, time
+from django.db import IntegrityError, transaction
 
-
-from organisations.models import Organisation
+from organisations.models import Organisation, OrgSettings
 from models import WebUser, WebGroup
-from hospitals.models import Hospital, Department
-from doctors.models import DoctorRegistration, DoctorDetails
+from hospitals.models import Hospital, Department, HospitalSettings
+from doctors.models import DoctorRegistration, DoctorDetails, DoctorSettings
 # utils imports
 from utils.session_utils import isUserLogged , userSessionExpired
-from utils.app_utils import get_permission , get_active_status, generateRandomPassword
+from utils.app_utils import get_permission , get_active_status, generateRandomPassword, get_subscription_type
 
 # form imports
-from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm
+from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm, PortalOrgSettingsForm, PortalHospitalSettingsForm, PortalDoctorSettingsForm
+
+import logging
+
+logger = logging.getLogger('webportal')
 
 timezone.activate(pytz.timezone("Asia/Kolkata"))
 current_tz = timezone.get_current_timezone()
@@ -36,10 +40,7 @@ def org_getdepartments(request,org_id=0):
 				dept['name'] = (department.department_name)
 				dept['description'] = (department.department_description)
 				dept['code'] = (department.department_code)
-				if department.department_status:
-					dept['status'] = 'Active'
-				else:
-					dept['status'] = 'Inactive'
+				dept['status'] = department.department_status
 				dept['date_add'] = department.department_date_added
 				dept['org_id'] = org_id
 				dept['dept_id'] = department.department_id
@@ -293,6 +294,7 @@ def hospital_gethospitals(request,org_id=0):
 			hspt['joined'] = (hospital.hospital_date_joined)
 			hspt['hospital_id'] = hospital.hospital_id
 			hspt['org_id'] = org_id
+			hspt['status'] = hospital.hospital_status
 			# hspt.append('<a href="/web/'+str(org_id)+'/hospitaldetails/'+str(hospital.hospital_id)+'/">View</a>')
 			res['data'].append(hspt)
 		res['recordsTotal'] = len(res['data'])
@@ -327,10 +329,7 @@ def doctor_getdoctors(request, org_id=0):
 				doc['joined'] = details.doctor_date_joined
 				doc['org_id'] = org_id
 				doc['doctor_id'] = doctor.doctor_id
-				if doctor.doctor_status:
-					doc['status'] = 'Active'
-				else:
-					doc['status'] = 'Inactive'
+				doc['status'] = doctor.doctor_status
 				# doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
@@ -365,10 +364,7 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 				doc['joined'] = details.doctor_date_joined
 				doc['org_id'] = org_id
 				doc['doctor_id'] = doctor.doctor_id
-				if doctor.doctor_status:
-					doc['status'] = 'Active'
-				else:
-					doc['status'] = 'Inactive'
+				doc['status'] = doctor.doctor_status
 				# doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
@@ -381,3 +377,267 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 
 
 """ Ends Webportal doctors"""
+
+""" Settings """
+def settings_edit(request,org_id=0,hospital_id=0,doctor_id=0):
+	args = {}
+	organisation = None
+	hospital = None
+	doctor = None
+	isSettings = False
+	isOrg = False
+	isHospital = False
+	isDoctor = False
+	if org_id != 0 and hospital_id == 0 and doctor_id == 0:
+		isOrg = True
+	elif org_id != 0 and hospital_id != 0 and doctor_id == 0:
+		isHospital = True
+	elif org_id != 0 and hospital_id != 0 and doctor_id != 0:
+		isDoctor = True
+	else:
+		html = '<div class="modal-body" id="modal-body-createGroup">Improper Request. Please try again!</div>'
+		return HttpResponse(html)
+
+	if isOrg:
+		orgSettingsForm = None
+		try:
+			organisation = Organisation.objects.get(org_id = org_id)
+		except:
+			html = '<div class="modal-body" id="modal-body-createGroup">Organisation could not be found. Please try again!</div>'
+			return HttpResponse(html)
+		if organisation.org_id != request.session['org_id']:
+			html = '<div class="modal-body" id="modal-body-createGroup">User Not authorized for settings changes for organisation in request!</div>'
+			return HttpResponse(html)
+
+		if request.POST:
+			orgSettingsForm = PortalOrgSettingsForm(request.POST)
+			settings = None
+			if orgSettingsForm.is_valid():
+				if organisation.org_settings is None:
+					settings = OrgSettings()
+				else:
+					settings = organisation.org_settings
+				settings.orgsettings_billing_cycle = orgSettingsForm.cleaned_data['orgsettings_billing_cycle']
+				settings.orgsettings_email = orgSettingsForm.cleaned_data['orgsettings_email']
+				settings.orgsettings_email_smtp = orgSettingsForm.cleaned_data['orgsettings_email_smtp']
+				settings.orgsettings_voice_rate = orgSettingsForm.cleaned_data['orgsettings_voice_rate']
+				settings.orgsettings_video_rate = orgSettingsForm.cleaned_data['orgsettings_video_rate']
+				try:
+					with transaction.atomic():
+						settings.save()
+						if organisation.org_settings is None:
+							organisation.org_settings = settings
+						organisation.save()
+					return HttpResponseRedirect('/web/org/?setting=updated')
+				except:
+					traceback.print_exc()
+					print '********* form invalid'
+					error = 'Error updating settings. Please try again'
+					formError = True
+					args['formError'] = formError
+					args['error'] = error
+					return HttpResponseRedirect('/web/org/?setting=error')
+
+			else:
+				print '********form incomplete'
+				error = 'Settings form invalid. Please try again!'
+				formError = True
+				args['formError'] = formError
+				args['error'] = error
+				args['errorReason'] = orgSettingsForm.errors
+				return HttpResponseRedirect('/web/org/?setting=incomplete')
+		else:
+			args['isVoice'] = False
+			args['isVideo'] = False
+			if organisation.org_settings is None:
+				orgSettingsForm = PortalOrgSettingsForm()
+			else:
+				orgSettingsForm = PortalOrgSettingsForm(instance = organisation.org_settings)
+				if organisation.org_settings.orgsettings_subscription == 'C':
+					args['isVoice'] = True
+				else:
+					args['isVoice'] = True
+					args['isVideo'] = True
+			args['orgSettingsForm'] = orgSettingsForm
+			return render(request,'w_settings_org.html',args)
+
+	elif isHospital:
+		hospitalSettingsForm = None
+		try:
+			organisation = Organisation.objects.get(org_id = org_id)
+		except:
+			html = '<div class="modal-body" id="modal-body-createGroup">Organisation could not be found. Please try again!</div>'
+			return HttpResponse(html)
+		if organisation.org_id != request.session['org_id']:
+			html = '<div class="modal-body" id="modal-body-createGroup">User Not authorized for settings changes for organisation in request!</div>'
+			return HttpResponse(html)
+		try:
+			hospital = Hospital.objects.get( hospital_id = hospital_id,hospital_org = org_id)
+		except:
+			html = '<div class="modal-body" id="modal-body-createGroup">Hospital could not be found to edit settings!</div>'
+			return HttpResponse(html)
+
+		if hospital is None:
+			html = '<div class="modal-body" id="modal-body-createGroup">Hospital could not be found to edit settings!</div>'
+			return HttpResponse(html)
+
+		if request.POST:
+			hospitalSettingsForm = PortalHospitalSettingsForm(request.POST)
+			settings = None
+			if hospitalSettingsForm.is_valid():
+				if hospital.hospital_settings is None:
+					settings = HospitalSettings()
+				else:
+					settings = hospital.hospital_settings
+
+				settings.settings_status 		= hospitalSettingsForm.cleaned_data['settings_status']
+				settings.settings_email 		= hospitalSettingsForm.cleaned_data['settings_email']
+				settings.settings_email_smtp 	= hospitalSettingsForm.cleaned_data['settings_email_smtp']
+				settings.settings_video_rate	= hospitalSettingsForm.cleaned_data['settings_video_rate']
+				settings.settings_voice_rate	= hospitalSettingsForm.cleaned_data['settings_voice_rate']
+
+				try:
+					with transaction.atomic():
+						settings.save()
+						if hospital.hospital_settings is None:
+							hospital.hospital_settings = settings
+						hospital.hospital_status = settings.settings_status
+						hospital.save()
+					return HttpResponseRedirect('/web/'+str(org_id)+'/hospitaldetails/'+str(hospital_id)+'/?setting=updated')
+				except:
+					traceback.print_exc()
+					print '********* form invalid'
+					error = 'Error updating settings. Please try again'
+					formError = True
+					usr_details = request.session['usr_details']
+					args['formError'] = formError
+					args['error'] = error
+					args['usr_details'] = usr_details
+					return HttpResponseRedirect('/web/'+str(org_id)+'/hospitaldetails/'+str(hospital_id)+'/?setting=error')
+
+			else:
+				print '********form incomplete'
+				error = 'Settings form invalid. Please try again!'
+				formError = True
+				args['formError'] = formError
+				args['error'] = error
+				args['errorReason'] = hospitalSettingsForm.errors
+				return HttpResponseRedirect('/web/'+str(org_id)+'/hospitaldetails/'+str(hospital_id)+'/?setting=incomplete')
+
+		else:
+			args['isVoice'] = False
+			args['isVideo'] = False
+			if hospital.hospital_settings is None:
+				hospitalSettingsForm = PortalHospitalSettingsForm()
+			else:
+				hospitalSettingsForm = PortalHospitalSettingsForm(instance = hospital.hospital_settings)
+			if organisation.org_settings.orgsettings_subscription == 'C':
+				args['isVoice'] = True
+			else:
+				args['isVoice'] = True
+				args['isVideo'] = True
+			args['form'] = hospitalSettingsForm
+			args['orgid'] = organisation.org_id
+			args['hospitalid'] = hospital.hospital_id
+			return render(request,'w_settings_hospital.html',args)
+
+	elif isDoctor:
+		doctorSettingsForm = None
+		try:
+			organisation = Organisation.objects.get(org_id = org_id)
+		except:
+			html = '<div class="modal-body" id="modal-body-createGroup">Organisation could not be found. Please try again!</div>'
+			return HttpResponse(html)
+		if organisation.org_id != request.session['org_id']:
+			html = '<div class="modal-body" id="modal-body-createGroup">User Not authorized for settings changes for organisation in request!</div>'
+			return HttpResponse(html)
+		try:
+			hospital = Hospital.objects.get( hospital_id = hospital_id,hospital_org = org_id)
+		except:
+			html = '<div class="modal-body" id="modal-body-createGroup">Hospital could not be found to edit settings!</div>'
+			return HttpResponse(html)
+
+		if hospital is None:
+			html = '<div class="modal-body" id="modal-body-createGroup">Hospital could not be found to edit settings!</div>'
+			return HttpResponse(html)
+
+		try:
+			doctor = DoctorRegistration.objects.get(doctor_id = doctor_id, doctor_org = org_id, doctor_hospital = hospital_id)
+		except:
+			html = '<div class="modal-body" id="modal-body-createGroup">Doctor could not be found to edit settings!</div>'
+			return HttpResponse(html)
+		if doctor is None:
+			html = '<div class="modal-body" id="modal-body-createGroup">Doctor could not be found to edit settings!</div>'
+			return HttpResponse(html)
+
+		if request.POST:
+			doctorSettingsForm = PortalDoctorSettingsForm(request.POST)
+			settings = None
+			if doctorSettingsForm.is_valid():
+				if doctor.doctor_settings is None:
+					settings = DoctorSettings()
+				else:
+					settings = doctor.doctor_settings
+				settings.settings_video 		= doctorSettingsForm.cleaned_data['settings_video']
+				settings.settings_voice 		= doctorSettingsForm.cleaned_data['settings_voice']
+				settings.settings_eprescription = doctorSettingsForm.cleaned_data['settings_eprescription']
+				settings.settings_voice_rate 	= doctorSettingsForm.cleaned_data['settings_voice_rate']
+				settings.settings_video_rate 	= doctorSettingsForm.cleaned_data['settings_video_rate']
+				settings.settings_status		= doctorSettingsForm.cleaned_data['settings_status']
+
+				try:
+					with transaction.atomic():
+						settings.save()
+						if doctor.doctor_settings is None:
+							doctor.doctor_settings = settings
+							print(doctor.doctor_settings.settings_id)
+						doctor.doctor_status = settings.settings_status
+						doctor.save()
+					return HttpResponseRedirect('/web/'+str(org_id)+'/doctordetails/'+str(doctor_id)+'/?setting=updated')
+				except:
+					traceback.print_exc()
+					print '********* form invalid'
+					error = 'Error updating settings. Please try again'
+					formError = True
+					args['formError'] = formError
+					args['error'] = error
+					return HttpResponseRedirect('/web/'+str(org_id)+'/doctordetails/'+str(doctor_id)+'/?setting=error')
+
+			else:
+				print '********form incomplete'
+				error = 'Settings form invalid. Please try again!'
+				formError = True
+				args['formError'] = formError
+				args['error'] = error
+				args['errorReason'] = doctorSettingsForm.errors
+				return HttpResponseRedirect('/web/'+str(org_id)+'/doctordetails/'+str(doctor_id)+'/?setting=incomplete')
+		else:
+			if doctor.doctor_settings is None:
+				doctorSettingsForm = PortalDoctorSettingsForm()
+			else:
+				doctorSettingsForm = PortalDoctorSettingsForm(instance = doctor.doctor_settings)
+			args['isVoiceEnabled'] = False
+			args['isVideoEnabled'] = False
+			args['isPrescriptionEnabled'] = False
+			if organisation.org_settings.orgsettings_subscription == 'C':
+				args['isVoiceEnabled'] = True
+			elif organisation.org_settings.orgsettings_subscription == 'CV':
+				args['isVoiceEnabled'] = True
+				args['isVideoEnabled'] = True
+			elif organisation.org_settings.orgsettings_subscription == 'CVP':
+				args['isVoiceEnabled'] = True
+				args['isVideoEnabled'] = True
+				args['isPrescriptionEnabled'] = True
+			args['form'] = doctorSettingsForm
+			args['orgid'] = organisation.org_id
+			args['hospitalid'] = hospital.hospital_id
+			args['doctorid'] = doctor.doctor_id
+			return render(request,'w_settings_doctor.html',args)
+	else:
+		html = '<div class="modal-body" id="modal-body-createGroup">Wrong</div>'
+		return HttpResponse(html)
+
+
+
+
+""" Ends Settings"""

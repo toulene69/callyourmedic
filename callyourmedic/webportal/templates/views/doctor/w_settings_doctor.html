@@ -1,0 +1,87 @@
+{% load widget_tweaks %}
+<form id="settingsForm" action="/web/doctorsettings/{{orgid}}/{{hospitalid}}/{{doctorid}}/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body" id="modal-body-settings">
+        <div class="row">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Doctor Status</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_status  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_status.errors.as_text }}</label>
+            </div>
+        </div>
+        {% if isVoiceEnabled %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Voice Consultation</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_voice  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_voice.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        {% if isVideoEnabled %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Video Consultation</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_video  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_video.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        {% if isPrescriptionEnabled %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >E-Prescription</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_eprescription  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_eprescription.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        {% if isVoiceEnabled %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Voice consultation rate</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_voice_rate class+="form-control" %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_voice_rate.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        {% if isVideoEnabled %}
+        <div class="form-group">
+            <div class="col-md-6">
+                <label >Video consultation rate</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field form.settings_video_rate class+="form-control"  %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ form.settings_video_rate.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newGroup">Save</button>
+    </div>
+</form>

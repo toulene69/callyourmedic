@@ -453,7 +453,8 @@
                                     city: { type: "string" },
                                     state: { type: "string" },
                                     phone: { type: "string" },
-                                    joined: { type: "date" }
+                                    joined: { type: "date" },
+                                    status: { type: "boolean" }
                                 }
                             }
                          },
@@ -496,6 +497,11 @@
                         field: "joined",
                         title: "Date Joined",
                         template: '#= kendo.toString(joined,"dd-MMM-yyyy") #'
+                    },
+                    {
+                        field: "status",
+                        title: "Status",
+                        template: '# if (status) { #Active# } else { #Inactive# } #'
                     }
                 ]
             });
@@ -524,7 +530,7 @@
                                     email: { type: "string" },
                                     phone1: { type: "string" },
                                     phone2: { type: "string" },
-                                    status: {type: "string" },
+                                    status: {type: "boolean" },
                                     joined: { type: "date" }
                                 }
                             }
@@ -570,7 +576,8 @@
                     },
                     {
                         field: "status",
-                        title: "Status"
+                        title: "Status",
+                        template: '# if (status) { #Active# } else { #Inactive# } #'
                     },
                     {
                         field: "joined",

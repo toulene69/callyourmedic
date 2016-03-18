@@ -83,7 +83,7 @@
                                 phone: { type: "string" },
                                 joined: { type: "date" },
                                 org_id: { type: "integer" },
-                                status: { type: "string" },
+                                status: { type: "boolean" },
                                 doctor_id: {type: "integer", editable: false }
                             }
                         }
@@ -133,7 +133,8 @@
                         },
                         {
                             field: "status",
-                            title: "status"
+                            title: "status",
+                            template: '# if (status) { #Active# } else { #Inactive# } #'
                         },
                         {
                             field: "joined",

@@ -40,10 +40,7 @@ def org_getdepartments(request,org_id=0):
 				dept['name'] = (department.department_name)
 				dept['description'] = (department.department_description)
 				dept['code'] = (department.department_code)
-				if department.department_status:
-					dept['status'] = 'Active'
-				else:
-					dept['status'] = 'Inactive'
+				dept['status'] = department.department_status
 				dept['date_add'] = department.department_date_added
 				dept['org_id'] = org_id
 				dept['dept_id'] = department.department_id
@@ -332,10 +329,7 @@ def doctor_getdoctors(request, org_id=0):
 				doc['joined'] = details.doctor_date_joined
 				doc['org_id'] = org_id
 				doc['doctor_id'] = doctor.doctor_id
-				if doctor.doctor_status:
-					doc['status'] = 'Active'
-				else:
-					doc['status'] = 'Inactive'
+				doc['status'] = doctor.doctor_status
 				# doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:
@@ -370,10 +364,7 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 				doc['joined'] = details.doctor_date_joined
 				doc['org_id'] = org_id
 				doc['doctor_id'] = doctor.doctor_id
-				if doctor.doctor_status:
-					doc['status'] = 'Active'
-				else:
-					doc['status'] = 'Inactive'
+				doc['status'] = doctor.doctor_status
 				# doc.append('<a href="/web/'+ str(org_id) +'/doctordetails/'+ str(doctor.doctor_id) +'">View</a>')
 				res['data'].append(doc)
 		except:

@@ -112,7 +112,7 @@
                                 name: { type: "string" },
                                 description: { type: "string" },
                                 code: { type: "string" },
-                                status: { type: "string" },
+                                status: { type: "boolean" },
                                 date_add: { type: "date", editable: false },
                                 dept_id: {type: "integer", editable: false },
                                 org_id: {type: "integer", editable: false }
@@ -149,6 +149,7 @@
                         {
                             field: "status",
                             title: "Status",
+                            template: '# if (status) { #Active# } else { #Inactive# } #'
                         },
                         {
                             field: "date_add",

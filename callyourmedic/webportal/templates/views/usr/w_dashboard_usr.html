@@ -102,7 +102,7 @@
                         {
                             field: "status",
                             title: "Status",
-                            template: '<input type="checkbox" #= status ? "checked=checked" : "" # disabled="disabled" ></input>'
+                            template: '# if (status) { #Active# } else { #Inactive# } #'
                         },
                     ]
             });

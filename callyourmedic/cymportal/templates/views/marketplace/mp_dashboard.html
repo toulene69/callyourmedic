@@ -1,0 +1,123 @@
+{% extends 'mp_base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Marketplace Dashboard</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            MarketPlace app API-Key : {% if mp_apikey %}{{mp_apikey}}{% endif %}
+        </div>
+        <div class="col-lg-6">
+            <p><a href="/cym/mp/generateapikey/" class="btn btn-outline btn-danger" >Create APIKey</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <!--<div class="col-lg-12">-->
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        List of Marketplace Organisations
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="grid-Orgs"></div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        <!--</div>-->
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascript_tags %}
+    <!--<script src="{% static "sbadmin/bower_components/morrisjs/morris.min.js" %}"></script>-->
+    <!--<script src="{% static "sbadmin/js/morris-data.js" %}"></script>-->
+
+    <link href="{% static "kendo/css/kendo.common.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}"rel="stylesheet">
+
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.default.min.css" %}" rel="stylesheet">
+    <script src="{% static "kendo/jszip.min.js" %}"></script>
+    <script src="{% static "kendo/js/kendo.all.min.js" %}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#grid-Orgs").kendoGrid({
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "OrganisationList.xlsx",
+                    allPages: true,
+
+                },
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/cym/getorgs/?mp=1",
+                            dataType: "json"
+                            }
+                        },
+                        schema: {
+                            data: "data",
+                            model: {
+                                fields: {
+                                    name: { type: "string" },
+                                    brand: { type: "string" },
+                                    identifier: { type: "string" },
+                                    state: { type: "string" },
+                                    view: { type: "string" }
+                                }
+                            }
+                         },
+                    },
+                    height: 500,
+                    groupable: true,
+                    sortable: true,
+                    filterable: true,
+                    resizable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        pageSize: 10,
+                        buttonCount: 1
+                    },
+                    columns: [
+                        {
+                            field:"name",
+                            title:"Organisation Name",
+                            filterable: false,
+                            groupable: false,
+                        },
+                        {
+                            field: "brand",
+                            title: "Brand",
+                        },
+                        {
+                            field: "identifier",
+                            title: "Identifier"
+                            },
+                        {
+                            field: "state",
+                            title: "Org State"
+                        },
+                        {
+                            title: "",
+                            template: '<a href="/cym/organisationdetails/#=view#/">View</a>',
+                            filterable: false,
+                            groupable: false,
+                        }
+                    ]
+                });
+
+            });
+    </script>
+{% endblock %}

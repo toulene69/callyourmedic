@@ -21,6 +21,10 @@ urlpatterns = [
     url(r'^organisationrequests/(?P<org_id>\d+)/$', 'cymportal.views.org_requests'),
     url(r'^generateapikey/(?P<org_id>\d+)/','cymportal.views.org_create_apikey'),
 
+    #cym marketplace
+    url(r'^marketplace/', 'cymportal.views.mp_dashboard'),
+    url(r'^mp/generateapikey/','cymportal.views.mp_generateapikey'),
+
     #cym user
     url(r'^usr/', 'cymportal.views.usr_dashboard'),
     url(r'^users/', 'cymportal.views.usr_users'),

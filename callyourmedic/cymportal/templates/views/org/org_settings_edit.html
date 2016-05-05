@@ -17,6 +17,17 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-md-6">
+                <label >MarketPlace</label>
+            </div>
+            <div class="col-md-6">
+                {% render_field orgSettingsForm.orgsettings_marketplace %}
+            </div>
+            <div class="form-group has-error">
+                <label class="control-label" >{{ orgSettingsForm.orgsettings_marketplace.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
             <label >Subscription Rate</label>
             {% render_field orgSettingsForm.orgsettings_subscription_rate class+="form-control" %}
             <div class="form-group has-error">

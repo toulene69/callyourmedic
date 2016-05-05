@@ -14,6 +14,7 @@ class OrgSettings(models.Model):
     orgsettings_video_rate    = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True , default = None)
     orgsettings_subscription_rate = models.DecimalField( max_digits=7, decimal_places=2, null = True, blank = True , default = None)
     orgsettings_status        = models.CharField(max_length = 1, choices = app_utils.choices_active_status())
+    orgsettings_marketplace   = models.BooleanField(default = False)
 
     def __str__(self): # __unicode__ on Python 2
         return app_utils(self.orgsettings_subscription)

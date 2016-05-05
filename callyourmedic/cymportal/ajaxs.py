@@ -23,7 +23,7 @@ from forms import CYMUserCreationForm, CYMOrgSettingsForm
 from utils.session_utils import isUserLogged , userSessionExpired
 from utils.app_utils import get_permission , get_active_status
 from utils import app_utils
-
+# from cymportal.tasks import mail_to_user
 import logging
 
 logger = logging.getLogger('cym')
@@ -144,16 +144,18 @@ def usr_usernew(request):
 					user.usr_last_name = userCreationForm.cleaned_data['usr_last_name']
 					user.usr_email = userCreationForm.cleaned_data['usr_email']
 					user.usr_phone = userCreationForm.cleaned_data['usr_phone']
-					user.usr_password = userCreationForm.cleaned_data['usr_email']
+					user.usr_password = app_utils.generateRandomPassword()
 					user.usr_group = userCreationForm.cleaned_data['usr_group']
 
 					user.save()
 					# userCreationForm.save()
 					usr_details = request.session['usr_details']
 					args['usr_details'] = usr_details
+					# mail_to_user.delay(user.usr_email,user.usr_password,user.usr_group.grp_name,user.usr_first_name)
 					return render_to_response('usr_user.html', args)
 				except:
 					print '********* form invalid'
+					traceback.print_exc()
 					error = 'Error creating user. Please try again'
 					formError = True
 					usr_details = request.session['usr_details']
@@ -192,8 +194,24 @@ def org_getorgs(request):
 		"data" : []
 		}
 	# res = {}
+	isMarketPlace = False
+	try:
+		temp = request.GET['mp']
+		print(temp)
+		if temp == "1":
+			isMarketPlace = True
+	except:
+		traceback.print_exc()
+	organisations = None
 	if request.is_ajax() | True:
-		organisations = list(Organisation.objects.all())
+		if isMarketPlace :
+			try:
+				organisations = list(Organisation.objects.filter(org_settings__in = OrgSettings.objects.filter( orgsettings_marketplace = isMarketPlace)))
+				print(organisations)
+			except:
+				traceback.print_exc()
+		else:
+			organisations = list(Organisation.objects.all())
 		for organisation in organisations:
 			org = {}
 			org['name'] = organisation.org_name
@@ -536,6 +554,7 @@ def org_edit_settings(request,org_id=0):
 				settings.orgsettings_subscription_rate = orgSettingsForm.cleaned_data['orgsettings_subscription_rate']
 				settings.orgsettings_voice_rate = orgSettingsForm.cleaned_data['orgsettings_voice_rate']
 				settings.orgsettings_video_rate = orgSettingsForm.cleaned_data['orgsettings_video_rate']
+				settings.orgsettings_marketplace = orgSettingsForm.cleaned_data['orgsettings_marketplace']
 				org.org_active = orgSettingsForm.cleaned_data['orgsettings_status']
 				try:
 					with transaction.atomic():

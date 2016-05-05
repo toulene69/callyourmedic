@@ -6,6 +6,7 @@ from hospitals.models import Department, Hospital
 from doctors.models import DoctorRegistration, DoctorDetails
 from patients.models import Patients, PatientAuthToken
 from addresses.models import Address
+from organisations.models import Organisation
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -14,6 +15,16 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         field = ('address_line1','address_line2','address_city','address_state','address_pincode')
         exclude = ('address_id','address_status')
+
+class OrgSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(source='org_name')
+    brand = serializers.CharField(source='org_name')
+
+    class Meta:
+        model = Organisation
+        field = ('org_identifier')
+        exclude = ('org_id','org_emailid','org_phone','org_active','org_address','org_date_joined','org_date_left','org_billing_id','org_settings','org_brand','org_name')
 
 class HospitalSerializer(serializers.ModelSerializer):
 
@@ -64,7 +75,7 @@ class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patients
         field = ('patient_first_name','patient_last_name','patient_dob','patient_gender','patient_email','patient_phone1','patient_address')
-        exclude = ('patient_password','patient_id','patient_org','patient_date_joined','patient_date_left',)
+        exclude = ('patient_password','patient_id','patient_org','patient_date_joined','patient_date_left','patient_ismarketplace')
 
     def validate_patient_phone1(self,value):
 

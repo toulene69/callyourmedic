@@ -195,19 +195,19 @@ def org_getorgs(request):
 		}
 	# res = {}
 	isMarketPlace = False
-	try:
-		temp = request.GET['mp']
-		print(temp)
-		if temp == "1":
-			isMarketPlace = True
-	except:
-		traceback.print_exc()
+	if 'mp' in request.GET:
+		try:
+			temp = request.GET['mp']
+			print(temp)
+			if temp == "1":
+				isMarketPlace = True
+		except:
+			traceback.print_exc()
 	organisations = None
 	if request.is_ajax() | True:
 		if isMarketPlace :
 			try:
 				organisations = list(Organisation.objects.filter(org_settings__in = OrgSettings.objects.filter( orgsettings_marketplace = isMarketPlace)))
-				print(organisations)
 			except:
 				traceback.print_exc()
 		else:

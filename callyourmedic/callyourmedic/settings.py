@@ -32,8 +32,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
-    'rest_framework.authtoken',
-    'rest_framework',
+    # 'rest_framework.authtoken',
+    # 'rest_framework',
     'widget_tweaks',
     'storages',
     'django.contrib.admin',
@@ -48,12 +48,14 @@ INSTALLED_APPS = (
     'hospitals',
     'doctors',
     'patients',
+    'marketplace',
     #'transactions',
     #util apps
     'utils',
     #cymportal
     'cymportal',
     'webportal',
+    'webapi',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,6 +75,7 @@ PASSWORD_HASHERS = [
 
 ROOT_URLCONF = 'callyourmedic.urls'
 
+# Template settings
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -83,12 +86,16 @@ TEMPLATES = [
                     BASE_DIR + '/cymportal/templates/views/dashboard',
                     BASE_DIR + '/cymportal/templates/views/org',
                     BASE_DIR + '/cymportal/templates/views/usr',
+                    BASE_DIR + '/cymportal/templates/views/mail',
+                    BASE_DIR + '/cymportal/templates/views/marketplace',
                     BASE_DIR + '/webportal/templates',
                     BASE_DIR + '/webportal/templates/views/dashboard',
                     BASE_DIR + '/webportal/templates/views/org',
                     BASE_DIR + '/webportal/templates/views/usr',
                     BASE_DIR + '/webportal/templates/views/hospital',
                     BASE_DIR + '/webportal/templates/views/doctor',
+                    BASE_DIR + '/webapi/templates/views/webrtc',
+                    BASE_DIR + '/webapi/templates/views/',
                 ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -146,6 +153,8 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Static files settings
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -170,8 +179,13 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAJU7LWHYCQZVTM6PA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'callyourmedic-resources-bucket'
+AWS_HEADERS = {
+    'Cache-Control': 'max-age=86400',
+}
 AWS_QUERYSTRING_AUTH = False
 
+
+# Log settings
 LOGGING = {
     'version' : 1,
     'disable_existing_loggers' : True,
@@ -251,6 +265,7 @@ LOGGING = {
     }
 }
 
+# Cache settings
 CACHES = { 'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION' : 'cache-store'
@@ -270,10 +285,27 @@ REST_FRAMEWORK = {
     ]
 }
 
-
+# Email settings
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'support@callyourmedic.com'
 EMAIL_HOST_PASSWORD = 'birth@3107'
 EMAIL_PORT = 587
+
+# Celery settings
+
+# BROKER_TRANSPORT = 'sqs'
+# BROKER_TRANSPORT_OPTIONS = {
+#     'region': 'ap-southeast-1a',
+#     'visibility_timeout': 3600,
+#     'polling_interval': 0.3,
+#     'queue_name_prefix': 'celery-',
+# }
+# BROKER_USER = AWS_ACCESS_KEY_ID
+# BROKER_PASSWORD = AWS_SECRET_ACCESS_KEY
+# # sqs://aws_access_key_id:aws_secret_access_key@
+# BROKER_URL = 'sqs://'+AWS_ACCESS_KEY_ID+':'+AWS_SECRET_ACCESS_KEY+'@'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'

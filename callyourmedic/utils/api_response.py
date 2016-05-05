@@ -25,6 +25,8 @@ HTTP_RESPONSE_MSG_FOR_PASSWORD_UPDATE_ERROR_CURRENT_PASSWORD_MISMATCH = Response
 
 HTTP_RESPONSE_MSG_FOR_NO_DEPARTMENT_FOUND = ResponseMessageSerializer({'message':'Department code not found'}).data
 HTTP_RESPONSE_MSG_FOR_MULTIPLE_DEPARTMENT_FOUND = ResponseMessageSerializer({'message':'Multiple Departments found. Please contact admin.'}).data
+HTTP_RESPONSE_MSG_FOR_NO_ORG_IDENTIFIER_FOR_DEPT = ResponseMessageSerializer({'message':'Org Identifier invalid/unavailable'}).data
+HTTP_RESPONSE_MSG_FOR_ORG_DB_ERROR = ResponseMessageSerializer({'message':'DB Error while fetching Department for Org ID'}).data
 
 
 

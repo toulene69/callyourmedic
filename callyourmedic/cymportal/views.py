@@ -13,6 +13,7 @@ from addresses.models import Address
 from organisations.models import Organisation, Apikey, OrgSettings
 from hospitals.models import Department, Hospital
 from doctors.models import DoctorRegistration, DoctorDetails
+from marketplace.models import Marketplace
 from webportal.models import createSuperUserAndGroup
 from utils import app_utils
 
@@ -123,6 +124,7 @@ def org_details(request,org_id=0):
 			if settings is not None:
 				args['subscription'] = app_utils.get_subscription_type(settings.orgsettings_subscription)
 				args['billing_cycle'] = app_utils.get_billing_cycle(settings.orgsettings_billing_cycle)
+				args['isMarketPlace'] = settings.orgsettings_marketplace
 				args['email']         = settings.orgsettings_email
 				args['email_smtp']    = settings.orgsettings_email_smtp
 				args['voice_rate']    = settings.orgsettings_voice_rate
@@ -255,6 +257,48 @@ def search(request,org_id=0,hospital_id=0):
 
 """ Organisation Views Ends"""
 
+""" Marketplace Views """
+
+def mp_dashboard(request):
+	if isUserLogged(request):
+		args = {}
+		usr_details = request.session['usr_details']
+		args['usr_details'] = usr_details
+		mpSetting = Marketplace.objects.all()
+		mp = None
+		if len(mpSetting) != 0:
+			mp = mpSetting[0]
+			args['mp_apikey'] = mp.apikey
+		return render_to_response('mp_dashboard.html',args)
+	else:
+		return userSessionExpired()
+
+def mp_generateapikey(request):
+	if isUserLogged(request):
+		args = {}
+		usr_details = request.session['usr_details']
+		args['usr_details'] = usr_details
+		key = generateAPIKey()
+		print (key)
+		mpSetting = Marketplace.objects.all()
+		mp = None
+		if len(mpSetting) == 0:
+			print("No settings")
+			mp = Marketplace()
+		else:
+			mp = mpSetting[0]
+		mp.apikey = key
+		try:
+			print("Saving key")
+			mp.save()
+			print "Saved key"
+		except IntegrityError:
+			traceback.print_exc()
+		return  HttpResponseRedirect('/cym/marketplace/')
+	else:
+		return userSessionExpired()
+
+""" Marketplace Views Ends"""
 
 """ User Views """
 
@@ -297,3 +341,4 @@ def usr_group(request):
 		return render_to_response('usr_group.html', usr_details)
 	else:
 		return userSessionExpired()
+

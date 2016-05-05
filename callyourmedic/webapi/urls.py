@@ -11,11 +11,13 @@ urlpatterns = [
     url(r'^logout/', 'webapi.views.logout'),
     url(r'^changepassword/', 'webapi.views.passwordchange'),
     # url(r'^departments/', views.DepartmentList.as_view()),
+    url(r'^orgs/', 'webapi.views.orgs'),
     url(r'^departments/', 'webapi.views.departments'),
     url(r'^doctors/', 'webapi.views.doctors'),
 
     #url(r'^doctors/', views.DoctorList.as_view()),
-
+    url(r'^telephony/', 'webapi.telephony.callback'),
+    url(r'^call/', 'webapi.telephony.webcall'),
 ]
 
 

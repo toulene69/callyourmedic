@@ -33,3 +33,5 @@ class User(models.Model):
 
     def __str__(self): # __unicode__ on Python 2
         return self.usr_first_name
+
+

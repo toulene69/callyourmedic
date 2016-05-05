@@ -96,7 +96,7 @@ class PortalOrgSettingsForm(forms.ModelForm):
 
     class Meta:
         model = OrgSettings
-        exclude = ('orgsettings_subscription','orgsettings_subscription_rate','orgsettings_status',)
+        exclude = ('orgsettings_subscription','orgsettings_subscription_rate','orgsettings_status','orgsettings_marketplace',)
 
 class PortalHospitalSettingsForm(forms.ModelForm):
 

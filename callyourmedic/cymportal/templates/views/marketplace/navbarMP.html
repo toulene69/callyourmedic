@@ -197,7 +197,7 @@
             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> {{first_name}}</a>
+            <li><a href="#"><i class="fa fa-user fa-fw"></i> {% if first_name %} {{first_name}} {% else %} {{usr_details.first_name}} {% endif %}</a>
             </li>
             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
@@ -227,122 +227,8 @@
                 </div>
                 <!-- /input-group -->
             </li>
-            <!--<li>-->
-                <!--<a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>-->
-            <!--</li>-->
             <li>
-                <a href="/cym/organisation"><i class="fa fa-globe fa-fw"></i> Organisation Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/cym/organisation"><i class="fa fa-globe fa-fw"></i> Org Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-search fa-fw"></i> View Organisation<span class="fa arrow"></span></a>
-                         <ul class="nav nav-third-level">
-                             <li>
-                                <a href="/cym/organisationdetails/"><i class="fa fa-fw"></i> Organisation</a>
-                             </li>
-                             <li>
-                                 <a href="/cym/search/"><i class="fa fa-fw"></i> All Search</a>
-                             </li>
-                         </ul>
-                    </li>
-                    <li>
-                        <a href="/cym/organisationnew"><i class="fa fa-plus fa-fw"></i> Add Organisation</a>
-                    </li>
-                     <li>
-                        <a href="/cym/organisationrequests"><i class="fa fa-tasks fa-fw"></i> Org Requests</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="/cym/marketplace"><i class="fa fa-gears fa-fw"></i> Marketplace Management <!--<span class="fa arrow"></span> --></a>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-users fa-fw"></i> User Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <!--<li>-->
-                        <!--<a href="/cym/usr"><i class="fa fa-user fa-fw"></i> User Dashboard</a>-->
-                    <!--</li>-->
-                    <li>
-                        <a href="/cym/usrgroup"><i class="fa fa-group fa-fw"></i> User Groups</a>
-                    </li>
-                    <li>
-                        <a href="/cym/users"><i class="fa fa-plus fa-fw"></i> Users</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-phone fa-fw"></i> Call Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="panels-wells.html">Panels and Wells</a>
-                    </li>
-                    <li>
-                        <a href="buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">Notifications</a>
-                    </li>
-                    <li><a href="typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="icons.html"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Grid</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Transactions <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="panels-wells.html">Panels and Wells</a>
-                    </li>
-                    <li>
-                        <a href="buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">Notifications</a>
-                    </li>
-                    <li><a href="typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="icons.html"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Grid</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-support fa-fw"></i> Issue Management <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="panels-wells.html">Panels and Wells</a>
-                    </li>
-                    <li>
-                        <a href="buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">Notifications</a>
-                    </li>
-                    <li><a href="typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="icons.html"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Grid</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
+                <a href="/cym/dashboard/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
         </ul>
     </div>

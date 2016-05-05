@@ -10,8 +10,9 @@ from utils.app_utils import getPasswordHash, checkPassword, generateAuthToken
 from utils.api_response import *
 
 from doctors.models import DoctorDetails, DoctorRegistration
-from organisations.models import Apikey,Organisation
+from organisations.models import Apikey,Organisation, OrgSettings
 from patients.models import PatientAuthToken, Patients
+from marketplace.models import Marketplace
 from serializers import *
 
 import traceback
@@ -95,19 +96,33 @@ def patient_login(request):
     key = None
     patient = None
     ## check for apikey
+
+    isMarketplace = False
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
-    except(KeyError, Apikey.DoesNotExist):
-        return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
-    ## check for apikey status
-    if key.apikey_status :
-        ## check for patient
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info(LOG_STR +"Not a marketplace app request")
+    if isMarketplace is False:
         try:
-            patient = Patients.objects.get(patient_org = key.apikey_org, patient_email = emailid)
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+        except(KeyError, Apikey.DoesNotExist):
+            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+        ## check for apikey status
+        if key.apikey_status :
+            ## check for patient
+            try:
+                patient = Patients.objects.get(patient_org = key.apikey_org, patient_email = emailid)
+            except(KeyError,Patients.DoesNotExist):
+                return Response(HTTP_RESPONSE_MSG_FOR_USER_NOT_EXISTS,status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+
+    else:
+        try:
+            patient = Patients.objects.get(patient_email = emailid, patient_ismarketplace = True)
         except(KeyError,Patients.DoesNotExist):
             return Response(HTTP_RESPONSE_MSG_FOR_USER_NOT_EXISTS,status=status.HTTP_404_NOT_FOUND)
-    else:
-        return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
     ## password check
 
     if checkPassword(password,patient.patient_password):
@@ -142,27 +157,40 @@ def patient_logout(request):
         return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_400_BAD_REQUEST)
     LOG_STR = HTTP_METHOD + request.method +',' + API_KEY + apikey + ',' + MSG
 
+    isMarketplace = False
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info(LOG_STR +"Not a marketplace app request")
 
-    except(KeyError, Apikey.DoesNotExist):
-        return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+    if isMarketplace is False:
+        try:
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+
+        except(KeyError, Apikey.DoesNotExist):
+            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+        if key.apikey_status is False:
+            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+
     patientAuthTokObj = None
-    if key.apikey_status :
-        patient_tok_array = PatientAuthToken.objects.filter(patient_token__exact = authtoken)
+    patient_tok_array = PatientAuthToken.objects.filter(patient_token__exact = authtoken)
 
-        if len(patient_tok_array) == 1:
-            patientAuthTokObj = patient_tok_array[0]
-        else:
-            return Response(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+    if len(patient_tok_array) == 1:
+        patientAuthTokObj = patient_tok_array[0]
     else:
-        return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
-    if patientAuthTokObj.patient.patient_org.org_id == key.apikey_org.org_id :
+        return Response(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+    if isMarketplace:
         patientAuthTokObj.patient_token = ''
         patientAuthTokObj.save()
         return Response(HTTP_RESPONSE_MSG_FOR_USER_LOGOUT_SUCCESS,status=status.HTTP_200_OK)
     else:
-        return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
+        if patientAuthTokObj.patient.patient_org.org_id == key.apikey_org.org_id :
+            patientAuthTokObj.patient_token = ''
+            patientAuthTokObj.save()
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_LOGOUT_SUCCESS,status=status.HTTP_200_OK)
+        else:
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -188,58 +216,93 @@ def create_patient(request):
 
     apikey = request.data['apikey']
     LOG_STR = HTTP_METHOD + request.method +',' + API_KEY + apikey + ',' + MSG
+    if 'emailid' not in request.data or 'password' not in request.data or 'phone' not in request.data:
+        return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_400_BAD_REQUEST)
+
+    emailid = request.data['emailid']
+    password = request.data['password']
+    phone = request.data['phone']
+    isMarketplace = False
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
-        emailid = request.data['emailid']
-        password = request.data['password']
-        phone = request.data['phone']
-        if key.apikey_status :
-            try:
-                patient_exsits = Patients.objects.get(patient_org = key.apikey_org, patient_email = emailid)
-                if patient_exsits is not None :
-                    logger.error(LOG_STR +"Patient Creation : Already exists with emailid ["+emailid+"]")
-                    return Response(HTTP_RESPONSE_MSG_FOR_USER_ALREADY_EXISTS,status=status.HTTP_409_CONFLICT)
-            except(KeyError, Patients.DoesNotExist):
-                logger.info(LOG_STR +"Patient Creation : New Email id ["+emailid+"]")
-            # patient = Patients(patient_org = key.apikey_org, patient_email = emailid, patient_password = password, patient_phone1 = phone)
-            dict = {}
-            dict['patient_email'] = emailid
-            dict['patient_phone1'] = phone
-            dict['patient_password'] = getPasswordHash(password)
-            dict['patient_org'] = key.apikey_org.org_id
-            patientserializer = PatientSerializer(data = dict)
-            if patientserializer.is_valid():
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info(LOG_STR +"Not a marketplace app request")
+
+    if isMarketplace:
+        try:
+            patient_exsits = Patients.objects.get(patient_email = emailid)
+            if patient_exsits is not None :
+                logger.error(LOG_STR +"Patient Creation : Already exists for marketplace app with emailid ["+emailid+"]")
+                return Response(HTTP_RESPONSE_MSG_FOR_USER_ALREADY_EXISTS,status=status.HTTP_409_CONFLICT)
+        except(KeyError, Patients.DoesNotExist):
+            logger.info(LOG_STR +"Patient Creation for marketplace : New Email id ["+emailid+"]")
+    else:
+        try:
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+            if key.apikey_status :
                 try:
-                    with transaction.atomic():
-                        # patientserializer.save()
-                        patient = Patients(patient_org = key.apikey_org, patient_email = dict['patient_email'], patient_password = dict['patient_password'],
-                        patient_phone1 = dict['patient_phone1'])
-                        patient.save()
-                        patient_tok = PatientAuthToken()
-                        patient_tok.patient = patient
-                        patient_tok.patient_token = ''
-                        patient_tok.save()
-                        return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATED,status=status.HTTP_201_CREATED)
-                except IntegrityError:
-                    return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATE_DB_ERROR,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    patient_exsits = Patients.objects.get(patient_org = key.apikey_org, patient_email = emailid)
+                    if patient_exsits is not None :
+                        logger.error(LOG_STR +"Patient Creation : Already exists with emailid ["+emailid+"]")
+                        return Response(HTTP_RESPONSE_MSG_FOR_USER_ALREADY_EXISTS,status=status.HTTP_409_CONFLICT)
+                except(KeyError, Patients.DoesNotExist):
+                    logger.info(LOG_STR +"Patient Creation : New Email id ["+emailid+"]")
+                # patient = Patients(patient_org = key.apikey_org, patient_email = emailid, patient_password = password, patient_phone1 = phone)
             else:
-                return Response(patientserializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
-    except(KeyError, Apikey.DoesNotExist):
-        return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+                return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+        except(KeyError, Apikey.DoesNotExist):
+            return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+
+    dict = {}
+    dict['patient_email'] = emailid
+    dict['patient_phone1'] = phone
+    dict['patient_password'] = getPasswordHash(password)
+    if isMarketplace:
+        dict['patient_org'] = None
+    else:
+        dict['patient_org'] = key.apikey_org.org_id
+    patientserializer = PatientSerializer(data = dict)
+    if patientserializer.is_valid():
+        try:
+            with transaction.atomic():
+                if isMarketplace:
+                    patient = Patients(patient_org = None, patient_email = dict['patient_email'], patient_password = dict['patient_password'],
+                patient_phone1 = dict['patient_phone1'], patient_ismarketplace = True)
+                else:
+                    patient = Patients(patient_org = key.apikey_org, patient_email = dict['patient_email'], patient_password = dict['patient_password'],
+                patient_phone1 = dict['patient_phone1'])
+                patient.save()
+                patient_tok = PatientAuthToken()
+                patient_tok.patient = patient
+                patient_tok.patient_token = ''
+                patient_tok.save()
+                return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATED,status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATE_DB_ERROR,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        return Response(patientserializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 def update_patient(request):
     apikey = request.data['apikey']
     LOG_STR = HTTP_METHOD + request.method +',' + API_KEY + apikey + ',' + MSG
     """check apikey"""
     key = None
+
+    isMarketplace = False
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
-        if key.apikey_status == False :
-            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
-    except(KeyError, Apikey.DoesNotExist):
-        return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info(LOG_STR +"Not a marketplace app request")
+
+    if isMarketplace is False:
+        try:
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+            if key.apikey_status == False :
+                return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+        except(KeyError, Apikey.DoesNotExist):
+            return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
     authtoken = None
     """Check auth token"""
     try:
@@ -256,8 +319,9 @@ def update_patient(request):
     else:
         patientAuthObj = patient_token_array[0]
 
-    if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
-        return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
+    if isMarketplace is False:
+        if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
     patient_dict = {}
     address_dict = {}
 
@@ -350,16 +414,24 @@ def patient_change_password(request):
         authtoken = request.data['authtoken']
         currentpassword = request.data['currentpassword']
         newpassword = request.data['newpassword']
-        print "hello"
     except:
         return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_400_BAD_REQUEST)
     key = None
+
+    isMarketplace = False
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
-        if key.apikey_status == False :
-            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
-    except(KeyError, Apikey.DoesNotExist):
-        return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info("Not a marketplace app request")
+
+    if isMarketplace is False:
+        try:
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+            if key.apikey_status == False :
+                return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+        except(KeyError, Apikey.DoesNotExist):
+            return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
 
     patient_token_array = PatientAuthToken.objects.filter(patient_token__exact = authtoken)
     patientAuthObj = None
@@ -370,8 +442,9 @@ def patient_change_password(request):
     else:
         patientAuthObj = patient_token_array[0]
 
-    if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
-        return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
+    if isMarketplace is False:
+        if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
 
     if newpassword is None or len(newpassword)==0:
         return Response(HTTP_RESPONSE_MSG_FOR_PASSWORD_UPDATE_ERROR_EMPTY,status=status.HTTP_400_BAD_REQUEST)
@@ -394,6 +467,44 @@ def patient_change_password(request):
         return Response(HTTP_RESPONSE_MSG_FOR_PASSWORD_UPDATE_ERROR_CURRENT_PASSWORD_MISMATCH,status=status.HTTP_400_BAD_REQUEST)
 """"""""""" Patient Ends  """""""""""
 
+"""""Orgs for Marketplace app """""
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def orgs(request):
+    apikey = None
+    if 'apikey' not in request.GET :
+        return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_401_UNAUTHORIZED)
+    if 'authtoken' not in request.GET:
+        return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_401_UNAUTHORIZED)
+    apikey = request.GET['apikey']
+    authtoken = request.GET['authtoken']
+
+    isMarketplace = False
+    try:
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info("Not a marketplace app request to fetch org list")
+        return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+
+    patient_token_array = PatientAuthToken.objects.filter(patient_token__exact = authtoken)
+    patientAuthObj = None
+    if len(patient_token_array) == 0:
+        return Response(HTTP_RESPONSE_MSG_FOR_AUTH_TOKEN_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+    elif len(patient_token_array) > 1:
+        return Response(HTTP_RESPONSE_MSG_FOR_USER_MULTIPLE,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        patientAuthObj = patient_token_array[0]
+
+    mp_organisations = Organisation.objects.filter(org_active = 'A', org_settings__in = OrgSettings.objects.filter(orgsettings_marketplace = True).values('orgsettings_id'))\
+        .values('org_name','org_brand','org_identifier')
+
+    orgserializer = OrgSerializer(mp_organisations,many = True)
+    return Response(orgserializer.data,status=status.HTTP_200_OK)
+
+
+"""""Orgs Ends """""
+
 """"""" Department """""""
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
@@ -403,14 +514,36 @@ def departments(request):
         return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_401_UNAUTHORIZED)
     if 'authtoken' not in request.GET:
         return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_401_UNAUTHORIZED)
+    isMarketplace = False
 
     apikey = request.GET['apikey']
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
-        if key.apikey_status == False :
-            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
-    except(KeyError, Apikey.DoesNotExist):
-        return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info("Not a marketplace app request to fetch org list")
+
+    org = None
+    if isMarketplace:
+        if 'orgid' not in request.GET:
+            return Response(HTTP_RESPONSE_MSG_FOR_NO_ORG_IDENTIFIER_FOR_DEPT,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            orgidentifier = request.GET['orgid']
+            orgList = Organisation.objects.filter(org_identifier__iexact = orgidentifier)
+            if len(orgList) == 0:
+                return Response(HTTP_RESPONSE_MSG_FOR_NO_ORG_IDENTIFIER_FOR_DEPT,status=status.HTTP_400_BAD_REQUEST)
+            elif len(orgList) > 1:
+                return Response(HTTP_RESPONSE_MSG_FOR_ORG_DB_ERROR,status=status.HTTP_400_BAD_REQUEST)
+            else:
+                org = orgList[0]
+    else:
+        try:
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+            if key.apikey_status == False :
+                return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+        except(KeyError, Apikey.DoesNotExist):
+            return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+
     authtoken = request.GET['authtoken']
     """Check auth token"""
     patient_token_array = PatientAuthToken.objects.filter(patient_token__exact = authtoken)
@@ -422,11 +555,15 @@ def departments(request):
     else:
         patientAuthObj = patient_token_array[0]
 
-    if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
-        return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
+    if isMarketplace is False:
+        if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
 
-    departments = Department.objects.filter(department_org__exact = key.apikey_org, department_status=True)
-    print(departments)
+    departments = None
+    if isMarketplace:
+        departments = Department.objects.filter(department_org__exact = org, department_status=True)
+    else:
+        departments = Department.objects.filter(department_org__exact = key.apikey_org, department_status=True)
     departmentserializer = DepartmentSerializer(departments,many=True)
     return Response(departmentserializer.data,status=status.HTTP_200_OK)
 
@@ -500,11 +637,32 @@ def doctors(request):
         return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_400_BAD_REQUEST)
     apikey = request.GET['apikey']
     try:
-        key = Apikey.objects.get(apikey_key__exact = apikey)
-        if key.apikey_status == False :
-            return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
-    except(KeyError, Apikey.DoesNotExist):
-        return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+        mp_key = Marketplace.objects.get(apikey__exact = apikey)
+        isMarketplace = True
+    except:
+        logger.info("Not a marketplace app request to fetch org list")
+
+    org = None
+    if isMarketplace:
+        if 'orgid' not in request.GET:
+            return Response(HTTP_RESPONSE_MSG_FOR_NO_ORG_IDENTIFIER_FOR_DEPT,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            orgidentifier = request.GET['orgid']
+            orgList = Organisation.objects.filter(org_identifier__iexact = orgidentifier)
+            if len(orgList) == 0:
+                return Response(HTTP_RESPONSE_MSG_FOR_NO_ORG_IDENTIFIER_FOR_DEPT,status=status.HTTP_400_BAD_REQUEST)
+            elif len(orgList) > 1:
+                return Response(HTTP_RESPONSE_MSG_FOR_ORG_DB_ERROR,status=status.HTTP_400_BAD_REQUEST)
+            else:
+                org = orgList[0]
+    else:
+        try:
+            key = Apikey.objects.get(apikey_key__exact = apikey)
+            if key.apikey_status == False :
+                return Response(HTTP_RESPONSE_MSG_FOR_APIKEY_EXPIRED,status=status.HTTP_401_UNAUTHORIZED)
+        except(KeyError, Apikey.DoesNotExist):
+            return  Response(HTTP_RESPONSE_MSG_FOR_APIKEY_INVALID,status=status.HTTP_401_UNAUTHORIZED)
+
     authtoken = request.GET['authtoken']
     """Check auth token"""
     patient_token_array = PatientAuthToken.objects.filter(patient_token__exact = authtoken)
@@ -515,18 +673,29 @@ def doctors(request):
         return Response(HTTP_RESPONSE_MSG_FOR_USER_MULTIPLE,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
         patientAuthObj = patient_token_array[0]
-    if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
-        return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
+    if isMarketplace is False:
+        if patientAuthObj.patient.patient_org.org_id != key.apikey_org.org_id :
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_AUTH_APIKEY_ERROR,status=status.HTTP_401_UNAUTHORIZED)
+
     department = None
+    departments_array = None
     department_code = request.GET['department_code']
-    departments_array = Department.objects.filter(department_org__exact = key.apikey_org,department_code__exact = department_code)
+    if isMarketplace:
+        departments_array = Department.objects.filter(department_org__exact = org,department_code__exact = department_code)
+    else:
+        departments_array = Department.objects.filter(department_org__exact = key.apikey_org,department_code__exact = department_code)
     if len(departments_array) == 0:
         return Response(HTTP_RESPONSE_MSG_FOR_NO_DEPARTMENT_FOUND,status=status.HTTP_404_NOT_FOUND)
     elif len(departments_array) > 1 :
         return Response(HTTP_RESPONSE_MSG_FOR_MULTIPLE_DEPARTMENT_FOUND,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
         department = departments_array[0]
-    queryset = DoctorDetails.objects.filter(doctor_id__in = DoctorRegistration.objects.filter(doctor_org = key.apikey_org,doctor_department = department))
+
+    queryset = None
+    if isMarketplace:
+        queryset = DoctorDetails.objects.filter(doctor_id__in = DoctorRegistration.objects.filter(doctor_org = org,doctor_department = department))
+    else:
+        queryset = DoctorDetails.objects.filter(doctor_id__in = DoctorRegistration.objects.filter(doctor_org = key.apikey_org,doctor_department = department))
     departmentserializer = DoctorDetailSerializer(queryset,many=True)
     return Response(departmentserializer.data,status=status.HTTP_200_OK)
 

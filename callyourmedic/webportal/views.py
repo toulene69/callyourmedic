@@ -128,6 +128,7 @@ def org_dashboard(request):
             args['status'] = settings.orgsettings_status
             args['isVoice'] = False
             args['isVideo'] = False
+            args['isMarketPlace'] = settings.orgsettings_marketplace
             if organisation.org_settings.orgsettings_subscription == 'C':
                 args['isVoice'] = True
             else:
@@ -258,6 +259,9 @@ def hospital_new(request,org_id=0):
                             traceback.print_exc()
                             error = 'Error saving new hospital!'
                 else:
+
+                    print(formHospital.errors)
+                    print(formAddress.errors)
                     error = 'Error creating new hospital. Form submitted is invalid'
             else:
                 formHospital = PortalHospitalCreationForm()

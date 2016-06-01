@@ -32,7 +32,7 @@ class Organisation(models.Model):
     org_brand        = models.CharField(max_length = 200)
     org_identifier   = models.CharField(max_length = 20, unique = True)
     org_emailid      = models.EmailField()
-    org_phone        = models.CharField(max_length = 11,blank = True)
+    org_phone        = models.CharField(max_length = 30,blank = True)
     org_active       = models.CharField(max_length = 1, choices = app_utils.choices_active_status())
     org_address      = models.ForeignKey(Address)
     org_date_joined  = models.DateTimeField(default = app_utils.date_default())

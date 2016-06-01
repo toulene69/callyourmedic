@@ -45,14 +45,14 @@
                     </div>
                     <div class="col-lg-3">
                         <label >Phone Number</label>
-                        {% render_field formDocDetails.doctor_phone1 class+="form-control" required="true"%}
+                        {% render_field formDocDetails.doctor_phone1 class+="form-control" required="true" type+="number"%}
                         <div class="form-group has-error">
                             <label class="control-label" >{{ formDocDetails.doctor_phone1.errors.as_text }}</label>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <label >Alternate Phone Number</label>
-                        {% render_field formDocDetails.doctor_phone2 class+="form-control" %}
+                        {% render_field formDocDetails.doctor_phone2 class+="form-control" type+="number"%}
                         <div class="form-group has-error">
                             <label class="control-label" >{{ formDocDetails.doctor_phone2.errors.as_text }}</label>
                         </div>

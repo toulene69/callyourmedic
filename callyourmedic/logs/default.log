@@ -694,3 +694,7 @@
 [3500 MainProcess] [2016-01-31 16:52:59,812] [DEBUG] [django.db.backends.schema | execute] : ALTER TABLE "organisations_organisation" ALTER COLUMN "org_date_joined" DROP DEFAULT; (params [])
 [3500 MainProcess] [2016-01-31 16:52:59,833] [DEBUG] [django.db.backends.schema | execute] : ALTER TABLE "patients_patients" ALTER COLUMN "patient_date_joined" SET DEFAULT %s; (params [datetime.datetime(2016, 1, 31, 16, 52, 35, 825997, tzinfo=<UTC>)])
 [3500 MainProcess] [2016-01-31 16:52:59,834] [DEBUG] [django.db.backends.schema | execute] : ALTER TABLE "patients_patients" ALTER COLUMN "patient_date_joined" DROP DEFAULT; (params [])
+[53809 MainProcess] [2016-06-19 11:28:45,981] [DEBUG] [boto | get_credentials] : Using access key provided by client.
+[53809 MainProcess] [2016-06-19 11:28:45,981] [DEBUG] [boto | get_credentials] : Using secret key provided by client.
+[53931 MainProcess] [2016-06-19 11:32:35,222] [DEBUG] [boto | get_credentials] : Using access key provided by client.
+[53931 MainProcess] [2016-06-19 11:32:35,222] [DEBUG] [boto | get_credentials] : Using secret key provided by client.

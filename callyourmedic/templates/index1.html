@@ -47,7 +47,8 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse" style="margin-top:14px;float:right;">
               <ul class="nav navbar-nav">
-                <li ><a href="#">Request a Demo</a></li>
+                <li class="active"><a href="/">Home</a></li>
+                <li ><a href="#demo">Request a Demo</a></li>
                 <li><a href="#">Developers</a></li>
                 <li><a href="#">Contact Us</a></li>
                 <li class="dropdown">
@@ -88,7 +89,7 @@
                 <div class="carousel-caption">
                   <h1>Call Your Medic</h1>
                   <p>Teleconsulting services platform for hospitals with Voice/Video calling for online consultation and connecting patients across country with reputed hospitals.</p>
-                  <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                  <p><a class="btn btn-lg btn-primary" href="#demo" role="button">Sign up today</a></p>
                 </div>
               </div>
             </div>
@@ -98,7 +99,7 @@
                 <div class="carousel-caption">
                   <h1>Technological Platform as SaaS model</h1>
                   <p>An easy-to-use web and mobile based platform to make smooth online cousultation. SaaS model reduces cost of tech management enabling hospitals to focus on core competencies.</p>
-                  <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                  <p><a class="btn btn-lg btn-primary" href="#learn" role="button">Learn more</a></p>
                 </div>
               </div>
             </div>
@@ -180,9 +181,13 @@
 <!--src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="-->
       <!-- START THE FEATURETTES -->
 
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
+      <hr id="learn" class="featurette-divider">
+      <div class="row">
+        <div class="cl-lg-12" align="center" style="margin-bottom:50px;">
+          <img class="img" src="{% static "site/technology.png"%}" alt="Generic placeholder image" width="400" height="140" >
+        </div>
+      </div>
+      <div  class="row featurette" >
         <div class="col-md-8">
           <h2 class="featurette-heading">Telemedicine on SaaS. <span class="text-muted">It'll blow your mind.</span></h2>
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
@@ -209,7 +214,7 @@
       <div class="row featurette">
         <div class="col-md-8">
           <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-4">
           <img class="featurette-image img-responsive center-block" src="{% static "site/cloud-telephony.png" %}" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
@@ -217,18 +222,55 @@
       </div>
 
       <hr class="featurette-divider">
+      <div id="demo" class="row">
+        <div class="cl-lg-12" align="center" style="margin-bottom:50px;">
+          <img class="img" src="{% static "site/contact.png"%}" alt="Generic placeholder image" width="350" height="140" >
+        </div>
+      </div>
+      <div class="row marketing">
 
-      <!-- /END THE FEATURETTES -->
+            <!--<div class="col-lg-4">-->
+            <!--</div>-->
+            <div class="jumbotron">
+              <h3>Request a demo</h3>
+              <p class="lead">Interested in our product! Fill up the below form and our sales team will contact you. <br>
+                  We can get you started with very simple steps.
+              </p>
 
+              <!--<p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>-->
+            </div>
+            <form>
+            <div class="col-lg-6 ">
+                <input type="text" class="form-control" placeholder="Full Name" required>
+                <br>
 
-      <!-- FOOTER -->
-        <footer >
-            <p class="pull-right"><a href="#">Back to top</a></p>
-            <p>&copy; 2016 RedHeap Technologies Pvt. Ltd. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-        </footer>
+                <input type="email" class="form-control" placeholder="Email Address" required>
+                <br>
+                <input type="text" class="form-control" placeholder="Phone number" required>
+                <br>
+                <input type="text" class="form-control" placeholder="Organisation Name" required>
+                <br>
+                <textarea type="text-area" class="form-control" placeholder="Message" rows="7"></textarea>
+                <br>
+                <p><a class="btn btn-lg btn-primary" href="#" role="button">Submit</a></p>
+            </div>
+            </form>
+          <div class="col-lg-6">
+              <img style="width:550px;height:400px;" src="{% static "site/demo.png"%}">
+            </div>
+      </div>
+
+      <hr class="featurette-divider">
 
     </div><!-- /.container -->
 
+    <footer class="footer" style="background:#95a5a6; height:300px;" >
+      <div class="container" >
+        <hr class="featurette-divider">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p >&copy; 2016 RedHeap Technologies Pvt. Ltd. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </div>
+    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

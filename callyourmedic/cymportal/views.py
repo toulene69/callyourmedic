@@ -50,7 +50,7 @@ def login(request):
 					args['formLogin'] = formLogin
 					args['error'] = error
 					return render_to_response('login.html',args)
-				if obj.usr_password == password:
+				if app_utils.checkPassword(password,obj.usr_password):
 					try:
 						createUserSession(request,obj)
 						return HttpResponseRedirect('/cym/dashboard')

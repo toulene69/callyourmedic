@@ -10,11 +10,11 @@ from django.utils import timezone
 import pytz, time
 
 # model imports
-from models import User
-from models import Group
+from models import *
 from organisations.models import Organisation, OrgSettings, Apikey
 from hospitals.models import Hospital, Department
 from doctors.models import DoctorDetails, DoctorRegistration
+from mailer.views import *
 # form imports
 from forms import CYMUserGroupCreationForm
 from forms import CYMUserCreationForm, CYMOrgSettingsForm
@@ -23,7 +23,6 @@ from forms import CYMUserCreationForm, CYMOrgSettingsForm
 from utils.session_utils import isUserLogged , userSessionExpired
 from utils.app_utils import get_permission , get_active_status
 from utils import app_utils
-# from cymportal.tasks import mail_to_user
 import logging
 
 logger = logging.getLogger('cym')
@@ -97,13 +96,49 @@ def usr_usrgroupnew(request):
 			groupCreationForm = CYMUserGroupCreationForm(request.POST)
 			if groupCreationForm.is_valid():
 				try:
-					groupCreationForm.save()
+					group = groupCreationForm.save()
 					usr_details = request.session['usr_details']
 					args['usr_details'] = usr_details
+					# print(groupCreationForm.cleaned_data['grp_name'])
+					if group.groupTotalPermissionLevel() == MAX_PERMISSION_LEVEL :
+						group.is_super = True
+						group.save()
+					users = list(User.objects.filter(usr_group__in = Group.objects.filter(is_super = True)).values('usr_email'))
+					mail_dict = MAIL_DATA_DICT
+					# MAIL_DATA_DICT = {
+					# 	TYPE : None,
+					# 	TO : None,
+					# 	CC : None,
+					# 	BCC : None,
+					# 	FROM : None,
+					# 	MESSAGE : None,
+					# 	DETAILS : None
+					# }
+					usr = []
+					if users is not None and len(users) != 0:
+						for user in users:
+							usr.append(user['usr_email'])
+					print(usr)
+					mail_dict[TYPE] = MAIL_CYM_GROUP
+					mail_dict[TO] = usr
+					grp = {}
+					grp['Group Name'] = groupCreationForm.cleaned_data['grp_name']
+					grp['Org level'] = get_permission(groupCreationForm.cleaned_data['grp_org'])
+					grp['Hospital level'] = get_permission(groupCreationForm.cleaned_data['grp_hospital'])
+					grp['Doctor level'] = get_permission(groupCreationForm.cleaned_data['grp_doctor'])
+					grp['Patient level'] = get_permission(groupCreationForm.cleaned_data['grp_patients'])
+					grp['Call level'] = get_permission(groupCreationForm.cleaned_data['grp_call'])
+					grp['Transaction level'] = get_permission(groupCreationForm.cleaned_data['grp_transaction'])
+					grp['User level'] = get_permission(groupCreationForm.cleaned_data['grp_user'])
+					mail_dict[DETAILS] = grp
+					mailer = EmailHandler(mail_dict)
+					logger.info("Sending mail for CYM Group creation")
+					mailer.send_mail()
 					return render_to_response('usr_group.html', args)
 				except:
 					print '********* form invalid'
 					error = 'Error creating group. Please try again'
+					traceback.print_exc()
 					formError = True
 					usr_details = request.session['usr_details']
 					args['formError'] = formError
@@ -144,14 +179,34 @@ def usr_usernew(request):
 					user.usr_last_name = userCreationForm.cleaned_data['usr_last_name']
 					user.usr_email = userCreationForm.cleaned_data['usr_email']
 					user.usr_phone = userCreationForm.cleaned_data['usr_phone']
-					user.usr_password = app_utils.generateRandomPassword()
+					randPass = app_utils.generateRandomPassword()
+					user.usr_password = app_utils.getPasswordHash(randPass)
 					user.usr_group = userCreationForm.cleaned_data['usr_group']
-
 					user.save()
 					# userCreationForm.save()
 					usr_details = request.session['usr_details']
 					args['usr_details'] = usr_details
-					# mail_to_user.delay(user.usr_email,user.usr_password,user.usr_group.grp_name,user.usr_first_name)
+					mail_dict = MAIL_DATA_DICT
+					# MAIL_DATA_DICT = {
+					# 	TYPE : None,
+					# 	TO : None,
+					# 	CC : None,
+					# 	BCC : None,
+					# 	FROM : None,
+					# 	MESSAGE : None,
+					# 	DETAILS : None
+					# }
+					mail_dict[TYPE] = MAIL_CYM_USER
+					mail_dict[TO] = [user.usr_email]
+					details = {
+						"User Name" : user.usr_email,
+						"Password" : randPass,
+						"Group" : user.usr_group.grp_name
+					}
+					mail_dict[DETAILS] = details
+					mailer = EmailHandler(mail_dict)
+					logger.info("Sending mail for CYM user creation "+user.usr_email)
+					mailer.send_mail()
 					return render_to_response('usr_user.html', args)
 				except:
 					print '********* form invalid'

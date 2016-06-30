@@ -9,7 +9,7 @@ from utils.app_utils import get_permission, getPasswordHash
 from hospitals.models import Hospital
 # web portal users and user groups
 
-
+MAX_GRP_PERMISSION_LEVEL_PORTAL = 14
 
 class WebGroup(models.Model):
 
@@ -25,9 +25,18 @@ class WebGroup(models.Model):
     grp_user        = models.PositiveIntegerField(blank = False, choices = choices_user_permissions())
     grp_status      = models.BooleanField(default = True)
     is_super        = models.BooleanField(default = False)
+
     def __str__(self): # __unicode__ on Python 2
         return self.grp_name
 
+    def groupTotalPermissionLevel(self):
+        return self.grp_org + self.grp_hospital + self.grp_doctor + self.grp_patients + self.grp_call + self.grp_transaction + self.grp_user
+
+    def isSuperGroup(self):
+        if self.groupTotalPermissionLevel() == MAX_GRP_PERMISSION_LEVEL_PORTAL:
+            return True
+        else:
+            return False
 
 class WebUser(models.Model):
 
@@ -69,14 +78,15 @@ def createSuperUserAndGroup(emailid,phonenumber,org,usr_first_name,org_identifie
             superadmin.save()
             superuser.usr_group = superadmin
             superuser.save()
-        send_mail_for_group(superuser.usr_email,superadmin)
-        send_mail_for_super_user(superuser,randomPassword,org_identifier)
+        send_mail_for_group([superuser.usr_email],superadmin)
+        send_mail_for_user(superuser,randomPassword,org_identifier)
         return True
     except:
         return False
 
 
-def send_mail_for_group(email,superadmin):
+def send_mail_for_group(emails,group):
+    """takes an array of email receipients and WebGroup. Sends mail to all super admins of the organisation"""
     mail_dict = MAIL_DATA_DICT
     # MAIL_DATA_DICT = {
     #  	TYPE : None,
@@ -88,22 +98,25 @@ def send_mail_for_group(email,superadmin):
     #  	DETAILS : None
     #  }
     mail_dict[TYPE] = MAIL_PORTAL_GROUP
-    mail_dict[TO] = [email]
+    mail_dict[TO] = emails
     grp = {}
-    grp['Group Name'] = superadmin.grp_name
-    grp['Org level'] = get_permission(superadmin.grp_org)
-    grp['Hospital level'] = get_permission(superadmin.grp_hospital)
-    grp['Doctor level'] = get_permission(superadmin.grp_doctor)
-    grp['Patient level'] = get_permission(superadmin.grp_patients)
-    grp['Call level'] = get_permission(superadmin.grp_call)
-    grp['Transaction level'] = get_permission(superadmin.grp_transaction)
-    grp['User level'] = get_permission(superadmin.grp_user)
+    grp['Group Name'] = group.grp_name
+    grp['Org level'] = get_permission(group.grp_org)
+    grp['Hospital level'] = get_permission(group.grp_hospital)
+    grp['Doctor level'] = get_permission(group.grp_doctor)
+    grp['Patient level'] = get_permission(group.grp_patients)
+    grp['Call level'] = get_permission(group.grp_call)
+    grp['Transaction level'] = get_permission(group.grp_transaction)
+    grp['User level'] = get_permission(group.grp_user)
     mail_dict[DETAILS] = grp
     mailer = EmailHandler(mail_dict)
-    logger.info("Sending mail org admin for Super Admin group creation")
+    logger.info("Sending mail org admin for group creation")
     mailer.send_mail()
 
-def send_mail_for_super_user(superuser,randomPassword,org_identifier):
+def send_mail_for_user(user,randomPassword,org_identifier):
+    """
+        Parameters : WebUser, random passwrod, org_identifier
+    """
     mail_dict = MAIL_DATA_DICT
     # MAIL_DATA_DICT = {
     #  	TYPE : None,
@@ -115,13 +128,13 @@ def send_mail_for_super_user(superuser,randomPassword,org_identifier):
     #  	DETAILS : None
     #  }
     mail_dict[TYPE] = MAIL_PORTAL_USER
-    mail_dict[TO] = [superuser.usr_email]
+    mail_dict[TO] = [user.usr_email]
     grp = {}
-    grp['Name'] = superuser.usr_first_name
-    grp['User Name'] = superuser.usr_email
+    grp['Name'] = user.usr_first_name
+    grp['User Name'] = user.usr_email
     grp['Password'] = randomPassword
     grp['Org Identifier'] = org_identifier
     mail_dict[DETAILS] = grp
     mailer = EmailHandler(mail_dict)
-    logger.info("Sending mail org admin for Super Admin creation")
+    logger.info("Sending mail for user creation")
     mailer.send_mail()

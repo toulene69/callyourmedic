@@ -23,7 +23,7 @@ MAIL_PORTAL_PATIENT = 5
 MAIL_PORTAL_DEPARTMENT = 6
 MAIL_PORTAL_ORG = 7
 MAIL_PORTAL_DOCTOR = 8
-
+MAIL_ORG_CREATE = 9
 
 
 def handle_mails(mail_data_dict):
@@ -52,11 +52,22 @@ class EmailHandler:
 
         elif mail_type == MAIL_PORTAL_USER :
             self.template = 'portal_usr_mail.html'
+            self.mail_dict[MESSAGE] = MAIL_MESSAGE_PORTAL_USER_CREATE
+            self.mail_dict[SUBJECT] = MAIL_SUBJECT_USER_CREATE
             self.user(PORTAL)
 
         elif mail_type == MAIL_PORTAL_GROUP :
-            self.template = 'portal_grp_mail.html'
+            self.template = 'portal_group_mail.html'
+            self.mail_dict[MESSAGE] = MAIL_MESSAGE_PORTAL_GROUP_CREATE
+            self.mail_dict[SUBJECT] = MAIL_SUBJECT_GROUP_CREATE
             self.group(PORTAL)
+
+        elif mail_type == MAIL_ORG_CREATE:
+            self.template = 'org_create_mail.html'
+            self.mail_dict[MESSAGE] = MAIL_MESSAGE_ORG_CREATE
+            self.mail_dict[SUBJECT] = MAIL_SUBJECT_ORG_CREATE
+            self.org(PORTAL)
+
 
     def user(self,type):
         if type == CYM:
@@ -64,7 +75,9 @@ class EmailHandler:
             logger.info("Mailer for CYM User " + json_string)
             mail_to_send.delay(self.mail_dict[TO],self.mail_dict[FROM],self.mail_dict[CC],self.mail_dict[BCC],self.mail_dict[SUBJECT],self.mail_dict[MESSAGE],self.template,self.mail_dict[DETAILS])
         elif type == PORTAL:
-            return None
+            json_string = json.dumps(self.mail_dict)
+            logger.info("Mailer for Portal User " + json_string)
+            mail_to_send.delay(self.mail_dict[TO],self.mail_dict[FROM],self.mail_dict[CC],self.mail_dict[BCC],self.mail_dict[SUBJECT],self.mail_dict[MESSAGE],self.template,self.mail_dict[DETAILS])
         else:
             return None
 
@@ -74,5 +87,18 @@ class EmailHandler:
             json_string = json.dumps(self.mail_dict)
             logger.info("Mailer for CYM Group " + json_string)
             mail_to_send.delay(self.mail_dict[TO],self.mail_dict[FROM],self.mail_dict[CC],self.mail_dict[BCC],self.mail_dict[SUBJECT],self.mail_dict[MESSAGE],self.template,self.mail_dict[DETAILS])
+        elif type == PORTAL:
+            json_string = json.dumps(self.mail_dict)
+            logger.info("Mailer for Portal Group " + json_string)
+            mail_to_send.delay(self.mail_dict[TO],self.mail_dict[FROM],self.mail_dict[CC],self.mail_dict[BCC],self.mail_dict[SUBJECT],self.mail_dict[MESSAGE],self.template,self.mail_dict[DETAILS])
 
+    def org(self,type):
+        if type == CYM:
+            return
+        elif type == PORTAL:
+            json_string = json.dumps(self.mail_dict)
+            logger.info("Mail for org creation with details : "+json_string)
+            mail_to_send.delay(self.mail_dict[TO],self.mail_dict[FROM],self.mail_dict[CC],self.mail_dict[BCC],self.mail_dict[SUBJECT],self.mail_dict[MESSAGE],self.template,self.mail_dict[DETAILS])
 
+        else:
+            return

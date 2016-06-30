@@ -9,15 +9,17 @@ import pytz, time
 from django.db import IntegrityError, transaction
 
 from organisations.models import Organisation, OrgSettings
-from models import WebUser, WebGroup
+from models import WebUser, WebGroup, send_mail_for_group, send_mail_for_user
 from hospitals.models import Hospital, Department, HospitalSettings
 from doctors.models import DoctorRegistration, DoctorDetails, DoctorSettings
 # utils imports
 from utils.session_utils import isUserLogged , userSessionExpired
-from utils.app_utils import get_permission , get_active_status, generateRandomPassword, get_subscription_type
+from utils.app_utils import get_permission , get_active_status, generateRandomPassword, get_subscription_type, getPasswordHash
 
 # form imports
 from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm, PortalOrgSettingsForm, PortalHospitalSettingsForm, PortalDoctorSettingsForm
+
+from mailer.views import *
 
 import logging
 
@@ -171,6 +173,16 @@ def usr_usrgroupnew(request,org_id):
 						groupForm.grp_org_id = org
 						groupForm.grp_status = True
 						groupForm.save()
+						if groupForm.isSuperGroup():
+							groupForm.is_super = True
+							groupForm.save()
+
+						users = list(WebUser.objects.filter(usr_group__in = WebGroup.objects.filter(is_super = True, grp_org_id__exact = org)).values('usr_email'))
+						usr = []
+						if users is not None and len(users) != 0:
+							for user in users:
+								usr.append(user['usr_email'])
+						send_mail_for_group(usr, groupForm)
 						return render(request,'w_group_usr.html')
 					except:
 						print '********* form invalid'
@@ -203,6 +215,7 @@ def usr_usrgroupnew(request,org_id):
 		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
 		return HttpResponse(html)
 
+
 def usr_usernew(request,org_id=0):
 	error = None
 	formError = False
@@ -219,9 +232,11 @@ def usr_usernew(request,org_id=0):
 						userForm = userCreationForm.save(commit=False)
 						org = Organisation.objects.get(org_id__exact = org_id)
 						userForm.usr_org = org
-						userForm.usr_password = generateRandomPassword()
+						randomPassword = generateRandomPassword()
+						userForm.usr_password = getPasswordHash(randomPassword)
 						userForm.usr_status = True
 						userForm.save()
+						send_mail_for_user(userForm,randomPassword,org.org_identifier)
 						return render(request,'w_users_usr.html')
 					except:
 						print '********* form invalid'

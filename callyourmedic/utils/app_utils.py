@@ -146,6 +146,7 @@ def generateAuthToken(length=64):
     return tok
 
 def getPasswordHash(password):
+    """Gives the hash of the given password string"""
     if password is None :
         return None
     else:

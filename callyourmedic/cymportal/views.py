@@ -22,7 +22,9 @@ from addresses.forms import AddressForm
 from forms import CYMUserLoginForm , CYMOrganisationCreationForm , CYMOrganisationSelectionForm, CYMOrgHospitalSelectionForm
 
 from utils.session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired
-from utils.app_utils import generateAPIKey
+from utils.app_utils import generateAPIKey, get_active_status
+
+from mailer.views import *
 
 import logging
 
@@ -192,11 +194,12 @@ def org_new(request):
 						identifier = str(organisation.org_id) + '_' + organisation.org_brand
 						organisation.org_identifier = identifier.replace(" ", "")
 						organisation.save()
-						success = createSuperUserAndGroup(organisation.org_emailid,organisation.org_phone,organisation,'Super Admin')
+						success = createSuperUserAndGroup(organisation.org_emailid,organisation.org_phone,organisation,'Super Admin',organisation.org_identifier)
 						if success:
 							print 'Super User Created'
 						else:
 							print 'Error while creating super user'
+						send_mail_to_org_admin(organisation)
 					args['usr_details'] = usr_details
 					args['new_org_added'] = organisation.org_name
 					args['new_org_id'] = organisation.org_id
@@ -217,6 +220,31 @@ def org_new(request):
 		return render_to_response('org_new.html',args)
 	else:
 		return userSessionExpired()
+
+def send_mail_to_org_admin(organisation):
+	mail_dict = MAIL_DATA_DICT
+    # MAIL_DATA_DICT = {
+    #  	TYPE : None,
+    #  	TO : None,
+    #  	CC : None,
+    #  	BCC : None,
+    #  	FROM : None,
+    #  	MESSAGE : None,
+    #  	DETAILS : None
+    #  }
+	mail_dict[TYPE] = MAIL_ORG_CREATE
+	mail_dict[TO] = [organisation.org_emailid]
+	org = {}
+	org['Name'] = organisation.org_name
+	org['Brand'] = organisation.org_brand
+	org['Identifier'] = organisation.org_identifier
+	org['Status'] = get_active_status(organisation.org_active)
+	org['Email'] = organisation.org_emailid
+	org['Phone'] = organisation.org_phone
+	mail_dict[DETAILS] = org
+	mailer = EmailHandler(mail_dict)
+	logger.info("Sending mail for org creation")
+	mailer.send_mail()
 
 def org_requests(request,org_id=0):
 	temp = get_template('org_requests.html')

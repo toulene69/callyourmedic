@@ -15,7 +15,7 @@ from forms import PortalUserLoginForm, PortalHospitalCreationForm, PortalHospita
 from addresses.forms import AddressForm
 
 from utils.web_portal_session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired, isUserRequestValid
-from utils.app_utils import generateRandomPassword, generateDoctorCode
+from utils.app_utils import generateRandomPassword, generateDoctorCode, checkPassword
 from utils import app_utils
 
 import logging
@@ -52,7 +52,7 @@ def login(request):
                 try:
                     user = WebUser.objects.get(usr_email__iexact = username, usr_org= organisation, usr_status = True)
                     #return HttpResponseRedirect('/web/dashboard/')
-                    if user.usr_password == password:
+                    if checkPassword(password,user.usr_password):
                          createUserSession(request,user)
                          return HttpResponseRedirect('/web/dashboard/')
                     else:

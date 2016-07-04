@@ -15,7 +15,7 @@ class CYMUserLoginForm(forms.Form):
 class CYMUserGroupCreationForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = '__all__'
+        exclude = ('is_super',)
 
 class CYMUserCreationForm(forms.ModelForm):
 

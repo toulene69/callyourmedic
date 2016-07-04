@@ -1,0 +1,10 @@
+[19977 Worker-1] [2016-06-28 20:04:54,405] [INFO] [tasks | mail_to_send] : Mail sent
+[20082 Worker-1] [2016-06-28 20:24:36,941] [ERROR] [tasks | mail_to_send] : Error in sending mail. Printing traceback
+[20083 Worker-2] [2016-06-28 20:28:22,209] [ERROR] [tasks | mail_to_send] : Error in sending mail. Printing traceback
+[20084 Worker-3] [2016-06-28 20:30:20,472] [ERROR] [tasks | mail_to_send] : Error in sending mail. Printing traceback
+[20085 Worker-4] [2016-06-28 20:33:08,111] [INFO] [tasks | mail_to_send] : Mail sent to  apoorv@callyourmedic.com
+[22233 Worker-1] [2016-06-29 16:24:14,197] [ERROR] [tasks | mail_to_send] : Error in sending mail. Printing traceback
+[22234 Worker-2] [2016-06-29 16:27:57,503] [ERROR] [tasks | mail_to_send] : Error in sending mail. Printing traceback
+[22235 Worker-3] [2016-06-29 17:10:39,015] [INFO] [tasks | mail_to_send] : Mail sent to  toulene69@gmail.com
+[22236 Worker-4] [2016-06-29 17:12:43,642] [INFO] [tasks | mail_to_send] : Mail sent to  apoorv@callyourmedic.com
+[22238 Worker-6] [2016-06-29 17:13:29,578] [INFO] [tasks | mail_to_send] : Mail sent to  toulene69@gmail.com apoorv@callyourmedic.com

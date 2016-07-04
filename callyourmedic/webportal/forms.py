@@ -14,7 +14,7 @@ class PortalUserLoginForm(forms.Form):
 class PortalUserGroupCreationForm(forms.ModelForm):
     class Meta:
         model = WebGroup
-        exclude = ('grp_org_id',)
+        exclude = ('grp_org_id','is_super',)
 
 class PortalUserCreationForm(forms.ModelForm):
     def __init__(self,org_id,*args,**kwargs):

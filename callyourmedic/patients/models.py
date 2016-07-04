@@ -4,6 +4,10 @@ from django.contrib import auth
 from utils import app_utils
 from addresses.models import Address
 from organisations.models import Organisation
+from mailer.views import *
+
+import logging
+logger = logging.getLogger('webapi')
 
 class Patients(models.Model):
 
@@ -27,3 +31,27 @@ class Patients(models.Model):
 class PatientAuthToken(models.Model):
     patient          = models.ForeignKey(Patients, unique = True)
     patient_token    = models.CharField(max_length = 64, blank = True, null = True)
+
+
+
+def mail_to_send_patient(patient):
+    """
+        Parameters : doctor, random passwrod, org_identifier
+    """
+    if patient is None:
+        return
+    mail_dict = MAIL_DATA_DICT
+    # MAIL_DATA_DICT = {
+    #  	TYPE : None,
+    #  	TO : None,
+    #  	CC : None,
+    #  	BCC : None,
+    #  	FROM : None,
+    #  	MESSAGE : None,
+    #  	DETAILS : None
+    #  }
+    mail_dict[TYPE] = MAIL_PORTAL_PATIENT
+    mail_dict[TO] = [patient.patient_email]
+    mailer = EmailHandler(mail_dict)
+    logger.info("Sending mail for patient creation")
+    mailer.send_mail()

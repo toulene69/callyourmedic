@@ -8,14 +8,14 @@ import traceback
 from models import WebUser , WebGroup
 from organisations.models import Organisation, Apikey, OrgSettings
 from hospitals.models import Hospital, Department, HospitalSettings
-from doctors.models import DoctorDetails, DoctorRegistration
+from doctors.models import DoctorDetails, DoctorRegistration, send_mail_to_doctor
 
 # form imports
 from forms import PortalUserLoginForm, PortalHospitalCreationForm, PortalHospitalSelectionForm, PortalDoctorDetailsForm, PortalDoctorRegistrationForm, PortalDoctorSelectionForm
 from addresses.forms import AddressForm
 
 from utils.web_portal_session_utils import isUserLogged , createUserSession , destroyUserSession , userSessionExpired, isUserRequestValid
-from utils.app_utils import generateRandomPassword, generateDoctorCode
+from utils.app_utils import generateRandomPassword, generateDoctorCode, checkPassword, getPasswordHash
 from utils import app_utils
 
 import logging
@@ -52,7 +52,7 @@ def login(request):
                 try:
                     user = WebUser.objects.get(usr_email__iexact = username, usr_org= organisation, usr_status = True)
                     #return HttpResponseRedirect('/web/dashboard/')
-                    if user.usr_password == password:
+                    if checkPassword(password,user.usr_password):
                          createUserSession(request,user)
                          return HttpResponseRedirect('/web/dashboard/')
                     else:
@@ -304,12 +304,13 @@ def doctor_new(request, org_id=0):
                     deptID = formDocRegistration.cleaned_data['dept_choice']
                     registeredDoc = DoctorRegistration.objects.filter(doctor_org = org_id, doctor_email__iexact = email)
                     if len(registeredDoc)==0 :
-                        try:
-                            with transaction.atomic():
-                                organisation = Organisation.objects.get(org_id = org_id)
-                                hospital = Hospital.objects.get(hospital_org = org_id, hospital_id = hospitalID)
-                                department = Department.objects.get(department_org = org_id, department_id = deptID)
 
+                        try:
+                            randomPassword = None
+                            organisation = Organisation.objects.get(org_id = org_id)
+                            hospital = Hospital.objects.get(hospital_org = org_id, hospital_id = hospitalID)
+                            department = Department.objects.get(department_org = org_id, department_id = deptID)
+                            with transaction.atomic():
                                 docReg = formDocRegistration.save(commit=False)
                                 docDet = formDocDetails.save(commit=False)
                                 docAddress = formAddress.save()
@@ -318,7 +319,8 @@ def doctor_new(request, org_id=0):
                                 docReg.doctor_department = department
                                 docReg.doctor_hospital = hospital
                                 docReg.doctor_status = True
-                                docReg.doctor_password = generateRandomPassword()
+                                randomPassword = generateRandomPassword()
+                                docReg.doctor_password = getPasswordHash(randomPassword)
                                 docReg.save()
                                 docReg.doctor_code = generateDoctorCode(org_id,hospital.hospital_branch_code,docReg.doctor_id)
                                 docReg.save()
@@ -326,6 +328,8 @@ def doctor_new(request, org_id=0):
                                 docDet.doctor_address = docAddress
                                 docDet.doctor_id = docReg
                                 docDet.save()
+
+                            send_mail_to_doctor(docReg,randomPassword,organisation.org_identifier)
 
                             args['new_doctor_added'] = docDet.doctor_first_name+' '+docDet.doctor_last_name
                             args['new_doctor_id'] = docReg.doctor_id

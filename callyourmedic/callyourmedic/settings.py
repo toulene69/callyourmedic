@@ -32,8 +32,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
-    # 'rest_framework.authtoken',
-    # 'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework',
     'widget_tweaks',
     'storages',
     'django.contrib.admin',
@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     #'transactions',
     #util apps
     'utils',
+    'mailer',
     #cymportal
     'cymportal',
     'webportal',
@@ -86,7 +87,6 @@ TEMPLATES = [
                     BASE_DIR + '/cymportal/templates/views/dashboard',
                     BASE_DIR + '/cymportal/templates/views/org',
                     BASE_DIR + '/cymportal/templates/views/usr',
-                    BASE_DIR + '/cymportal/templates/views/mail',
                     BASE_DIR + '/cymportal/templates/views/marketplace',
                     BASE_DIR + '/webportal/templates',
                     BASE_DIR + '/webportal/templates/views/dashboard',
@@ -94,8 +94,7 @@ TEMPLATES = [
                     BASE_DIR + '/webportal/templates/views/usr',
                     BASE_DIR + '/webportal/templates/views/hospital',
                     BASE_DIR + '/webportal/templates/views/doctor',
-                    BASE_DIR + '/webapi/templates/views/webrtc',
-                    BASE_DIR + '/webapi/templates/views/',
+                    BASE_DIR + '/mailer/templates/',
                 ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -174,10 +173,11 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = BASE_DIR + '/static'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAJU7LWHYCQZVTM6PA'
 AWS_SECRET_ACCESS_KEY = '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'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'callyourmedic-resources-bucket'
 AWS_HEADERS = {
     'Cache-Control': 'max-age=86400',
@@ -235,6 +235,22 @@ LOGGING = {
             'backupCount' : 5,
             'formatter' : 'standard',
         },
+        'mail_handler' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : BASE_DIR + '/logs/mail_logger.log',
+            'maxBytes' : 1024 * 1024 * 5, #5MB
+            'backupCount' : 5,
+            'formatter' : 'standard',
+        },
+        'tasks_handler' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.handlers.RotatingFileHandler',
+            'filename' : BASE_DIR + '/logs/tasks_logger.log',
+            'maxBytes' : 1024 * 1024 * 5, #5MB
+            'backupCount' : 5,
+            'formatter' : 'standard',
+        },
     },
     'loggers' : {
         '' : {
@@ -259,6 +275,16 @@ LOGGING = {
         },
         'webapi' : {
             'handlers' : ['api_handler'],
+            'level' : 'DEBUG',
+            'propagate' : True,
+        },
+        'mail' : {
+            'handlers' : ['mail_handler'],
+            'level' : 'DEBUG',
+            'propagate' : True,
+        },
+        'tasks' : {
+            'handlers' : ['tasks_handler'],
             'level' : 'DEBUG',
             'propagate' : True,
         },
@@ -295,17 +321,17 @@ EMAIL_PORT = 587
 
 # Celery settings
 
-# BROKER_TRANSPORT = 'sqs'
-# BROKER_TRANSPORT_OPTIONS = {
-#     'region': 'ap-southeast-1a',
-#     'visibility_timeout': 3600,
-#     'polling_interval': 0.3,
-#     'queue_name_prefix': 'celery-',
-# }
-# BROKER_USER = AWS_ACCESS_KEY_ID
-# BROKER_PASSWORD = AWS_SECRET_ACCESS_KEY
-# # sqs://aws_access_key_id:aws_secret_access_key@
-# BROKER_URL = 'sqs://'+AWS_ACCESS_KEY_ID+':'+AWS_SECRET_ACCESS_KEY+'@'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
+BROKER_TRANSPORT = 'sqs'
+BROKER_TRANSPORT_OPTIONS = {
+    'region': 'ap-southeast-1a',
+    'visibility_timeout': 3600,
+    'polling_interval': 0.3,
+    'queue_name_prefix': 'celery-',
+}
+BROKER_USER = AWS_ACCESS_KEY_ID
+BROKER_PASSWORD = AWS_SECRET_ACCESS_KEY
+# sqs://aws_access_key_id:aws_secret_access_key@
+BROKER_URL = 'sqs://'+AWS_ACCESS_KEY_ID+':'+AWS_SECRET_ACCESS_KEY+'@'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

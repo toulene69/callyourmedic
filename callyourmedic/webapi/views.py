@@ -11,7 +11,7 @@ from utils.api_response import *
 
 from doctors.models import DoctorDetails, DoctorRegistration
 from organisations.models import Apikey,Organisation, OrgSettings
-from patients.models import PatientAuthToken, Patients
+from patients.models import PatientAuthToken, Patients , mail_to_send_patient
 from marketplace.models import Marketplace
 from serializers import *
 
@@ -265,6 +265,7 @@ def create_patient(request):
     patientserializer = PatientSerializer(data = dict)
     if patientserializer.is_valid():
         try:
+            patient = None
             with transaction.atomic():
                 if isMarketplace:
                     patient = Patients(patient_org = None, patient_email = dict['patient_email'], patient_password = dict['patient_password'],
@@ -277,7 +278,8 @@ def create_patient(request):
                 patient_tok.patient = patient
                 patient_tok.patient_token = ''
                 patient_tok.save()
-                return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATED,status=status.HTTP_201_CREATED)
+            mail_to_send_patient(patient)
+            return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATED,status=status.HTTP_201_CREATED)
         except IntegrityError:
             return Response(HTTP_RESPONSE_MSG_FOR_USER_CREATE_DB_ERROR,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:

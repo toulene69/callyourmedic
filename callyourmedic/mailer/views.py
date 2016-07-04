@@ -68,6 +68,11 @@ class EmailHandler:
             self.mail_dict[SUBJECT] = MAIL_SUBJECT_ORG_CREATE
             self.org(PORTAL)
 
+        elif mail_type == MAIL_PORTAL_DOCTOR:
+            self.template = 'doctor_create_mail.html'
+            self.mail_dict[MESSAGE] = MAIL_MESSAGE_DOCTOR_CREATE
+            self.mail_dict[SUBJECT] = MAIL_SUBJECT_USER_CREATE
+            self.doctor(PORTAL)
 
     def user(self,type):
         if type == CYM:
@@ -102,3 +107,11 @@ class EmailHandler:
 
         else:
             return
+
+    def doctor(self,type):
+        if type == CYM :
+            return
+        elif type == PORTAL:
+            json_string = json.dumps(self.mail_dict)
+            logger.info("Mail for doctor creation with details : "+json_string)
+            mail_to_send.delay(self.mail_dict[TO],self.mail_dict[FROM],self.mail_dict[CC],self.mail_dict[BCC],self.mail_dict[SUBJECT],self.mail_dict[MESSAGE],self.template,self.mail_dict[DETAILS])

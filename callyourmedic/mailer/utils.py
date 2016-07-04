@@ -18,3 +18,5 @@ MAIL_MESSAGE_ORG_CREATE = 'Thank you for choosing Call Your Medic as the medical
                           'shortly receive all the login details in the follow up mails. Below are the basic details of you organisation which was used for registration.'
 
 
+MAIL_MESSAGE_DOCTOR_CREATE = 'You have been registered for teleconsulting services for your hospital. Please find below your login credentials. For' \
+                             'further details please contact your hospital authorities.'

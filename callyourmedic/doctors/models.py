@@ -7,6 +7,9 @@ from hospitals.models import Department
 from addresses.models import Address
 from mailer.views import *
 
+import logging
+logger = logging.getLogger('webportal')
+
 class DoctorSettings(models.Model):
 
     settings_id            = models.AutoField(primary_key = True)
@@ -55,6 +58,9 @@ def send_mail_to_doctor(doctor,randomPassword,org_identifier):
     """
         Parameters : doctor, random passwrod, org_identifier
     """
+    if doctor is None:
+        return
+
     mail_dict = MAIL_DATA_DICT
     # MAIL_DATA_DICT = {
     #  	TYPE : None,

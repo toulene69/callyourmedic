@@ -59,6 +59,21 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
+        <div class="modal fade" id="editDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="basicInfoLabel">Edit Info</h4>
+                    </div>
+                    <div id="editDepartmentDiv">
+
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -156,15 +171,11 @@
                             title: "Added on",
                             template: '#= kendo.toString(date_add,"dd-MMM-yyyy") #'
                         },
-                        <!--{-->
-                            <!--title: "",-->
-                            <!--template: '<a href="/cym/organisationdetails/" class="k-button k-button-icontext k-grid-edit">Edit</a>',-->
-                            <!--filterable: false,-->
-                            <!--groupable: false,-->
-                        <!--}-->
                         {
-                            command: ["edit"],
-                            title: "&nbsp;"
+                            title: "",
+                            template: '<button type="button" onclick="editDept(this);" data-org="#=org_id#" data-dept="#=dept_id#" class="btn btn-default" data-toggle="modal">Edit <span class="fa fa-edit"></span></button>',
+                            filterable: false,
+                            groupable: false,
                         }
                     ],
                     editable: "popup"
@@ -190,5 +201,31 @@
                 }
             );
         });
+
+        function editDept(value)
+        {
+            var org = $(value).data('org');
+            var dept = $(value).data('dept')
+            //alert("data-org:"+$(value).data('org')+", data-dept:"+$(value).data('dept'));
+            $('#editDepartment').modal('show');
+
+            $.ajax(
+                {
+                    url: "/web/"+org+"/departmentedit/"+dept+"/",
+                    dataType: "html",
+                    type: "GET",
+                    success: function(result){
+                        $("#editDepartmentDiv").html(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        $("#editDepartmentDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                }
+            );
+        }
     </script>
 {% endblock %}

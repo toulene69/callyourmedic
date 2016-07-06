@@ -13,7 +13,7 @@ from models import WebUser, WebGroup, send_mail_for_group, send_mail_for_user
 from hospitals.models import Hospital, Department, HospitalSettings
 from doctors.models import DoctorRegistration, DoctorDetails, DoctorSettings
 # utils imports
-from utils.session_utils import isUserLogged , userSessionExpired
+from utils.web_portal_session_utils import isUserLogged , userSessionExpired, isUserRequestValid
 from utils.app_utils import get_permission , get_active_status, generateRandomPassword, get_subscription_type, getPasswordHash
 
 # form imports
@@ -100,6 +100,68 @@ def org_departmentnew(request,org_id=0):
 	else:
 		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
 		return HttpResponse(html)
+
+def org_departmentedit(request,org_id=0,dept_id=0):
+	error = None
+	formError = False
+	args = {}
+	if isUserLogged(request) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
+		return HttpResponse(html)
+
+	if org_id == 0 or dept_id == 0:
+		html = '<div class="modal-body" id="modal-body-createGroup">Request informations not correct. Please try again!</div>'
+		return HttpResponse(html)
+
+	if isUserRequestValid(request,org_id) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">Permission Denied.</div>'
+		return HttpResponse(html)
+	deptEditForm = None
+	department = None
+	try:
+		department = Department.objects.get(department_id = dept_id, department_org = org_id)
+	except:
+		logger.error("Error fetching department for editing with dept_id "+str(dept_id)+" for org_id "+str(org_id))
+		traceback.print_exc()
+		html = '<div class="modal-body" id="modal-body-createGroup">Department details could not be retrived to edit. Try again!</div>'
+		return HttpResponse(html)
+
+	if request.is_ajax():
+		deptEditForm = PortalDepartmentCreationForm(instance = department)
+		args['dept'] = department.department_id
+	elif request.POST:
+		deptEditForm = PortalDepartmentCreationForm(request.POST)
+		if deptEditForm.is_valid():
+			department.department_name = deptEditForm.cleaned_data['department_name']
+			department.department_code = deptEditForm.cleaned_data['department_code']
+			department.department_description = deptEditForm.cleaned_data['department_description']
+			department.department_status = deptEditForm.cleaned_data['department_status']
+			try:
+				department.save()
+			except:
+				logger.error("Error while saving department after editing with dept_id "+str(dept_id)+" for org_id "+str(org_id))
+				traceback.print_exc()
+				html = '<div class="modal-body" id="modal-body-createGroup">Error while saving the details. Please try again.</div>'
+				return HttpResponse(html)
+
+			return render(request,'w_department_org.html')
+		else:
+			error = "Invalid form submitted"
+			formError = True
+			args['error'] = error
+			args['formError'] = formError
+			return render(request,'w_department_org.html',args)
+	else:
+		html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'
+		return HttpResponse(html)
+
+	args.update(csrf(request))
+	args['error'] = error
+	args['deptCreationForm'] = deptEditForm
+	args['isEdit'] = True
+	return render(request,'w_newdepartment_org.html',args)
+
+
 
 """ Ends webportal org"""
 

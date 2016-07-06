@@ -1,5 +1,9 @@
 {% load widget_tweaks %}
+{% if isEdit %}
+<form id="departmentEditForm" action="/web/{{request.session.org_id}}/departmentedit/{{dept}}/"  method="post">
+{% else %}
 <form id="newDepartmentForm" action="/web/{{request.session.org_id}}/departmentnew/"  method="post">
+{% endif %}
     {% csrf_token %}
     <div class="modal-body" id="modal-body-createGroup">
         <div class="form-group">
@@ -23,6 +27,15 @@
                 <label class="control-label" >{{ deptCreationForm.department_code.errors.as_text }}</label>
             </div>
         </div>
+        {% if isEdit %}
+        <div class="form-group">
+            <label >Department Status</label>
+            {% render_field deptCreationForm.department_status class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ deptCreationForm.department_status.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="newDepartment">Save</button>

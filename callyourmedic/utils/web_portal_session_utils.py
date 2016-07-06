@@ -11,10 +11,8 @@ logger = logging.getLogger(__name__)
 
 def isUserLogged(request):
     if 'usr_id' in request.session:
-        print ('******** User Already Logged in ')
         return True
     else :
-        print ('******** User Not Already Logged in ')
         return False
 
 def createUserSession(request,user):
@@ -33,17 +31,14 @@ def createUserSession(request,user):
         request.session['isCookieEnables'] = False
     request.session.delete_test_cookie()
     request.session.set_expiry(1800)
-    print ('******** Session created : ')
-    print(request.session['usr_id'])
+
 
 def destroyUserSession(request):
-    print ('******** Session deleting : ')
     if 'usr_id' in request.session :
         del request.session['usr_id']
     else:
         print ('***** session expired')
     request.session.flush()
-    print ('******** Session deleted ')
     request.session.clear_expired()
 
 def userSessionExpired():
@@ -52,7 +47,6 @@ def userSessionExpired():
 def isUserRequestValid(request,org_id):
     if 'org_id' in request.session:
         id = int(request.session['org_id'])
-        print org_id
         if (id == int(org_id)):
             return True
         else:

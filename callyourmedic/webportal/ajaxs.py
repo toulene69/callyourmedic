@@ -71,7 +71,11 @@ def org_departmentnew(request,org_id=0):
 						dept.department_org = org
 						dept.department_status = True
 						dept.save()
-						return render(request,'w_department_org.html')
+						formSuccess = True
+						success = "Department updated successfully"
+						args['formSuccess'] = formSuccess
+						args['success'] = success
+						return render(request,'w_department_org.html',args)
 					except:
 						traceback.print_exc()
 						error = "Error creating department"
@@ -138,6 +142,10 @@ def org_departmentedit(request,org_id=0,dept_id=0):
 			department.department_status = deptEditForm.cleaned_data['department_status']
 			try:
 				department.save()
+				formSuccess = True
+				success = "Department updated successfully"
+				args['formSuccess'] = formSuccess
+				args['success'] = success
 			except:
 				logger.error("Error while saving department after editing with dept_id "+str(dept_id)+" for org_id "+str(org_id))
 				traceback.print_exc()
@@ -147,7 +155,7 @@ def org_departmentedit(request,org_id=0,dept_id=0):
 				args['formError'] = formError
 				return render(request,'w_department_org.html',args)
 
-			return render(request,'w_department_org.html')
+			return render(request,'w_department_org.html',args)
 		else:
 			error = "Invalid form submitted"
 			formError = True

@@ -1,5 +1,9 @@
 {% load widget_tweaks %}
+{% if isEdit %}
+<form id="groupEditForm" action="/web/{{request.session.org_id}}/groupedit/{{grp_id}}/"  method="post">
+{% else %}
 <form id="newGroupForm" action="/web/{{request.session.org_id}}/usrgroupnew/"  method="post">
+{% endif %}
     {% csrf_token %}
     <div class="modal-body" id="modal-body-createGroup">
         <div class="form-group">
@@ -58,6 +62,15 @@
                 <label class="control-label" >{{ groupCreationForm.grp_user.errors.as_text }}</label>
             </div>
         </div>
+        {% if isEdit %}
+        <div class="form-group">
+            <label >Group Status</label>
+            {% render_field groupCreationForm.grp_status class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ groupCreationForm.grp_status.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="newGroup">Save</button>

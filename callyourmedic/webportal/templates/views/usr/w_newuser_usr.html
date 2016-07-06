@@ -1,5 +1,9 @@
 {% load widget_tweaks %}
+{% if isEdit %}
+<form id="editUserForm" action="/web/{{request.session.org_id}}/useredit/{{usr_id}}/"  method="post">
+{% else %}
 <form id="newUserForm" action="/web/{{request.session.org_id}}/usrnew/"  method="post">
+{% endif %}
     {% csrf_token %}
     <div class="modal-body" id="modal-body-createGroup">
         <div class="form-group">
@@ -16,6 +20,7 @@
                 <label class="control-label" >{{ userCreationForm.usr_last_name.errors.as_text }}</label>
             </div>
         </div>
+
         <div class="form-group">
             <label >Email Id</label>
             {% render_field userCreationForm.usr_email class+="form-control" required="true"%}
@@ -23,6 +28,7 @@
                 <label class="control-label" >{{ userCreationForm.usr_email.errors.as_text }}</label>
             </div>
         </div>
+
         <div class="form-group">
             <label >Phone Number</label>
             {% render_field userCreationForm.usr_phone class+="form-control" required="true"%}
@@ -37,6 +43,15 @@
                 <label class="control-label" >{{ userCreationForm.usr_group.errors.as_text }}</label>
             </div>
         </div>
+        {% if isEdit %}
+        <div class="form-group">
+            <label >User Status</label>
+            {% render_field userCreationForm.usr_status class+="form-control" %}
+            <div class="form-group has-error">
+                <label class="control-label" >{{ userCreationForm.usr_status.errors.as_text }}</label>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="newUser">Save</button>

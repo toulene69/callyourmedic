@@ -72,7 +72,7 @@ def org_departmentnew(request,org_id=0):
 						dept.department_status = True
 						dept.save()
 						formSuccess = True
-						success = "Department updated successfully"
+						success = "Department created successfully."
 						args['formSuccess'] = formSuccess
 						args['success'] = success
 						return render(request,'w_department_org.html',args)

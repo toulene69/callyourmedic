@@ -141,8 +141,11 @@ def org_departmentedit(request,org_id=0,dept_id=0):
 			except:
 				logger.error("Error while saving department after editing with dept_id "+str(dept_id)+" for org_id "+str(org_id))
 				traceback.print_exc()
-				html = '<div class="modal-body" id="modal-body-createGroup">Error while saving the details. Please try again.</div>'
-				return HttpResponse(html)
+				error = "Error while saving the details. Please try again."
+				formError = True
+				args['error'] = error
+				args['formError'] = formError
+				return render(request,'w_department_org.html',args)
 
 			return render(request,'w_department_org.html')
 		else:
@@ -331,6 +334,76 @@ def usr_usernew(request,org_id=0):
 		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
 		return HttpResponse(html)
 
+def usr_groupedit(request,org_id=0,grp_id=0):
+	error = None
+	formError = False
+	args = {}
+	if isUserLogged(request) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
+		return HttpResponse(html)
+
+	if org_id == 0 or grp_id == 0:
+		html = '<div class="modal-body" id="modal-body-createGroup">Request informations not correct. Please try again!</div>'
+		return HttpResponse(html)
+
+	if isUserRequestValid(request,org_id) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">Permission Denied.</div>'
+		return HttpResponse(html)
+
+	groupEditForm = None
+	group = None
+	try:
+		group = WebGroup.objects.get(grp_id = grp_id, grp_org_id = org_id)
+	except:
+		logger.error("Error fetching group for editing with grp_id "+str(grp_id)+" for org_id "+str(org_id))
+		traceback.print_exc()
+		html = '<div class="modal-body" id="modal-body-createGroup">Department details could not be retrived to edit. Try again!</div>'
+		return HttpResponse(html)
+
+	if request.is_ajax():
+		groupEditForm = PortalUserGroupCreationForm(instance = group)
+		args['grp_id'] = group.grp_id
+	elif request.POST:
+		groupEditForm = PortalUserGroupCreationForm(request.POST)
+		if groupEditForm.is_valid():
+			group.grp_name = groupEditForm.cleaned_data['grp_name']
+			group.grp_org = groupEditForm.cleaned_data['grp_org']
+			group.grp_hospital = groupEditForm.cleaned_data['grp_hospital']
+			group.grp_doctor = groupEditForm.cleaned_data['grp_doctor']
+			group.grp_patients = groupEditForm.cleaned_data['grp_patients']
+			group.grp_transaction = groupEditForm.cleaned_data['grp_transaction']
+			group.grp_call = groupEditForm.cleaned_data['grp_call']
+			group.grp_user = groupEditForm.cleaned_data['grp_user']
+			group.grp_status = groupEditForm.cleaned_data['grp_status']
+			try:
+				group.save()
+
+			except:
+				logger.error("Error while saving group after editing with grp_id "+str(grp_id)+" for org_id "+str(org_id))
+				traceback.print_exc()
+				error = 'Error while saving the details. Please try again.'
+				formError = True
+				args['formError'] = formError
+				args['error'] = error
+				return render(request,'w_group_usr.html', args)
+
+			return render(request,'w_group_usr.html')
+		else:
+			error = "Invalid form submitted. Please fill the details correctly."
+			formError = True
+			args['error'] = error
+			args['formError'] = formError
+			return render(request,'w_group_usr.html', args)
+	else:
+		html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'
+		return HttpResponse(html)
+
+	args.update(csrf(request))
+	args['error'] = error
+	args['groupCreationForm'] = groupEditForm
+	args['isEdit'] = True
+	return render(request,'w_newgroup_usr.html',args)
+
 """ ENDS WebPortal Users """
 
 """ WebPortal Hospital """
@@ -344,7 +417,6 @@ def hospital_check_branch_code(request,org_id=0):
 				hospitalPresent = list(Hospital.objects.filter(hospital_branch_code__iexact = inputVal, hospital_org__exact = org_id))
 			except:
 				print "DB Error"
-			print(hospitalPresent)
 			if len(hospitalPresent) == 0:
 				result['present'] = False
 	else:

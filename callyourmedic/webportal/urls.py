@@ -46,4 +46,5 @@ urlpatterns = [
     url(r'^doctorsettings/(?P<org_id>\d+)/(?P<hospital_id>\d+)/(?P<doctor_id>\d+)/', 'webportal.ajaxs.settings_edit',name = 'doctor-settings'),
 
     url(r'^(?P<org_id>\d+)/departmentedit/(?P<dept_id>\d+)/', 'webportal.ajaxs.org_departmentedit',name = 'org-departmentedit'),
+    url(r'^(?P<org_id>\d+)/groupedit/(?P<grp_id>\d+)/', 'webportal.ajaxs.usr_groupedit',name = 'usr-groupedit'),
 ]

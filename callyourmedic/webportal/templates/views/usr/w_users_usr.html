@@ -33,6 +33,12 @@
                     {{error}}
                 </div>
             {% endif %}
+            {% if formSuccess %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{success}}
+                </div>
+            {% endif %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     All Users
@@ -51,6 +57,22 @@
                         <h4 class="modal-title" id="newUserInfoLabel">New User</h4>
                     </div>
                     <div id="newUserDiv">
+
+                    </div>
+                </div>
+
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" >New User</h4>
+                    </div>
+                    <div id="editUserDiv">
 
                     </div>
                 </div>
@@ -101,7 +123,8 @@
                                     username: { type: "string" },
                                     phonenumber: { type: "string" },
                                     usergroup: { type: "string" },
-                                    status: { type: "boolean" }
+                                    status: { type: "boolean" },
+                                    id: { type: "integer" }
                                 }
                             }
                          },
@@ -139,6 +162,12 @@
                             title: "Status",
                             template: '# if (status) { #Active# } else { #Inactive# } #'
                         },
+                        {
+                            title: "",
+                            template: '<button type="button" onclick="editUser(this);" data-org="{{request.session.org_id}}" data-user="#=id#" class="btn btn-default" data-toggle="modal">Edit <span class="fa fa-edit"></span></button>',
+                            filterable: false,
+                            groupable: false,
+                        }
                     ]
             });
         });
@@ -160,6 +189,32 @@
                     }
                 });
         });
+
+        function editUser(value)
+        {
+            var org = $(value).data('org');
+            var user = $(value).data('user')
+            //alert("data-org:"+org+", data-group:"+group);
+            $('#editUser').modal('show');
+
+            $.ajax(
+                {
+                    url: "/web/"+org+"/useredit/"+user+"/",
+                    dataType: "html",
+                    type: "GET",
+                    success: function(result){
+                        $("#editUserDiv").html(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        $("#editUserDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                }
+            );
+        }
 
     </script>
 {% endblock %}

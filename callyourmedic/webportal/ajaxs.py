@@ -185,6 +185,7 @@ def usr_getusers(request,org_id=0):
 				usr['phonenumber'] = (user.usr_phone)
 				usr['usergroup'] = (user.usr_group.grp_name)
 				usr['status'] = (user.usr_status)
+				usr['id'] = user.usr_id
 				res['data'].append(usr)
 		except:
 			print "error retrieving users"
@@ -248,7 +249,12 @@ def usr_usrgroupnew(request,org_id):
 							for user in users:
 								usr.append(user['usr_email'])
 						send_mail_for_group(usr, groupForm)
-						return render(request,'w_group_usr.html')
+						formSuccess = True
+						success = "User Group created successfully"
+						args['formSuccess'] = formSuccess
+						args['success'] = success
+						return render(request,'w_group_usr.html', args)
+
 					except:
 						print '********* form invalid'
 						traceback.print_exc()
@@ -290,7 +296,6 @@ def usr_usernew(request,org_id=0):
 			userCreationForm = PortalUserCreationForm(org_id,request.POST)
 			if userCreationForm.is_valid():
 				emailid = userCreationForm.cleaned_data['usr_email']
-				print emailid
 				user = list(WebUser.objects.filter(usr_org__exact = org_id, usr_email__iexact = emailid))
 				if len(user) == 0:
 					try:
@@ -302,7 +307,12 @@ def usr_usernew(request,org_id=0):
 						userForm.usr_status = True
 						userForm.save()
 						send_mail_for_user(userForm,randomPassword,org.org_identifier)
-						return render(request,'w_users_usr.html')
+						formSuccess = True
+						success = "User created successfully"
+						args['formSuccess'] = formSuccess
+						args['success'] = success
+						return render(request,'w_users_usr.html', args)
+
 					except:
 						print '********* form invalid'
 						traceback.print_exc()
@@ -337,6 +347,8 @@ def usr_usernew(request,org_id=0):
 def usr_groupedit(request,org_id=0,grp_id=0):
 	error = None
 	formError = False
+	formSuccess = False
+	success = None
 	args = {}
 	if isUserLogged(request) is False:
 		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
@@ -357,7 +369,7 @@ def usr_groupedit(request,org_id=0,grp_id=0):
 	except:
 		logger.error("Error fetching group for editing with grp_id "+str(grp_id)+" for org_id "+str(org_id))
 		traceback.print_exc()
-		html = '<div class="modal-body" id="modal-body-createGroup">Department details could not be retrived to edit. Try again!</div>'
+		html = '<div class="modal-body" id="modal-body-createGroup">User Group details could not be retrived to edit. Try again!</div>'
 		return HttpResponse(html)
 
 	if request.is_ajax():
@@ -377,7 +389,11 @@ def usr_groupedit(request,org_id=0,grp_id=0):
 			group.grp_status = groupEditForm.cleaned_data['grp_status']
 			try:
 				group.save()
-
+				formSuccess = True
+				success = "User Group updated successfully"
+				args['formSuccess'] = formSuccess
+				args['success'] = success
+				return render(request,'w_group_usr.html', args)
 			except:
 				logger.error("Error while saving group after editing with grp_id "+str(grp_id)+" for org_id "+str(org_id))
 				traceback.print_exc()
@@ -386,8 +402,6 @@ def usr_groupedit(request,org_id=0,grp_id=0):
 				args['formError'] = formError
 				args['error'] = error
 				return render(request,'w_group_usr.html', args)
-
-			return render(request,'w_group_usr.html')
 		else:
 			error = "Invalid form submitted. Please fill the details correctly."
 			formError = True
@@ -403,6 +417,85 @@ def usr_groupedit(request,org_id=0,grp_id=0):
 	args['groupCreationForm'] = groupEditForm
 	args['isEdit'] = True
 	return render(request,'w_newgroup_usr.html',args)
+
+def usr_useredit(request,org_id=0,usr_id=0):
+	error = None
+	formError = False
+	args = {}
+	if isUserLogged(request) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
+		return HttpResponse(html)
+
+	if org_id == 0 or usr_id == 0:
+		html = '<div class="modal-body" id="modal-body-createGroup">Request informations not correct. Please try again!</div>'
+		return HttpResponse(html)
+
+	if isUserRequestValid(request,org_id) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">Permission Denied.</div>'
+		return HttpResponse(html)
+
+	userEditForm = None
+	user = None
+	try:
+		user = WebUser.objects.get(usr_id = usr_id, usr_org = org_id)
+	except:
+		logger.error("Error fetching group for editing with usr_id "+str(usr_id)+" for org_id "+str(org_id))
+		traceback.print_exc()
+		html = '<div class="modal-body" id="modal-body-createGroup">User details could not be retrived to edit. Try again!</div>'
+		return HttpResponse(html)
+
+	if request.is_ajax():
+		userEditForm = PortalUserCreationForm(org_id,instance = user)
+		args['usr_id'] = user.usr_id
+	elif request.POST:
+		userEditForm = PortalUserCreationForm(org_id,request.POST)
+		if userEditForm.is_valid():
+			emailid = userEditForm.cleaned_data['usr_email']
+			if user.usr_email != emailid :
+				usr_list = list(WebUser.objects.filter(usr_org__exact = org_id, usr_email__iexact = emailid))
+				if len(usr_list) != 0:
+					error = 'User with '+str(emailid)+' already exists. Please enter a unique email id.'
+					formError = True
+					args['formError'] = formError
+					args['error'] = error
+					return render(request,'w_users_usr.html', args)
+			user.usr_first_name = userEditForm.cleaned_data['usr_first_name']
+			user.usr_last_name = userEditForm.cleaned_data['usr_last_name']
+			user.usr_email = emailid
+			user.usr_phone = userEditForm.cleaned_data['usr_phone']
+			user.usr_status = userEditForm.cleaned_data['usr_status']
+			user.usr_group = userEditForm.cleaned_data['usr_group']
+			try:
+				user.save()
+				formSuccess = True
+				success = "User Group updated successfully"
+				args['formSuccess'] = formSuccess
+				args['success'] = success
+			except:
+				logger.error("Error while saving user after editing with usr_id "+str(usr_id)+" for org_id "+str(org_id))
+				traceback.print_exc()
+				error = 'Error while saving the details. Please try again.'
+				formError = True
+				args['formError'] = formError
+				args['error'] = error
+				return render(request,'w_users_usr.html', args)
+			return render(request,'w_users_usr.html', args)
+		else:
+			error = "Invalid form submitted. Please fill the details correctly."
+			formError = True
+			args['error'] = error
+			args['formError'] = formError
+			return render(request,'w_users_usr.html', args)
+	else:
+		html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'
+		return HttpResponse(html)
+
+	args.update(csrf(request))
+	args['error'] = error
+	args['userCreationForm'] = userEditForm
+	args['isEdit'] = True
+	return render(request,'w_newuser_usr.html',args)
+
 
 """ ENDS WebPortal Users """
 

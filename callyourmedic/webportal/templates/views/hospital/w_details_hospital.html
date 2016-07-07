@@ -94,8 +94,14 @@
                                                         <td>{{hospital.hospital_branch_code}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Hospital Statue</td>
-                                                        <td>{{hospital.hospital_status}}</td>
+                                                        <td>Hospital Status</td>
+                                                        <td>
+                                                            {% if hospital.hospital_status %}
+                                                            <i class=" fa fa-check " style="color:green;"></i>
+                                                            {% else %}
+                                                            <i class="fa fa-times " style="color:red;"></i>
+                                                            {% endif %}
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

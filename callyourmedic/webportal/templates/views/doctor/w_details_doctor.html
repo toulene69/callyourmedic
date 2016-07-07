@@ -102,7 +102,13 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Status</td>
-                                                        <td>{% if doctor.docReg.doctor_status %}Active{% else %}Inactive{% endif %}</td>
+                                                        <td>
+                                                            {% if doctor.docReg.doctor_status %}
+                                                            <i class=" fa fa-check " style="color:green;"></i>
+                                                            {% else %}
+                                                            <i class="fa fa-times " style="color:red;"></i>
+                                                            {% endif %}
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

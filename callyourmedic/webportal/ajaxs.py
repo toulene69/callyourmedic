@@ -12,12 +12,14 @@ from organisations.models import Organisation, OrgSettings
 from models import WebUser, WebGroup, send_mail_for_group, send_mail_for_user
 from hospitals.models import Hospital, Department, HospitalSettings
 from doctors.models import DoctorRegistration, DoctorDetails, DoctorSettings
+from addresses.models import Address
 # utils imports
 from utils.web_portal_session_utils import isUserLogged , userSessionExpired, isUserRequestValid
 from utils.app_utils import get_permission , get_active_status, generateRandomPassword, get_subscription_type, getPasswordHash
 
 # form imports
-from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm, PortalOrgSettingsForm, PortalHospitalSettingsForm, PortalDoctorSettingsForm
+from forms import PortalUserCreationForm, PortalUserGroupCreationForm, PortalDepartmentCreationForm, PortalOrgSettingsForm, PortalHospitalSettingsForm, PortalDoctorSettingsForm, PortalDoctorRegistrationForm, PortalDoctorRegistrationEditForm, PortalDoctorDetailsForm
+from addresses.forms import AddressForm
 
 from mailer.views import *
 
@@ -624,6 +626,119 @@ def doctor_getdoctorsforhospitals(request,org_id=0,hospital_id=0):
 		return JsonResponse(res , safe = False)
 	else:
 		raise Http404("Groups fetch request not proper")
+
+def doctor_doctoredit(request,org_id=0,doctor_id=0):
+	error = None
+	formError = False
+	args = {}
+	if isUserLogged(request) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">User Session Expired! <a href="/portal/?sessionError=100">Login</a></div>'
+		return HttpResponse(html)
+
+	if org_id == 0 or doctor_id == 0:
+		html = '<div class="modal-body" id="modal-body-createGroup">Request informations not correct. Please try again!</div>'
+		return HttpResponse(html)
+
+	if isUserRequestValid(request,org_id) is False:
+		html = '<div class="modal-body" id="modal-body-createGroup">Permission Denied.</div>'
+		return HttpResponse(html)
+
+	docRegestrationEditForm = None
+	docDetailsEditForm = None
+	docAddressEditForm = None
+	doctorReg = None
+	doctorDetails = None
+	doctorAddress = None
+	try:
+		doctorReg = DoctorRegistration.objects.get(doctor_id = doctor_id, doctor_org = org_id)
+		doctorDetailList = list(DoctorDetails.objects.filter(doctor_id = doctor_id))
+		if len(doctorDetailList) != 1:
+			raise IntegrityError()
+		doctorDetails = doctorDetailList[0]
+		doctorAddress = Address.objects.get(address_id = doctorDetails.doctor_address.address_id)
+	except:
+		logger.error("Error fetching doctor for editing with doctor_id "+str(doctor_id)+" for org_id "+str(org_id))
+		traceback.print_exc()
+		html = '<div class="modal-body" id="modal-body-createGroup">Doctor details could not be retrived for editing. Try again!</div>'
+		return HttpResponse(html)
+	try:
+		if request.is_ajax():
+			docRegestrationEditForm = PortalDoctorRegistrationEditForm(org_id,instance = doctorReg)
+			docRegestrationEditForm.fields['hospital_choice'].initial = doctorReg.doctor_hospital.hospital_id
+			docRegestrationEditForm.fields['dept_choice'].initial = doctorReg.doctor_department.department_id
+			docDetailsEditForm = PortalDoctorDetailsForm(instance = doctorDetails)
+			docAddressEditForm = AddressForm(instance = doctorDetails.doctor_address)
+			args['doctor_id'] = doctor_id
+		elif request.POST:
+			docRegestrationEditForm = PortalDoctorRegistrationEditForm(org_id, request.POST)
+			docDetailsEditForm = PortalDoctorDetailsForm(request.POST)
+			docAddressEditForm = AddressForm(request.POST)
+			if docRegestrationEditForm.is_valid() and docDetailsEditForm.is_valid() and docAddressEditForm.is_valid():
+				hspt_choice = docRegestrationEditForm.cleaned_data['hospital_choice']
+				hospital = Hospital.objects.get(hospital_id = hspt_choice,hospital_org = org_id)
+				doctorReg.doctor_hospital = hospital
+				dept_choice = docRegestrationEditForm.cleaned_data['dept_choice']
+				department = Department.objects.get(department_id = dept_choice, department_org = org_id)
+				doctorReg.doctor_department = department
+				doctorReg.doctor_status = docRegestrationEditForm.cleaned_data['doctor_status']
+				doctorDetails.doctor_first_name = docDetailsEditForm.cleaned_data['doctor_first_name']
+				doctorDetails.doctor_last_name = docDetailsEditForm.cleaned_data['doctor_last_name']
+				doctorDetails.doctor_gender = docDetailsEditForm.cleaned_data['doctor_gender']
+				doctorDetails.doctor_phone1 = docDetailsEditForm.cleaned_data['doctor_phone1']
+				doctorDetails.doctor_phone2 = docDetailsEditForm.cleaned_data['doctor_phone2']
+				doctorDetails.doctor_qualification = docDetailsEditForm.cleaned_data['doctor_qualification']
+				doctorDetails.doctor_experience = docDetailsEditForm.cleaned_data['doctor_experience']
+				doctorAddress.address_line1 = docAddressEditForm.cleaned_data['address_line1']
+				doctorAddress.address_line2 = docAddressEditForm.cleaned_data['address_line2']
+				doctorAddress.address_city = docAddressEditForm.cleaned_data['address_city']
+				doctorAddress.address_state = docAddressEditForm.cleaned_data['address_state']
+				doctorAddress.address_pincode = docAddressEditForm.cleaned_data['address_pincode']
+
+				try:
+					with transaction.atomic():
+						doctorReg.save()
+						doctorDetails.save()
+						doctorAddress.save()
+					success = 'Details updated successfully.'
+					print success
+					formSuccess = True
+					args['formSuccess'] = formSuccess
+					args['success'] = success
+
+				except:
+					logger.error("Error while saving doctor after editing with doctor_id "+str(doctor_id)+" for org_id "+str(org_id))
+					traceback.print_exc()
+					error = 'Error while saving the details. Please try again.'
+					formError = True
+					args['formError'] = formError
+					args['error'] = error
+				return render(request,'w_dashboard_doctor.html',args)
+			else:
+				error = 'Invalid form submitted. Please fill the details properly.'
+				formErrorList = [docRegestrationEditForm.errors,docDetailsEditForm.errors,docAddressEditForm.errors]
+				formError = True
+				args['formErrorList'] = formErrorList
+				args['formError'] = formError
+				args['error'] = error
+				return render(request,'w_dashboard_doctor.html',args)
+		else:
+			html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'
+			return HttpResponse(html)
+
+		args.update(csrf(request))
+		args['error'] = error
+		args['formAddress'] = docAddressEditForm
+		args['formDocDetails'] = docDetailsEditForm
+		args['formDocRegistration'] = docRegestrationEditForm
+		return render(request,'w_edit_doctor.html',args)
+	except:
+		logger.error("Error while editing ***doctor details***")
+		traceback.print_exc()
+		error = 'Error while editing doctor details'
+		formError = True
+		args['formError'] = formError
+		args['error'] = error
+		return render(request,'w_dashboard_doctor.html',args)
 
 
 """ Ends Webportal doctors"""

@@ -38,16 +38,22 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {% if doctor %}
-                    <h4>{{doctor.docReg.doctor_code}} : {{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}</h4>
-                    {% else %}
-                    <h4>Select a Doctor to view</h4>
-                    {% endif %}
-                    <div class="form-group" style="float:right;margin-top:-35px;">
+
+                    <h4>{% if doctor %}
+                            {{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}
+                            <button type="button" onclick="editDoctor(this);" class="btn btn-default pull-right" data-org="{{request.session.org_id}}" data-doctor="{{doctor.docReg.doctor_id}}" data-toggle="modal" data-target="#editDoctor">
+                                Edit Info
+                                <span class="fa fa-edit"></span>
+                            </button>
+                        {% else %}
+                            Select a Doctor to view
+                        {% endif %}
+                    <div class="form-group pull-right" >
                         <form id="view-hospital" method="get">
                             {% render_field formDoctorChoice.choices class+="form-control" %}
                         </form>
                     </div>
+                    </h4>
                 </div>
                 <!-- /.panel-heading -->
                 {% if doctor %}
@@ -102,13 +108,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#basicInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -132,21 +131,14 @@
                                                         <td>Join Date</td>
                                                         <td>{{doctor.docDetails.doctor_date_joined}}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Leaving Date</td>
-                                                        <td>{% if doctor.docDetails.doctor_date_left %}{{doctor.docDetails.doctor_date_left}}{% else %}-NA-{% endif %}</td>
-                                                    </tr>
+                                                    <!--<tr>-->
+                                                        <!--<td>Leaving Date</td>-->
+                                                        <!--<td>{% if doctor.docDetails.doctor_date_left %}{{doctor.docDetails.doctor_date_left}}{% else %}-NA-{% endif %}</td>-->
+                                                    <!--</tr>-->
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -172,13 +164,23 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-info" style="margin-top:15px;">
+                                        <div class="panel-heading">
+                                            Address Info
+                                        </div>
+                                        <div class="panel-body" >
+                                            <address>
+                                                <strong>{{doctor.docDetails.doctor_first_name}} {{doctor.docDetails.doctor_last_name}}</strong>
+                                                <br>{{doctor.docDetails.doctor_address.address_line1}},
+                                                <br>{{doctor.docDetails.doctor_address.address_line2}},
+                                                <br>{{doctor.docDetails.doctor_address.address_city}}, {{doctor.docDetails.doctor_address.address_state}} - {{doctor.docDetails.doctor_address.address_pincode}}
+                                                <br><br>
+                                                <abbr title="Phone">P:</abbr>{{doctor.docDetails.doctor_phone1}}
+                                            </address>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -281,55 +283,16 @@
             </div>
             <!-- /.panel -->
         </div>
-        {% if org %}
-        <div class="modal fade" id="basicInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+        {% if doctor %}
+        <div class="modal fade" id="editDoctor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:800px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="basicInfoLabel">Basic Info</h4>
+                        <h4 class="modal-title" id="basicInfoLabel">Edit Info</h4>
                     </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <div class="modal fade" id="contactInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="contactInfoLabel">Contact Info</h4>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <div class="modal fade" id="addressInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="addressInfoInfoLabel">Address Info</h4>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                    <div id="editDoctorDiv">
+
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -341,13 +304,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="setingsLabel">Settings</h4>
+                        <h4 class="modal-title" >Edit Settings</h4>
                     </div>
                     <div id="settingsDiv">
 
                     </div>
                 </div>
-
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
@@ -408,5 +370,31 @@
                     }
                 });
         });
+
+        function editDoctor(value)
+        {
+            var org = $(value).data('org');
+            var doctor = $(value).data('doctor')
+            //alert("data-org:"+org+", data-doctor:"+doctor);
+
+
+            $.ajax(
+                {
+                    url: "/web/"+org+"/doctoredit/"+doctor+"/",
+                    dataType: "html",
+                    type: "GET",
+                    success: function(result){
+                        $("#editDoctorDiv").html(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        $("#editDoctorDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                }
+            );
+        }
     </script>
 {% endblock %}

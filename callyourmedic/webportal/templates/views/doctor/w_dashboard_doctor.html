@@ -18,6 +18,23 @@
                     {{new_doctor_added }} created. <a href="/web/{{request.session.org_id}}/doctordetails/{{new_doctor_id}}/" class="alert-link">View Details</a>.
                 </div>
             {% endif %}
+            {% if formError %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{error}}
+                    {% if formErrorList %}
+                        {% for items in formErrorList %}
+                            {{items}}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if formSuccess %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{success}}
+                </div>
+            {% endif %}
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">

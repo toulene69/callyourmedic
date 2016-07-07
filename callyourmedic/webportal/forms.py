@@ -71,6 +71,24 @@ class PortalDoctorRegistrationForm(forms.ModelForm):
         model = DoctorRegistration
         fields = ('doctor_email',)
 
+class PortalDoctorRegistrationEditForm(forms.ModelForm):
+    HOSPITAL_CHOICES = []
+    DEPT_CHOICES = []
+    hospital_choice = forms.ChoiceField(choices=HOSPITAL_CHOICES)
+    dept_choice = forms.ChoiceField(choices=DEPT_CHOICES)
+    def __init__(self,org_id,*args,**kwargs):
+        super (PortalDoctorRegistrationEditForm,self ).__init__(*args,**kwargs) # populates the post
+        # self.fields['doctor_hospital'].queryset = Hospital.objects.filter(hospital_org__exact=org_id)
+        # self.fields['doctor_department'].queryset = Department.objects.filter(department_org__exact = org_id)
+        self.HOSPITAL_CHOICES = hospitalChoices(org_id)
+        self.DEPT_CHOICES = departmentChoices(org_id)
+        self.fields['hospital_choice'].choices = [('', 'Select a Hospital|Branch Code')] + list(hospitalChoices(org_id))
+        self.fields['dept_choice'].choices = [('', 'Select a Department|Dept Code')] + list(departmentChoices(org_id))
+
+    class Meta:
+        model = DoctorRegistration
+        fields = ('doctor_status',)
+
 
 class PortalDoctorDetailsForm(forms.ModelForm):
 

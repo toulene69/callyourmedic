@@ -96,6 +96,8 @@ def org_departmentnew(request,org_id=0):
 				formError = True
 				args['error'] = error
 				args['formError'] = formError
+				formErrorList = [deptCreationForm.errors]
+				args['formErrorList'] = formErrorList
 				return render(request,'w_department_org.html',args)
 		else:
 			deptCreationForm = PortalDepartmentCreationForm()
@@ -163,6 +165,8 @@ def org_departmentedit(request,org_id=0,dept_id=0):
 			formError = True
 			args['error'] = error
 			args['formError'] = formError
+			formErrorList = [deptEditForm.errors]
+			args['formErrorList'] = formErrorList
 			return render(request,'w_department_org.html',args)
 	else:
 		html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'
@@ -280,11 +284,12 @@ def usr_usrgroupnew(request,org_id):
 					args['error'] = error
 					return render(request,'w_group_usr.html', args)
 			else:
-				print '********form incomplete'
 				error = 'Group creation form incomplete. Please try again!'
 				formError = True
 				args['formError'] = formError
 				args['error'] = error
+				formErrorList = [groupCreationForm.errors]
+				args['formErrorList'] = formErrorList
 				return render(request,'w_group_usr.html', args)
 		else:
 			groupCreationForm = PortalUserGroupCreationForm()
@@ -338,12 +343,12 @@ def usr_usernew(request,org_id=0):
 					args['error'] = error
 					return render(request,'w_users_usr.html', args)
 			else:
-				print '********* form incomplete'
-				print userCreationForm.errors
 				error = 'User creation form incomplete. Please try again!'
 				formError = True
 				args['formError'] = formError
 				args['error'] = error
+				formErrorList = [userCreationForm.errors]
+				args['formErrorList'] = formErrorList
 				return render(request,'w_users_usr.html', args)
 		else:
 			userCreationForm = PortalUserCreationForm(org_id)
@@ -417,6 +422,8 @@ def usr_groupedit(request,org_id=0,grp_id=0):
 			formError = True
 			args['error'] = error
 			args['formError'] = formError
+			formErrorList = [groupEditForm.errors]
+			args['formErrorList'] = formErrorList
 			return render(request,'w_group_usr.html', args)
 	else:
 		html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'
@@ -495,6 +502,8 @@ def usr_useredit(request,org_id=0,usr_id=0):
 			formError = True
 			args['error'] = error
 			args['formError'] = formError
+			formErrorList = [userEditForm.errors]
+			args['formErrorList'] = formErrorList
 			return render(request,'w_users_usr.html', args)
 	else:
 		html = '<div class="modal-body" id="modal-body-createGroup">Improper request type</div>'

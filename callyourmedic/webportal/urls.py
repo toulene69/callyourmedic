@@ -2,6 +2,7 @@ __author__ = 'apoorv'
 
 from django.conf.urls import include, url
 
+
 urlpatterns = [
 
     url(r'^dashboard/', 'webportal.views.dashboard'),
@@ -49,4 +50,5 @@ urlpatterns = [
     url(r'^(?P<org_id>\d+)/groupedit/(?P<grp_id>\d+)/', 'webportal.ajaxs.usr_groupedit',name = 'usr-groupedit'),
     url(r'^(?P<org_id>\d+)/useredit/(?P<usr_id>\d+)/', 'webportal.ajaxs.usr_useredit',name = 'usr-useredit'),
     url(r'^(?P<org_id>\d+)/doctoredit/(?P<doctor_id>\d+)/', 'webportal.ajaxs.doctor_doctoredit',name = 'doctor-doctoredit'),
+    url(r'^(?P<org_id>\d+)/hospitaledit/(?P<hospital_id>\d+)/', 'webportal.ajaxs.hospital_hospitaledit',name = 'hospital_hospitaledit'),
 ]

@@ -1,0 +1,180 @@
+{% load widget_tweaks %}
+<form id="editUserForm" action="/web/{{request.session.org_id}}/hospitaledit/{{hospital_id}}/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        <label >Hospital Name</label>
+                        {% render_field formHospital.hospital_name class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formHospital.hospital_name.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Branch Code</label>
+                        {% render_field formHospital.hospital_branch_code class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formHospital.hospital_branch_code.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="tooltip-demo">
+                            <button id="btnCheck" type="button" class="btn btn-outline btn-info" style="margin-top:25px;" data-toggle="tooltip" data-placement="top" title="Check Availability of branch code" >Check Availability</button>
+                            <button id="btnAvailable" type="button" class="btn btn-success btn-circle" style="margin-top:25px;" data-toggle="tooltip" data-placement="top" title="Check Availability of branch code"><i class="fa fa-check"></i></button>
+                            <button id="btnUnAvailable" type="button" class="btn btn-danger btn-circle" style="margin-top:25px;" data-toggle="tooltip" data-placement="top" title="Check Availability of branch code"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4">
+                        <label >Hospital Email Id</label>
+                        {% render_field formHospital.hospital_email_id class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formHospital.hospital_email_id.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Phone Number</label>
+                        {% render_field formHospital.hospital_phone1 class+="form-control" type+="number" %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formHospital.hospital_phone1.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Alternate Phone Number</label>
+                        {% render_field formHospital.hospital_phone2 class+="form-control" type+="number" %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formHospital.hospital_phone2.errors.as_text }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5">
+                        <label >Address Line 1</label>
+                        {% render_field formAddress.address_line1 class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_line1.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <label >Address Line 2</label>
+                        {% render_field formAddress.address_line2 class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_line2.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label >Status</label>
+                        {% render_field formHospital.hospital_status class+="form-control"  %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formHospital.hospital_status.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >City</label>
+                        {% render_field formAddress.address_city class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_city.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >State</label>
+                        {% render_field formAddress.address_state class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_state.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Pincode</label>
+                        {% render_field formAddress.address_pincode class+="form-control" required="true" max="999999" %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_pincode.errors.as_text }}</label>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newUser">Save</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#btnAvailable').hide();
+            $('#btnUnAvailable').hide();
+        });
+        $('#btnReset').click(function(){
+            console.log("hello");
+            $('#orgForm')[0].reset();
+        });
+        $('#btnCheck').click(function(){
+            var code = $('#id_hospital_branch_code').val();
+            code = code.trim();
+            if(code.length>0)
+            {
+                checkAvailability(code);
+            }
+        });
+        $('#btnAvailable').click(function(){
+            var code = $('#id_hospital_branch_code').val();
+            code = code.trim();
+            if(code.length>0)
+            {
+                checkAvailability(code);
+            }
+        });
+        $('#btnUnAvailable').click(function(){
+            var code = $('#id_hospital_branch_code').val();
+            code = code.trim();
+            if(code.length>0)
+            {
+                checkAvailability(code);
+            }
+        });
+
+        function checkAvailability(inputVal){
+            var code = inputVal
+            var ajaxurl = "/web/{{request.session.org_id}}/branchcode/?branchcode="+code;
+            $.ajax(
+                {
+                    url: ajaxurl,
+                    dataType: "json",
+                    type: "GET",
+                    success: function(result){
+                        if(!result.error)
+                        {
+                            $('#btnCheck').hide();
+                            if(result.present){
+                                $('#btnUnAvailable').show();
+                                 $('#btnAvailable').hide();
+                            }
+                            else{
+                                $('#btnAvailable').show();
+                                $('#btnUnAvailable').hide();
+                            }
+                        }
+                        console.log(result);
+                    },
+                    error: function(xhr){
+                        //alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                        alert("Error occured while checking availablity");
+                        //console.log("An error occured: " + xhr.status + " " + xhr.statusText);
+                        //$("#newUserDiv").html("An error occured: " + xhr.status + " " + xhr.statusText);
+                    },
+                    complete: function (xhr, status) {
+                        //$('#showresults').slideDown('slow')
+                    }
+                }
+            );
+        }
+        $('.tooltip-demo').tooltip({
+            selector: "[data-toggle=tooltip]",
+            container: "body"
+        })
+
+       $("[data-toggle=popover]").popover();
+</script>

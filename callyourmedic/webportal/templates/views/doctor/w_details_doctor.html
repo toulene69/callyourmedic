@@ -104,9 +104,9 @@
                                                         <td>Status</td>
                                                         <td>
                                                             {% if doctor.docReg.doctor_status %}
-                                                            <i class=" fa fa-check " style="color:green;"></i>
+                                                            <i class=" fa fa-check-circle " style="color:green;"></i>
                                                             {% else %}
-                                                            <i class="fa fa-times " style="color:red;"></i>
+                                                            <i class="fa fa-times-circle " style="color:red;"></i>
                                                             {% endif %}
                                                         </td>
                                                     </tr>
@@ -230,9 +230,9 @@
                                             <div class="list-group-item">
                                                 <i class="fa fa-flag fa-fw"></i> Doctor Status
                                                 <span class="pull-right text-muted small"><em>{% if status %}
-                                                                Active
+                                                                <i class=" fa fa-check-circle " style="color:green;"></i>
                                                             {% else %}
-                                                                Inactive
+                                                                <i class=" fa fa-times-circle " style="color:red;"></i>
                                                             {% endif %}</em>
                                                 </span>
                                             </div>

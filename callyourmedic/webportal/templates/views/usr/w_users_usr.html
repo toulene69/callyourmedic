@@ -31,6 +31,11 @@
                 <div class="alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     {{error}}
+                    {% if formErrorList %}
+                        {% for items in formErrorList %}
+                            {{items}}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             {% endif %}
             {% if formSuccess %}
@@ -39,15 +44,7 @@
                     {{success}}
                 </div>
             {% endif %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    All Users
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div id="grid-Users"></div>
-                </div>
-            </div>
+            <div id="grid-Users"></div>
         </div>
         <div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -160,7 +157,7 @@
                         {
                             field: "status",
                             title: "Status",
-                            template: '# if (status) { #Active# } else { #Inactive# } #'
+                            template: '# if (status) { #<i class=" fa fa-check-circle" style="color:green;"></i># } else { #<i class="fa fa-times-circle" style="color:red;"></i># } #'
                         },
                         {
                             title: "",

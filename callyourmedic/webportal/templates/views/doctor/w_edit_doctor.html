@@ -1,0 +1,126 @@
+{% load widget_tweaks %}
+<form id="editUserForm" action="/web/{{request.session.org_id}}/doctoredit/{{doctor_id}}/"  method="post">
+    {% csrf_token %}
+    <div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        <label >First Name</label>
+                        {% render_field formDocDetails.doctor_first_name class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_first_name.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label >Last Name</label>
+                        {% render_field formDocDetails.doctor_last_name class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_last_name.errors.as_text }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3">
+                        <label >Gender</label>
+                        {% render_field formDocDetails.doctor_gender class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_gender.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label >Phone Number</label>
+                        {% render_field formDocDetails.doctor_phone1 class+="form-control" required="true" type+="number"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_phone1.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label >Alternate Phone Number</label>
+                        {% render_field formDocDetails.doctor_phone2 class+="form-control" type+="number"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_phone2.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label >Experience</label>
+                        {% render_field formDocDetails.doctor_experience class+="form-control" %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_experience.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <label >Qualifications/Descriptions</label>
+                        {% render_field formDocDetails.doctor_qualification class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocDetails.doctor_qualification.errors.as_text }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4">
+                        <label >Hospital</label>
+                        {% render_field formDocRegistration.hospital_choice class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocRegistration.hospital_choice.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Department</label>
+                        {% render_field formDocRegistration.dept_choice class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocRegistration.dept_choice.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Status</label>
+                        {% render_field formDocRegistration.doctor_status class+="form-control" %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formDocRegistration.doctor_status.errors.as_text }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        <label >Address Line 1</label>
+                        {% render_field formAddress.address_line1 class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_line1.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label >Address Line 2</label>
+                        {% render_field formAddress.address_line2 class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_line2.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >City</label>
+                        {% render_field formAddress.address_city class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_city.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >State</label>
+                        {% render_field formAddress.address_state class+="form-control" required="true"%}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_state.errors.as_text }}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Pincode</label>
+                        {% render_field formAddress.address_pincode class+="form-control" required="true" max="999999" %}
+                        <div class="form-group has-error">
+                            <label class="control-label" >{{ formAddress.address_pincode.errors.as_text }}</label>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="newUser">Save</button>
+    </div>
+</form>

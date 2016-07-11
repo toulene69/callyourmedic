@@ -18,18 +18,25 @@
                     {{new_doctor_added }} created. <a href="/web/{{request.session.org_id}}/doctordetails/{{new_doctor_id}}/" class="alert-link">View Details</a>.
                 </div>
             {% endif %}
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        List of Doctors
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div id="grid-Doctors"></div>
-                    </div>
-                    <!-- /.panel-body -->
+            {% if formError %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{error}}
+                    {% if formErrorList %}
+                        {% for items in formErrorList %}
+                            {{items}}
+                        {% endfor %}
+                    {% endif %}
                 </div>
-                <!-- /.panel -->
+            {% endif %}
+            {% if formSuccess %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{success}}
+                </div>
+            {% endif %}
+            <div class="col-lg-12">
+                <div id="grid-Doctors"></div>
             </div>
         <!--</div>-->
         </div>
@@ -133,8 +140,8 @@
                         },
                         {
                             field: "status",
-                            title: "status",
-                            template: '# if (status) { #Active# } else { #Inactive# } #'
+                            title: "Status",
+                            template: '# if (status) { #<i class=" fa fa-check-circle" style="color:green;"></i># } else { #<i class=" fa fa-times-circle" style="color:red;"></i># } #'
                         },
                         {
                             field: "joined",
@@ -143,7 +150,7 @@
                         },
                         {
                             title: "",
-                            template: '<a href="/web/#=org_id#/doctordetails/#=doctor_id#/">View</a>'
+                            template: '<a href="/web/#=org_id#/doctordetails/#=doctor_id#/" class="btn btn-default">View <span class="fa fa-arrow-circle-o-right"></span></a>'
                         }
                     ]
             });

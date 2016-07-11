@@ -12,24 +12,31 @@
 
     <div class="row">
         <div class="col-lg-12">
-            {% if new_doctor_added %}
+            {% if new_hospital_added %}
                 <div class="alert alert-success alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {{new_doctor_added }} added. <a href="/web/{{request.session.org_id}}/doctordetails/{{new_doctor_id}}/" class="alert-link">View Details</a>.
+                    {{new_hospital_added }} added. <a href="/web/{{request.session.org_id}}/hospitaldetails/{{new_hospital_id}}/" class="alert-link">View Details</a>.
+                </div>
+            {% endif %}
+            {% if formError %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{error}}
+                    {% if formErrorList %}
+                        {% for items in formErrorList %}
+                            {{items}}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if formSuccess %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{success}}
                 </div>
             {% endif %}
             <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        List of Hospitals
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div id="grid-Hospitals"></div>
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
+                <div id="grid-Hospitals"></div>
             </div>
         <!--</div>-->
     </div>
@@ -123,7 +130,7 @@
                         {
                             field: "status",
                             title: "Status",
-                            template: '# if (status) { #Active# } else { #Inactive# } #'
+                            template: '# if (status) { #<i class=" fa fa-check-circle" style="color:green;"></i># } else { #<i class=" fa fa-times-circle" style="color:red;"></i># } #'
                         },
                         {
                             field: "joined",
@@ -132,7 +139,7 @@
                         },
                         {
                             title: "",
-                            template: '<a href="/web/#=org_id#/hospitaldetails/#=hospital_id#/">View</a>'
+                            template: '<a href="/web/#=org_id#/hospitaldetails/#=hospital_id#/" class="btn btn-default">View <span class="fa fa-arrow-circle-o-right"></span></a>'
                         }
                     ]
             });

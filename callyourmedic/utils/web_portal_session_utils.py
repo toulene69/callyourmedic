@@ -16,7 +16,6 @@ def isUserLogged(request):
         return False
 
 def createUserSession(request,user):
-    print ('******** Session creating  ')
     usr_details = {
         'first_name' : user.usr_first_name,
         'group_id' : user.usr_group_id,
@@ -36,8 +35,7 @@ def createUserSession(request,user):
 def destroyUserSession(request):
     if 'usr_id' in request.session :
         del request.session['usr_id']
-    else:
-        print ('***** session expired')
+
     request.session.flush()
     request.session.clear_expired()
 

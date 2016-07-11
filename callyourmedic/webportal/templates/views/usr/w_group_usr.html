@@ -31,6 +31,11 @@
                 <div class="alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     {{error}}
+                    {% if formErrorList %}
+                        {% for items in formErrorList %}
+                            {{items}}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             {% endif %}
             {% if formSuccess %}
@@ -39,32 +44,7 @@
                     {{success}}
                 </div>
             {% endif %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    All Groups
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div id="grid-UserGroups"></div>
-                    <!--<div class="dataTable_wrapper">-->
-                        <!--<table class="table table-striped table-bordered table-hover" style="width:100%;" id="dataTable-Groups">-->
-                            <!--<thead>-->
-                                <!--<tr>-->
-                                    <!--<th>Group Name</th>-->
-                                    <!--<th>Organisation Level</th>-->
-                                    <!--<th>Hospital Level</th>-->
-                                    <!--<th>Doctor Level</th>-->
-                                    <!--<th>Patients Level</th>-->
-                                    <!--<th>Call Level</th>-->
-                                    <!--<th>Transaction Level</th>-->
-                                    <!--<th>User Level</th>-->
-                                    <!--<th></th>-->
-                                <!--</tr>-->
-                            <!--</thead>-->
-                        <!--</table>-->
-                    <!--</div>-->
-                </div>
-            </div>
+            <div id="grid-UserGroups"></div>
         </div>
         <div class="modal fade" id="createGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -216,7 +196,7 @@
                 {
                     field: "status",
                     title: "Status",
-                    template: '# if (status) { #Active# } else { #Inactive# } #'
+                    template: '# if (status) { #<i class=" fa fa-check-circle" style="color:green;"></i># } else { #<i class="fa fa-times-circle" style="color:red;"></i># } #'
                 },
                 {
                     title: "",

@@ -32,9 +32,12 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-
-                    <h4>{{org.org_name}}</h4>
-
+                    <h4>{{org.org_name}}
+                        <!--<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#editInfo">-->
+                                <!--Edit Info-->
+                            <!--<span class="fa fa-edit"></span>-->
+                        <!--</button>-->
+                    </h4>
                 </div>
                 <!-- /.panel-heading -->
                 {% if org %}
@@ -83,12 +86,12 @@
                                                     <tr>
                                                         <td>Org Status</td>
                                                         <td>{% ifequal org.org_active "T" %}
-                                                                Test
+                                                                <i class="fa fa-warning" style="color:#ec971f;"></i>
                                                             {% else %}
                                                                 {% ifequal org.org_active "A" %}
-                                                                    Active
+                                                                    <i class=" fa fa-check-circle " style="color:green;"></i>
                                                                 {% else %}
-                                                                    Dead
+                                                                    <i class="fa fa-times-circle " style="color:red;"></i>
                                                                 {% endifequal %}
                                                             {% endifequal %}</td>
                                                     </tr>
@@ -96,13 +99,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#basicInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -138,13 +134,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -164,13 +153,6 @@
                                                 <abbr title="Phone">P:</abbr>{{org.org_phone}}
                                             </address>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#addressInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -187,7 +169,12 @@
                                                             <tr>
                                                                 <td>{{dept.department_name}}</td>
                                                                 <td>{{dept.department_code}}</td>
-                                                                <td>{% if dept.department_status %}Active{% else %}Inactive{% endif %}</td>
+                                                                <td>{% if dept.department_status %}
+                                                                        <i class=" fa fa-check-circle " style="color:green;"></i>
+                                                                    {% else %}
+                                                                        <i class="fa fa-times-circle " style="color:red;"></i>
+                                                                    {% endif %}
+                                                                </td>
                                                             </tr>
                                                         {% endfor %}
                                                     {% else %}
@@ -197,13 +184,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <a href="#" data-toggle="modal" data-target="#contactInfo">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">Edit</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -249,12 +229,12 @@
                                             <div class="list-group-item">
                                                 <i class="fa fa-flag fa-fw"></i> Org Status
                                                 <span class="pull-right text-muted small"><em>{% ifequal status "T" %}
-                                                                Test
+                                                                <i class="fa fa-warning" style="color:#ec971f;"></i>
                                                             {% else %}
                                                                 {% ifequal status "A" %}
-                                                                    Active
+                                                                    <i class=" fa fa-check-circle " style="color:green;"></i>
                                                                 {% else %}
-                                                                    Dead
+                                                                    <i class=" fa fa-times-circle " style="color:red;"></i>
                                                                 {% endifequal %}
                                                             {% endifequal %}</em>
                                                 </span>
@@ -333,12 +313,12 @@
             <!-- /.panel -->
         </div>
         {% if org %}
-        <div class="modal fade" id="basicInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="basicInfoLabel">Basic Info</h4>
+                        <h4 class="modal-title" id="basicInfoLabel">Edit Info</h4>
                     </div>
                     <div class="modal-body">
                     </div>
@@ -347,58 +327,6 @@
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <div class="modal fade" id="contactInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="contactInfoLabel">Contact Info</h4>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <div class="modal fade" id="addressInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="addressInfoInfoLabel">Address Info</h4>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <div class="modal fade" id="editSettings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="setingsLabel">Settings</h4>
-                    </div>
-                    <div id="settingsDiv">
-
-                    </div>
-                </div>
-
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->

@@ -32,6 +32,12 @@ class PortalHospitalCreationForm(forms.ModelForm):
         model = Hospital
         exclude = ('hospital_org','hospital_date_left','hospital_date_joined','hospital_status','hospital_address','hospital_settings',)
 
+class PortalHospitalEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Hospital
+        exclude = ('hospital_id','hospital_org','hospital_date_left','hospital_settings','hospital_address','hospital_date_joined')
+
 class PortalHospitalSelectionForm(forms.Form):
     # choices = orgs = forms.ModelChoiceField(queryset=Hospital.objects.all(),empty_label="Select Hospital")
     QS_CHOICES = []

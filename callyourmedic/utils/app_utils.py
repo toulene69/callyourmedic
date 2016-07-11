@@ -118,7 +118,6 @@ def generateRandomPassword():
     for i in range(0,8,1):
         index = rnd.randint(0,60)
         password += CHAR_LIST[index]
-    print 'Password created: '+password
     return password
 
 def generateDoctorCode(org_id,hospital_code,doc_id):
@@ -135,7 +134,6 @@ def generateAPIKey():
     for i in range(0,16,1):
         index = rnd.randint(0,60)
         key += CHAR_LIST[index]
-    print 'apikey created: '+key
     return key
 
 def generateAuthToken(length=64):

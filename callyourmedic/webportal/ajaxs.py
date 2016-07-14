@@ -13,6 +13,7 @@ from models import WebUser, WebGroup, send_mail_for_group, send_mail_for_user
 from hospitals.models import Hospital, Department, HospitalSettings
 from doctors.models import DoctorRegistration, DoctorDetails, DoctorSettings
 from addresses.models import Address
+from patients.models import Patients
 # utils imports
 from utils.web_portal_session_utils import isUserLogged , userSessionExpired, isUserRequestValid
 from utils.app_utils import get_permission , get_active_status, generateRandomPassword, get_subscription_type, getPasswordHash
@@ -862,6 +863,45 @@ def doctor_doctoredit(request,org_id=0,doctor_id=0):
 
 
 """ Ends Webportal doctors"""
+
+"""WebPortal Patients"""
+
+def patient_getpatients(request,org_id=0):
+	res = {
+		"draw": 1,
+    	"recordsTotal": 0,
+    	"recordsFiltered": 0,
+		"data" : []
+		}
+	if isUserLogged(request) is False:
+		raise JsonResponse({'status':'false','message':'User session expired.'}, status=500)
+
+	if org_id == 0:
+		raise JsonResponse({'status':'false','message':'Improper request parameters.'}, status=500)
+	try:
+		if request.is_ajax():
+			patients = Patients.objects.filter(patient_org = org_id, patient_ismarketplace = False).values('patient_id','patient_first_name',
+																										   'patient_last_name',
+																			'patient_date_joined','patient_email','patient_phone1',)
+			for patient in patients:
+				pat = {
+					"name" : patient['patient_first_name'] + " " + patient['patient_last_name'],
+					"emailid" : patient['patient_email'], "phonenumber" : patient['patient_phone1'],
+					 "id" : patient['patient_id']
+				}
+				res['data'].append(pat)
+		else:
+			raise JsonResponse({'status':'false','message':'Improper request type.'}, status=500)
+		res['recordsTotal'] = len(res['data'])
+		res['recordsFiltered'] = len(res['data'])
+		return JsonResponse(res , safe = False)
+	except:
+		traceback.print_exc()
+		raise JsonResponse({'status':'false','message':'Error while fetching details.'}, status=500)
+
+
+"""End of WebPortal Patients """
+
 
 """ Settings """
 def settings_edit(request,org_id=0,hospital_id=0,doctor_id=0):

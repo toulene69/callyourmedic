@@ -448,3 +448,14 @@ def usr_group(request):
         return userSessionExpired()
 
 """ Ends User and User Groups """
+
+
+""" Patient """
+
+def patient_dashboard(request):
+    if isUserLogged(request):
+        return render(request,'w_dashboard_patient.html')
+    else:
+        return userSessionExpired()
+
+"""End of Patient"""

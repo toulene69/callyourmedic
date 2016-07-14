@@ -94,6 +94,7 @@ TEMPLATES = [
                     BASE_DIR + '/webportal/templates/views/usr',
                     BASE_DIR + '/webportal/templates/views/hospital',
                     BASE_DIR + '/webportal/templates/views/doctor',
+                    BASE_DIR + '/webportal/templates/views/patient',
                     BASE_DIR + '/mailer/templates/',
                 ],
         'APP_DIRS': True,

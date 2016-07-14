@@ -1,0 +1,136 @@
+{% extends 'w_base_patient.html' %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Patients</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            {% if formError %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{error}}
+                    {% if formErrorList %}
+                        {% for items in formErrorList %}
+                            {{items}}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if formSuccess %}
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{success}}
+                </div>
+            {% endif %}
+            <div id="grid-Patients"></div>
+        </div>
+        <div class="modal fade" id="editPatient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="basicInfoLabel">Edit Group</h4>
+                    </div>
+                    <div id="editPatientDiv">
+
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript_tags %}
+    <!--<script src="{% static "sbadmin/bower_components/morrisjs/morris.min.js" %}"></script>-->
+    <!--<script src="{% static "sbadmin/js/morris-data.js" %}"></script>-->
+    <link href="{% static "kendo/css/kendo.common.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}"rel="stylesheet">
+
+    <link href="{% static "kendo/css/kendo.dataviz.min.css" %}" rel="stylesheet">
+    <link href="{% static "kendo/css/kendo.dataviz.default.min.css" %}" rel="stylesheet">
+    <script src="{% static "kendo/jszip.min.js" %}"></script>
+    <script src="{% static "kendo/js/kendo.all.min.js" %}"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#grid-Patients").kendoGrid({
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "PatientsList.xlsx",
+                    allPages: true,
+
+                },
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/web/{{request.session.org_id}}/getpatients/",
+                            dataType: "json"
+                            }
+                        },
+                        schema: {
+                            data: "data",
+                            model: {
+                                fields: {
+                                    name: { type: "string" },
+                                    emailid: { type: "string" },
+                                    phonenumber: { type: "string" },
+                                    id: { type: "integer" }
+                                }
+                            }
+                         },
+                    },
+                    height: 500,
+                    groupable: true,
+                    sortable: true,
+                    filterable: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        pageSize: 10,
+                        buttonCount: 1
+                    },
+                    columns: [
+                        {
+                            field:"name",
+                            title:"Name",
+                            groupable: false,
+                        },
+                        {
+                            field: "emailid",
+                            title: "Email Id",
+                        },
+                        {
+                            field: "phonenumber",
+                            title: "Phone Number"
+                        },
+                        <!--{-->
+                            <!--field: "status",-->
+                            <!--title: "Status",-->
+                            <!--template: '# if (status) { #<i class=" fa fa-check-circle" style="color:green;"></i># } else { #<i class="fa fa-times-circle" style="color:red;"></i># } #'-->
+                        <!--},-->
+                        {
+                            title: "",
+                            template: '<button type="button" onclick="" data-org="{{request.session.org_id}}" data-patient="#=id#" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Check Consultations of patient">View <span class="fa fa-edit"></span></button>',
+                            filterable: false,
+                            groupable: false,
+                        }
+                    ]
+            });
+        });
+
+    </script>
+{% endblock %}

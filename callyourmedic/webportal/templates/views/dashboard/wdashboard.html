@@ -4,7 +4,7 @@
 {% block title %}Dashborad {% endblock %}
 
 {% block navigation %}
-    {% include 'wnavbar.html' with user=request.session.usr_details %}
+    {% include 'wnavbar.html' with usr_details=request.session.usr_details %}
 {% endblock %}
 
 {% block content %}

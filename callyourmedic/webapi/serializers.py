@@ -34,7 +34,7 @@ class HospitalSerializer(serializers.ModelSerializer):
         model = Hospital
         field = ('hospital_name','hospital_address')
         exclude = ('hospital_id','hospital_org','hospital_branch_code','hospital_email_id','hospital_phone1','hospital_phone2','hospital_status','hospital_date_joined',
-                   'hospital_date_left')
+                   'hospital_date_left', 'hospital_settings',)
 
 class DepartmentSerializer(serializers.Serializer):
 
@@ -51,7 +51,7 @@ class DoctorRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = DoctorRegistration
         field = ('doctor_code',)
-        exclude = ('doctor_id','doctor_department','doctor_org','doctor_email','doctor_password','doctor_status','doctor_hospital',)
+        exclude = ('doctor_id','doctor_department','doctor_org','doctor_email','doctor_password','doctor_status','doctor_hospital','doctor_settings',)
 
 
 class DoctorDetailSerializer(serializers.ModelSerializer):

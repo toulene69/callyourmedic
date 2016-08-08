@@ -638,6 +638,7 @@ def doctors(request):
     if 'department_code' not in request.GET:
         return Response(HTTP_RESPONSE_MSG_FOR_REQUEST_MALFORMED,status=status.HTTP_400_BAD_REQUEST)
     apikey = request.GET['apikey']
+    isMarketplace = False
     try:
         mp_key = Marketplace.objects.get(apikey__exact = apikey)
         isMarketplace = True

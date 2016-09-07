@@ -1,8 +1,8 @@
 {% load widget_tweaks %}
 {% if isEdit %}
-<form id="departmentEditForm" action="/web/{{request.session.org_id}}/departmentedit/{{dept}}/"  method="post">
+<form id="departmentEditForm" action="/web/{{request.session.org_id}}/departmentedit/{{dept}}/"  method="post" enctype="multipart/form-data">
 {% else %}
-<form id="newDepartmentForm" action="/web/{{request.session.org_id}}/departmentnew/"  method="post">
+<form id="newDepartmentForm" action="/web/{{request.session.org_id}}/departmentnew/"  method="post" enctype="multipart/form-data">
 {% endif %}
     {% csrf_token %}
     <div class="modal-body" id="modal-body-createGroup">
@@ -25,6 +25,20 @@
             {% render_field deptCreationForm.department_code class+="form-control" required="true"%}
             <div class="form-group has-error">
                 <label class="control-label" >{{ deptCreationForm.department_code.errors.as_text }}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Department Image</label>
+            {% if isEdit %}
+                {% if url %}
+                    <div class="form-group has-error">
+                    <img src="{{url}}" style="width:30px; height:30px;" />
+                        </div>
+                {% endif %}
+            {% endif %}
+            {% render_field fileUploadForm.file %}
+            <div class="form-group has-error">
+                <label class="control-label" >Upload a file with size < 1mb{{ fileUploadForm.file.errors.as_text }}. Already uploaded file will be overwritten</label>
             </div>
         </div>
         {% if isEdit %}

@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'doctors',
     'patients',
     'marketplace',
+    'uploads',
     #'transactions',
     #util apps
     'utils',

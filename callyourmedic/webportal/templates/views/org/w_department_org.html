@@ -134,7 +134,8 @@
                                 status: { type: "boolean" },
                                 date_add: { type: "date", editable: false },
                                 dept_id: {type: "integer", editable: false },
-                                org_id: {type: "integer", editable: false }
+                                org_id: {type: "integer", editable: false },
+                                icon : {type: "string", editable: false }
                             }
                         }
                     },
@@ -168,12 +169,20 @@
                         {
                             field: "status",
                             title: "Status",
+                            width: 100,
                             template: '# if (status) { #<i class=" fa fa-check-circle" style="color:green;"></i># } else { #<i class=" fa fa-times-circle" style="color:red;"></i># } #'
                         },
                         {
                             field: "date_add",
                             title: "Added on",
+                            width: 150,
                             template: '#= kendo.toString(date_add,"dd-MMM-yyyy") #'
+                        },
+                        {
+                            field: "icon",
+                            title: "Image",
+                            width: 100,
+                            template : '# if (icon) { #<img src="#=icon#" style="width:30px; height:30px;" /># } else { #<i>NA</i># } #'
                         },
                         {
                             title: "",

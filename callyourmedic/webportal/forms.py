@@ -1,10 +1,21 @@
 __author__ = 'apoorv'
 
 from django import forms
+from django.core.exceptions import ValidationError
 from models import WebGroup, WebUser
 from hospitals.models import Hospital, Department, HospitalSettings
 from doctors.models import DoctorDetails, DoctorRegistration, DoctorSettings
 from organisations.models import OrgSettings
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField(required=False)
+
+    def clean_file(self):
+        file = self.cleaned_data.get('file', False)
+        if file:
+            if file._size > 1024 * 1024:
+                raise ValidationError("Image file too large ( > 1mb )")
+        return file
 
 class PortalUserLoginForm(forms.Form):
     org_identifier = forms.CharField(label = 'Org Identifier')

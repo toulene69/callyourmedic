@@ -94,7 +94,14 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Department</td>
-                                                        <td>{{doctor.docReg.doctor_department.department_name}}</td>
+                                                        <td>
+                                                            {{doctor.docReg.doctor_department.department_name}}
+                                                            {% if doctor.docReg.doctor_department.department_status %}
+                                                                <i class=" fa fa-check-circle " style="color:green;"></i>
+                                                            {% else %}
+                                                                <i class="fa fa-times-circle " style="color:red;"></i>
+                                                            {% endif %}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Hospital Branch Code</td>

@@ -41,9 +41,10 @@ def handle_uploaded_file(file):
 
 def handle_delete_file(disk_name):
     """Deletes a file from s3 with the give disk_name on s3 """
-    folder = 'departments/'
-    key = folder+disk_name
-    s3_delete_file(key)
+    if disk_name:
+        folder = 'departments/'
+        key = folder+disk_name
+        s3_delete_file(key)
 
 def s3_upload_dept(file,filename):
 
